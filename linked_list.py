@@ -6,19 +6,21 @@ class LinkedList(object):
     def __init__(self, iterable):
         self.length = len(iterable) ##Will resize for pop, insert, remove
 
-        for item in zip(range(self.length, 0, -1), iterable.reverse()):
+        for index, item in zip(range(self.length, 1, -1), reversed(iterable)):
 
-            #Case: last item
-            Node(val)
+            if index == self.length:
+                #Case: right-most item in linked list; implicit None for next
+                Node(val)
 
-            #Case middle items
-            #Node(val, stored_for_next)
+            elif index == 0:
+                #Case of needing to store list header
+                self.header = Node(val, stored_for_next)
 
-            #Case first item; use None as ptr
-            #self.header = Node(val, stored_for_next)
-            #
+            else:
+                #All other linked nodes
+                Node(val, stored_for_next)
 
-            stored_for_next = # last 
+            stored_for_next = item # last 
 
 
 
@@ -66,7 +68,7 @@ class LinkedList(object):
         vals = tuple(vals)
         return str(vals)
 
-   def _find(val):
+    def _find(val):
         #Private to return a Node and left-neighboor by val
         val_present = False
         node_inspected = self.header
