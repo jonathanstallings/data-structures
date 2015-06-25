@@ -1,11 +1,23 @@
 from __future__ import unicode_literals
 
 
+class Node(object):
+
+    def __init__(self, val, next=None):
+        self.val = val
+        self.next = next
+
+    def __repr__(self):
+        #  Just display value
+        return "{val}".format(val=self.val)
+
+
 class LinkedList(object):
     """Class for a singly-linked list."""
     def __init__(self, iterable=()):
+        self.header = None
         self.length = 0
-        for val in iterable:
+        for val in reversed(iterable):
             self.insert(val)
 
     def __repr__(self):
@@ -84,14 +96,3 @@ class LinkedList(object):
                 node_inspected = node_inspected.next
 
         return node_inspected, left_node
-
-
-class Node(object):
-
-    def __init__(self, val, next=None):
-        self.val = val
-        self.next = next
-
-    def __repr__(self):
-        #  Just display value
-        return "{val}".format(val=self.val)
