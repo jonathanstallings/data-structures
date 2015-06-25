@@ -25,6 +25,11 @@ def test_construct_from_string_valid():
     assert ll.LinkedList(arg).__repr__() == expected_output
 
 
+def test_construct_empty_valid():
+    expected_output = "()"
+    assert ll.LinkedList().__repr__() == expected_output
+
+
 def test_construct_from_none_fails():
     with pytest.raises(TypeError):
         ll.LinkedList(None)
@@ -41,7 +46,7 @@ def test_insert_single_value(base_llist):
 
 
 def test_pop(base_llist):
-    base_llist.pop()
+    assert base_llist.pop().__repr__() == u"1"
     assert base_llist.__repr__() == "(2, 3)"
 
 
