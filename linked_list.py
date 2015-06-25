@@ -2,22 +2,19 @@ from __future__ import unicode_literals
 
 
 class LinkedList(object):
-    """Class for a singly-linked list"""
+    """Class for a singly-linked list."""
     def __init__(self, iterable):
         self.length = len(iterable)  # Will resize for pop, insert, remove
         self.header = None
-        stored_for_next = None # Seed value
+        stored_for_next = None  # Seed value
 
         for index, val in zip(range(self.length, 0, -1), reversed(iterable)):
-          
             if index == self.length:
                 # Case: right-most item in linked list; implicit None for next
                 created = Node(val)
-
             elif index == 1:
                 # Case of needing to store list header
                 self.header = Node(val, stored_for_next)
-
             else:
                 # All other linked nodes
                 created = Node(val, stored_for_next)
@@ -25,7 +22,7 @@ class LinkedList(object):
             stored_for_next = created  # Store for next iteration
 
     def __repr__(self):
-        #Will print LinkedList as Tuple literal
+        """Print LinkedList as Tuple literal."""
         end_flag = False
         vals = []
         current_node = self.header
@@ -44,13 +41,13 @@ class LinkedList(object):
         return str(vals)
 
     def insert(self, val):
-        # Will insert val at head of LinkedList
+        """Insert val at head of LinkedList."""
         self.header = Node(val, self.header)
         self.length += 1
         return None
 
     def pop(self):
-        # Pop the first val off the head and return it
+        """Pop the first val off the head and return it."""
         to_return = self.header
         self.header = to_return.next
         to_return.next = None
@@ -58,44 +55,44 @@ class LinkedList(object):
         return to_return
 
     def size(self):
+        """Return current length of LinkedList."""
         return self.length
 
     def search(self, val):
-        #Return the node containing val if present, else None
+        """Return the node containing val if present, else None"""
         node, left = self._find(val)
         return node
 
-    def remove(self, val):
-        #Remove given node from list, return None
+    def remove(self, val):  # Check Spec: Pass node vs val
+        """Remove given node from list, return None"""
         node_to_remove, left_neighbor = self._find(val)
 
         if self.header == node_to_remove:
-            header_to_remove = self.pop()
-            self.header = header_to_remove.next
-            
+            self.pop()
+
         else:
             left_neighbor.next = node_to_remove.next
             node_to_remove.next = None
 
         return None
 
-    def display(self): 
-        #Will print LinkedList as Tuple literal
+    def display(self):
+        """Print LinkedList as Tuple literal"""
         return self.__repr__()
 
     def _find(self, val):
-        #Private to return a Node and left-neighboor by val;
+        """Return a Node and left-neighboor by val."""
         val_present = False
         node_inspected = self.header
         left_node = None
 
         while not val_present:
-            #Interrogate each Node
+            #  Interrogate each Node
             if node_inspected.val == val:
                 val_present = True
                 break
             else:
-            #Keeping track of node to left; incrementing node
+                #  Keeping track of node to left; incrementing node
                 left_node = node_inspected
                 node_inspected = node_inspected.next
 
