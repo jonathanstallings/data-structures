@@ -2,58 +2,62 @@ import pytest
 import linked_list as ll
 
 
-LLIST = ll.LinkedList([1, 2, 3])
+@pytest.fixture
+def base_llist():
+    return ll.linked_list([1, 2, 3])
 
 
-class TestConstructor():
-    def test_construct_none():
-        with pytest.raises(TypeError):
-            ll.LinkedList(None)
-
-    def test_construct_single_integer():
-        with pytest.raises(TypeError):
-            ll.LinkedList(2)
-
-    def test_construct_valid():
-        _input = [1, 2, 3]
-        expected_output = "(1, 2, 3)"
-        assert ll.LinkedList(_input).display() == expected_output
-
-    def test_construct_valid2():
-        _input = ([1, 2, 3], 'string')
-        expected_output = "([1, 2, 3], 'string')"
-        assert ll.LinkedList([_input]) == expected_output
-
-    def test_construct_valid3():
-        _input = "string"
-        expected_output = "('s', 't', 'r', 'i', 'n', 'g')"
-        assert ll.LinkedList([_input]) == expected_output
+def test_construct_from_iterable_valid(base_llist):
+    expected_output = "(1, 2, 3)"
+    assert base_llist.display() == expected_output
 
 
-class TestInsertVal():
-    def test_single_value():
-        LLIST.insert(4)
-        assert LLIST == "(4, 1, 2, 3)"
+def test_construct_from_nested_iterable_valid():
+    arg = ([1, 2, 3], 'string')
+    expected_output = "([1, 2, 3], 'string')"
+    assert ll.LinkedList([arg]) == expected_output
 
 
-class TestPop():
-    def test_pop():
-        LLIST.pop()
-        assert LLIST == "(2, 3)"
+def test_construct_from_string_valid():
+    arg = "string"
+    expected_output = "('s', 't', 'r', 'i', 'n', 'g')"
+    assert ll.LinkedList([arg]) == expected_output
 
 
-def test_size():
-    pass
+def test_construct_from_none_fails():
+    with pytest.raises(TypeError):
+        ll.LinkedList(None)
 
 
-def test_search_val():
-    pass
+def test_construct_from_single_integer_fails():
+    with pytest.raises(TypeError):
+        ll.LinkedList(2)
 
 
-def test_remove_node():
-    new_list.remove(1)
-    assert ne
+def test_single_value(base_llist):
+    base_llist.insert(4)
+    assert base_llist == "(4, 1, 2, 3)"
 
 
-def test_display():
-    pass
+def test_pop(self, base_llist):
+    base_llist.pop()
+    assert base_llist == "(2, 3)"
+
+
+def test_size(base_llist):
+    assert base_llist.size() == 3
+
+
+def test_search_val(base_llist):
+    searched_node = base_llist.seach(2)
+    assert isinstance(searched_node, ll.Node)
+    assert searched_node.val == 2
+
+
+def test_remove_node(base_llist):
+    base_llist.remove(2)
+    assert base_llist == "(1, 3)"
+
+
+def test_display(base_llist):
+    assert base_llist.display == "(1, 2, 3)"
