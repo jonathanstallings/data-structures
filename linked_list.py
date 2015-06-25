@@ -22,22 +22,12 @@ class LinkedList(object):
 
     def __repr__(self):
         """Print LinkedList as Tuple literal."""
-        end_flag = False
-        vals = []  # Can't use list!
-        current_node = self.header
-
-        while not end_flag:
-            vals.append(current_node.val)
-
-            if current_node.next:
-                current_node = current_node.next
-
-            else:
-                end_flag = True
-                break
-
-        vals = tuple(vals)  # No tuples, even for formatting.
-        return str(vals)
+        node = self.header
+        output = ""
+        while node is not None:
+            output += "{!r}, ".format(node.val)
+            node = node.next
+        return "({})".format(output.rstrip(' ,'))
 
     def insert(self, val):
         """Insert val at head of LinkedList."""
@@ -47,11 +37,15 @@ class LinkedList(object):
 
     def pop(self):
         """Pop the first val off the head and return it."""
-        to_return = self.header  # Use tuple reassignment
-        self.header = to_return.next
-        to_return.next = None
-        self.length -= 1
-        return to_return
+        if self.header is None:
+            raise IndexError
+        else:
+            to_return = self.header  # Use tuple reassignment
+            self.header = to_return.next
+            # to_return, self.header = self.header, to_return.next
+            to_return.next = None
+            self.length -= 1
+            return to_return
 
     def size(self):
         """Return current length of LinkedList."""
@@ -92,7 +86,6 @@ class LinkedList(object):
                 break
             else:
                 #  Keeping track of node to left; incrementing node
-                left_node = node_inspected  # use tuple assignment
-                node_inspected = node_inspected.next
+                left_node, node_inspected = node_inspected, node_inspected.next
 
         return node_inspected, left_node
