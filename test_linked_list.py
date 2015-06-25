@@ -56,7 +56,7 @@ def test_search_val(base_llist):
 
 
 def test_remove_node(base_llist):
-    base_llist.remove(2)
+    base_llist.remove(base_llist.search(2))
     assert base_llist.__repr__() == "(1, 3)"
 
 
