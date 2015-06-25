@@ -51,7 +51,7 @@ class LinkedList(object):
 
     def search(self, val):
         """Return the node containing val if present, else None"""
-        node, left = self._find(val)
+        node, _ = self._find(val)
         return node
 
     def remove(self, node):  # Check Spec: Pass node vs val
