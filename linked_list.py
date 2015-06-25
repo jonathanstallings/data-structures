@@ -2,8 +2,8 @@ from __future__ import unicode_literals
 
 
 class LinkedList(object):
-    """Class for a singly-linked list."""
-    def __init__(self, iterable):
+    """Class for a singly-linked list."""  # Refactor and simplify
+    def __init__(self, iterable):  # Needs to be able to make empty LList
         self.length = len(iterable)  # Will resize for pop, insert, remove
         self.header = None
         stored_for_next = None  # Seed value
@@ -24,7 +24,7 @@ class LinkedList(object):
     def __repr__(self):
         """Print LinkedList as Tuple literal."""
         end_flag = False
-        vals = []
+        vals = []  # Can't use list!
         current_node = self.header
 
         while not end_flag:
@@ -37,7 +37,7 @@ class LinkedList(object):
                 end_flag = True
                 break
 
-        vals = tuple(vals)
+        vals = tuple(vals)  # No tuples, even for formatting.
         return str(vals)
 
     def insert(self, val):
@@ -48,7 +48,7 @@ class LinkedList(object):
 
     def pop(self):
         """Pop the first val off the head and return it."""
-        to_return = self.header
+        to_return = self.header  # Use tuple reassignment
         self.header = to_return.next
         to_return.next = None
         self.length -= 1
@@ -80,7 +80,7 @@ class LinkedList(object):
         """Print LinkedList as Tuple literal"""
         return self.__repr__()
 
-    def _find(self, val):
+    def _find(self, val):  # Check with spec re: this.
         """Return a Node and left-neighboor by val."""
         val_present = False
         node_inspected = self.header
@@ -93,7 +93,7 @@ class LinkedList(object):
                 break
             else:
                 #  Keeping track of node to left; incrementing node
-                left_node = node_inspected
+                left_node = node_inspected  # use tuple assignment
                 node_inspected = node_inspected.next
 
         return node_inspected, left_node
