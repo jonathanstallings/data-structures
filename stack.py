@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+
 from linked_list import LinkedList
 
 
@@ -12,11 +13,15 @@ class Stack():
         return self.other.__repr__()
 
     def push(self, value):
-        """Will add a value to the stack"""
+        """Add a value to the head of the stack.
+
+        args:
+            value: The value to add to the stack
+        """
         self.other.insert(value)
 
     def pop(self):
-        """Will remove val from stack and return"""
+        """Remove a value from head of stack and return."""
         val = self.other.pop()
 
         return val

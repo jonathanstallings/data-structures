@@ -42,8 +42,6 @@ class LinkedList(object):
         else:
             to_return = self.header  # Use tuple reassignment
             self.header = to_return.next
-            # to_return, self.header = self.header, to_return.next
-            to_return.next = None
             self.length -= 1
             return to_return
 
@@ -53,19 +51,18 @@ class LinkedList(object):
 
     def search(self, val):
         """Return the node containing val if present, else None"""
-        node, left = self._find(val)
+        node, _ = self._find(val)
         return node
 
-    def remove(self, val):  # Check Spec: Pass node vs val
+    def remove(self, node):  # Check Spec: Pass node vs val
         """Remove given node from list, return None"""
-        node_to_remove, left_neighbor = self._find(val)
+        node_to_remove, left_neighbor = self._find(node.val, node)
 
         if self.header == node_to_remove:
             self.pop()
 
         else:
             left_neighbor.next = node_to_remove.next
-            node_to_remove.next = None
 
         return None
 
@@ -73,17 +70,23 @@ class LinkedList(object):
         """Print LinkedList as Tuple literal"""
         return self.__repr__()
 
-    def _find(self, val):  # Check with spec re: this.
-        """Return a Node and left-neighboor by val."""
-        val_present = False
+    def _find(self, val, node=None):
+        """
+        Return a node and previous by matching against value or node."""
+        matched = False
         node_inspected = self.header
         left_node = None
 
-        while not val_present:
+        while not matched:
             #  Interrogate each Node
             if node_inspected.val == val:
-                val_present = True
-                break
+                if node is not None:
+                    if node_inspected is node:
+                        matched = True
+                        break
+                else:
+                    matched = True
+                    break
             else:
                 #  Keeping track of node to left; incrementing node
                 left_node, node_inspected = node_inspected, node_inspected.next
