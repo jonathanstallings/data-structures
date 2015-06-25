@@ -2,24 +2,11 @@ from __future__ import unicode_literals
 
 
 class LinkedList(object):
-    """Class for a singly-linked list."""  # Refactor and simplify
-    def __init__(self, iterable):  # Needs to be able to make empty LList
-        self.length = len(iterable)  # Will resize for pop, insert, remove
-        self.header = None
-        stored_for_next = None  # Seed value
-
-        for index, val in zip(range(self.length, 0, -1), reversed(iterable)):
-            if index == self.length:
-                # Case: right-most item in linked list; implicit None for next
-                created = Node(val)
-            elif index == 1:
-                # Case of needing to store list header
-                self.header = Node(val, stored_for_next)
-            else:
-                # All other linked nodes
-                created = Node(val, stored_for_next)
-
-            stored_for_next = created  # Store for next iteration
+    """Class for a singly-linked list."""
+    def __init__(self, iterable=()):
+        self.length = 0
+        for val in iterable:
+            self.insert(val)
 
     def __repr__(self):
         """Print LinkedList as Tuple literal."""
