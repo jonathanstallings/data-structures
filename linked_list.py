@@ -42,8 +42,6 @@ class LinkedList(object):
         else:
             to_return = self.header  # Use tuple reassignment
             self.header = to_return.next
-            # to_return, self.header = self.header, to_return.next
-            to_return.next = None
             self.length -= 1
             return to_return
 
@@ -65,7 +63,6 @@ class LinkedList(object):
 
         else:
             left_neighbor.next = node_to_remove.next
-            node_to_remove.next = None
 
         return None
 
