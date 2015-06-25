@@ -16,8 +16,6 @@ class Stack():
 
     def pop(self):
         """Will remove val from stack and return"""
-        try:
-            val = self.other.pop()
+        val = self.other.pop()
 
         return val
-
