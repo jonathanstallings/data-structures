@@ -1,10 +1,11 @@
+from __future__ import unicode_literals
 import pytest
 import linked_list as ll
 
 
 @pytest.fixture
 def base_llist():
-    return ll.linked_list([1, 2, 3])
+    return ll.LinkedList([1, 2, 3])
 
 
 def test_construct_from_iterable_valid(base_llist):
@@ -14,14 +15,14 @@ def test_construct_from_iterable_valid(base_llist):
 
 def test_construct_from_nested_iterable_valid():
     arg = ([1, 2, 3], 'string')
-    expected_output = "([1, 2, 3], 'string')"
-    assert ll.LinkedList([arg]) == expected_output
+    expected_output = "([1, 2, 3], u'string')"
+    assert ll.LinkedList(arg).__repr__() == expected_output
 
 
 def test_construct_from_string_valid():
     arg = "string"
-    expected_output = "('s', 't', 'r', 'i', 'n', 'g')"
-    assert ll.LinkedList([arg]) == expected_output
+    expected_output = "(u's', u't', u'r', u'i', u'n', u'g')"
+    assert ll.LinkedList(arg).__repr__() == expected_output
 
 
 def test_construct_from_none_fails():
@@ -36,12 +37,12 @@ def test_construct_from_single_integer_fails():
 
 def test_single_value(base_llist):
     base_llist.insert(4)
-    assert base_llist == "(4, 1, 2, 3)"
+    assert base_llist.__repr__() == "(4, 1, 2, 3)"
 
 
-def test_pop(self, base_llist):
+def test_pop(base_llist):
     base_llist.pop()
-    assert base_llist == "(2, 3)"
+    assert base_llist.__repr__() == "(2, 3)"
 
 
 def test_size(base_llist):
@@ -49,15 +50,15 @@ def test_size(base_llist):
 
 
 def test_search_val(base_llist):
-    searched_node = base_llist.seach(2)
+    searched_node = base_llist.search(2)
     assert isinstance(searched_node, ll.Node)
     assert searched_node.val == 2
 
 
 def test_remove_node(base_llist):
     base_llist.remove(2)
-    assert base_llist == "(1, 3)"
+    assert base_llist.__repr__() == "(1, 3)"
 
 
 def test_display(base_llist):
-    assert base_llist.display == "(1, 2, 3)"
+    assert base_llist.display() == "(1, 2, 3)"

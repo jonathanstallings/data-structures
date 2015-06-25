@@ -24,6 +24,25 @@ class LinkedList(object):
 
             stored_for_next = created  # Store for next iteration
 
+    def __repr__(self):
+        #Will print LinkedList as Tuple literal
+        end_flag = False
+        vals = []
+        current_node = self.header
+
+        while not end_flag:
+            vals.append(current_node.val)
+
+            if current_node.next:
+                current_node = current_node.next
+
+            else:
+                end_flag = True
+                break
+
+        vals = tuple(vals)
+        return str(vals)
+
     def insert(self, val):
         # Will insert val at head of LinkedList
         self.header = Node(val, self.header)
@@ -48,40 +67,36 @@ class LinkedList(object):
 
     def remove(self, val):
         #Remove given node from list, return None
-        node_to_remove = self.search(val)
+        node_to_remove, left_neighbor = self._find(val)
 
+        if self.header == node_to_remove:
+            header_to_remove = self.pop()
+            self.header = header_to_remove.next
+            
+        else:
+            left_neighbor.next = node_to_remove.next
+            node_to_remove.next = None
+
+        return None
 
     def display(self): 
         #Will print LinkedList as Tuple literal
-        end_flag = False
-        vals = []
-        current_node = self.header
-
-        while not end_flag:
-            vals.append(current_node.__repr__())
-
-            if current_node.next:
-                current_node = current_node.next
-
-            else:
-                end_flag = True
-                break
-
-        vals = tuple(vals)
-        return str(vals)
+        return self.__repr__()
 
     def _find(self, val):
-        #Private to return a Node and left-neighboor by val
+        #Private to return a Node and left-neighboor by val;
         val_present = False
         node_inspected = self.header
+        left_node = None
 
         while not val_present:
             #Interrogate each Node
             if node_inspected.val == val:
+                val_present = True
                 break
             else:
             #Keeping track of node to left; incrementing node
-                node_inspected = left_node
+                left_node = node_inspected
                 node_inspected = node_inspected.next
 
         return node_inspected, left_node
