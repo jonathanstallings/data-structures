@@ -35,7 +35,7 @@ def test_construct_from_single_integer_fails():
         ll.LinkedList(2)
 
 
-def test_single_value(base_llist):
+def test_insert_single_value(base_llist):
     base_llist.insert(4)
     assert base_llist.__repr__() == "(4, 1, 2, 3)"
 
