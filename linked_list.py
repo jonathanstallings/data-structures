@@ -8,9 +8,8 @@ class LinkedList(object):
         self.header = None
         stored_for_next = None # Seed value
 
-        import pdb; pdb.set_trace() #DEBUG
         for index, val in zip(range(self.length, 0, -1), reversed(iterable)):
-           
+          
             if index == self.length:
                 # Case: right-most item in linked list; implicit None for next
                 created = Node(val)
@@ -59,7 +58,7 @@ class LinkedList(object):
         current_node = self.header
 
         while not end_flag:
-            vals.append(current_node)
+            vals.append(current_node.__repr__())
 
             if current_node.next:
                 current_node = current_node.next
@@ -95,6 +94,5 @@ class Node(object):
         self.next = next
 
     def __repr__(self):
-        #Code here
-        return "Node({val}, {next})".format(
-            val=self.val, next=self.next)
+        #  Just display value
+        return "{val}".format(val=self.val)
