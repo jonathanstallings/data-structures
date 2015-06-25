@@ -37,12 +37,15 @@ class LinkedList(object):
 
     def pop(self):
         """Pop the first val off the head and return it."""
-        to_return = self.header  # Use tuple reassignment
-        self.header = to_return.next
-        # to_return, self.header = self.header, to_return.next
-        to_return.next = None
-        self.length -= 1
-        return to_return
+        if self.header is None:
+            raise IndexError
+        else:
+            to_return = self.header  # Use tuple reassignment
+            self.header = to_return.next
+            # to_return, self.header = self.header, to_return.next
+            to_return.next = None
+            self.length -= 1
+            return to_return
 
     def size(self):
         """Return current length of LinkedList."""
