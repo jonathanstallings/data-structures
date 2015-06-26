@@ -47,7 +47,7 @@ class LinkedList(object):
             to_return = self.header
             self.header = to_return.next
             self.length -= 1
-            return to_return
+            return to_return.val
 
     def size(self):
         """Return current length of LinkedList."""
