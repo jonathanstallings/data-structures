@@ -47,5 +47,11 @@ def test_push(base_stack):
 
 
 def test_pop(base_stack):
-    assert base_stack.pop().__repr__() == u"1"
+    assert base_stack.pop() == 1
     assert base_stack.__repr__() == "(2, 3)"
+
+
+def test_pop_after_multi_push(base_stack):
+    for x in range(10):
+        base_stack.push(x)
+    assert base_stack.pop() == 9
