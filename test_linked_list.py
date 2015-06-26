@@ -46,7 +46,7 @@ def test_insert_single_value(base_llist):
 
 
 def test_pop(base_llist):
-    assert base_llist.pop().__repr__() == u"1"
+    assert base_llist.pop() == 1
     assert base_llist.__repr__() == "(2, 3)"
 
 
