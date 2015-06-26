@@ -10,7 +10,7 @@ class Stack():
         self.other.__init__(iterable)
 
     def __repr__(self):
-        return self.other.__repr__()
+        return repr(self.other)
 
     def push(self, value):
         """Add a value to the head of the stack.
@@ -22,6 +22,4 @@ class Stack():
 
     def pop(self):
         """Remove a value from head of stack and return."""
-        val = self.other.pop()
-
-        return val
+        return self.other.pop()
