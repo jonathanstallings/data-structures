@@ -8,27 +8,27 @@ intersperced into any of the following.
 
 ###Case One: Broken Parentheses
 
-All of the following will return -1
+All of the following arguments will return -1:
 ```
-)))(((
-)
-()()()()()))(()))()(((()
+>>>  parenthetical("))))(((")
+>>>  parenthetical(")")
+>>>  parenthetical("()()()()()))(()))()(((()")
 ```
 ###Case Two: Open Parentheses
 
-All of the following will return 1
+All of the following will return 1:
 ```
-()(
-()()()(
-()()(((()()()
+>>>  parenthetical("()(")
+>>>  parenthetical("()()()(")
+>>>  parenthetical("()()(((()()()")
 ```
 
 ###Case Three: Okay Parentheses
+All of the following will return 0:
 ```
-All of the following will return 0
-()()()()
-(())
-((()())()()())
+>>>  parenthetical("()()()()")
+>>>  parenthetical("(())")
+>>>  parenthetical("((()())()()())")
 ```
 
 ##Helpful Resources
