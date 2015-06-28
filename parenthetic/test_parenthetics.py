@@ -5,31 +5,31 @@ from parenthetics import parenthetical
 
 #Case that should return -1
 broken_case = [
-    ")))((("
-    ")()",
-    ")))",
-    "()()()()(()))",
-    ")",
-    "()()())()()()()",
-    "()()()()()))(()))()(((()"]
+    "))sdf)as((43215("
+    ")tqw()3",
+    "345a)))",
+    "eq()()q()hq()(hqre[][][]{()))",
+    ")dfh",
+    "ehu{()()())()()()()",
+    "({})()()()()))asdg(())asgwq)()321t5(((()12fds"]
 
 
 #Case that should return 1
 open_case = [
-    "()(",
-    "()()()(",
-    "((()()",
-    "()()(",
-    "()()()((",
-    "()()(((()()()"
+    "!@#^$#&(324643)(",
+    "()asdgw()(@!#&^$#&)(",
+    "13246((()asd()oigo",
+    "$@*-=()()(",
+    "(qy1235)()(qwet)((",
+    "()()((3461(()25()153()145"
 ]
 
 
 #Case that should return 0
 okay_case = [
-    "()()()()",
-    "(())",
-    "((()())()()())"
+    "(1266)()32164()!$#^%@&()|||",
+    "((qwet)qwet)",
+    "(52135(()1231())()q143265123()())"
 ]
 
 
@@ -74,5 +74,3 @@ def test_bad_types(bad_types=bad_types):
     for bad_type in bad_types:
         with pytest.raises(TypeError):
             parenthetical(bad_type)
-    #TODO: Increase robustness of above cases by interposing random unicode
-    #characters exclusive of "(" and ")" using a random generator
