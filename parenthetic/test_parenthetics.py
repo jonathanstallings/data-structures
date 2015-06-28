@@ -63,7 +63,7 @@ def test_okay_case_via_assert(okay_case=okay_case):
     Testing a set of arguments that should return 1
     """
     for case in okay_case:
-        assert parenthetical(case) == 1
+        assert parenthetical(case) == 0
 
 
 def test_bad_types(bad_types=bad_types):
@@ -71,6 +71,8 @@ def test_bad_types(bad_types=bad_types):
     Testing types that are not currently supported by parenthetical;
     these will raise TypeError
     """
-
+    for bad_type in bad_types:
+        with pytest.raises(TypeError):
+            parenthetical(bad_type)
     #TODO: Increase robustness of above cases by interposing random unicode
     #characters exclusive of "(" and ")" using a random generator
