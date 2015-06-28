@@ -3,7 +3,7 @@ import pytest
 from parenthetics import parenthetical
 
 
-#Case that should return -1
+#  Case that should return -1
 broken_case = [
     "))sdf)as((43215("
     ")tqw()3",
@@ -13,8 +13,7 @@ broken_case = [
     "ehu{()()())()()()()",
     "({})()()()()))asdg(())asgwq)()321t5(((()12fds"]
 
-
-#Case that should return 1
+#  Case that should return 1
 open_case = [
     "!@#^$#&(324643)(",
     "()asdgw()(@!#&^$#&)(",
@@ -24,16 +23,14 @@ open_case = [
     "()()((3461(()25()153()145"
 ]
 
-
-#Case that should return 0
+#  Case that should return 0
 okay_case = [
     "(1266)()32164()!$#^%@&()|||",
     "((qwet)qwet)",
     "(52135(()1231())()q143265123()())"
 ]
 
-
-#Types that should fail with TypeError
+#  Types that should fail with TypeError
 bad_types = [
     0,
     None,
@@ -41,6 +38,7 @@ bad_types = [
     {1: 123123, "a": 45243},
     [1, 2, 3, 4, 5]
 ]
+
 
 def test_broken_case_via_assert(broken_case=broken_case):
     """
