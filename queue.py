@@ -9,7 +9,7 @@ class Queue():
         self.other = LinkedList()
         self.header = None
         self.tail = None
-        self.length = None
+        self.length = 0
         for val in (iterable):
             self.enqueue(val)
 
@@ -25,8 +25,11 @@ class Queue():
         args:
             value: The value to add to the queue
         """
-        new_node = Node(value)
-        self.tail.next = new_node
+        new_node = Node(value)  # Need to fix this logic
+        if len(self) == 0:
+            self.header = new_node
+        if self.tail is not None:
+            self.tail.next = new_node
         self.tail = new_node
         self.length += 1
 
