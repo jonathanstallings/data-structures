@@ -16,7 +16,7 @@ def test_open_parens():
 def test_balanced_parens():
     assert parenthetical('((()))') == 0
     assert parenthetical('()()()') == 0
-    assert parenthetical('(    other    )  characters  ()')
+    assert parenthetical('(    other    )  characters  ()') == 0
 
 
 def test_broken_parens():
