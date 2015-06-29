@@ -1,29 +1,38 @@
 from __future__ import unicode_literals
 
-from linked_list import LinkedList
+from linked_list import LinkedList, Node
 
 
 class Queue():
 
     def __init__(self, iterable=()):
         self.other = LinkedList()
-        self.other_init__(iterable)
+        self.header = None
         self.tail = None
+        self.length = None
+        for val in (iterable):
+            self.enqueue(val)
 
     def __repr__(self):
-        pass
+        return repr(self.other)
 
     def __len__(self):
-        pass
+        return self.length
 
     def enqueue(self, value):
-        """Add a value to the tail of a queue
+        """Add a value to the tail of a queue.
 
         args:
             value: The value to add to the queue
         """
-        pass
+        new_node = Node(value)
+        self.tail.next = new_node
+        self.tail = new_node
+        self.length += 1
 
     def dequeue(self):
-        """Remove a value from the head of the queue"""
-        pass
+        """Remove and return a value from the head of the queue."""
+        return self.other.pop()
+
+    def size(self):
+        return len(self)
