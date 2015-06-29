@@ -30,7 +30,7 @@ The function will examine a unicode string as its sole argument and return as fo
 * Return 0 if the string is "balanced" (there are an equal number of open and closed parentheses in the string)
 * Return -1 if the string is "broken" (a closing parens has not been proceeded by one that opens)
 
-###Exammples
+###Examples
 
 Open Case:
 * '( ()'
