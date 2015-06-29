@@ -21,7 +21,7 @@ def parenthetical(string):
                 open_parens.pop()
             except IndexError:
                 return -1
-    if len(open_parens) > 1:
+    if len(open_parens) >= 1:
         return 1
     else:
-        return len(open_parens)
+        return 0
