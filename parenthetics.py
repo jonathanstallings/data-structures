@@ -4,13 +4,13 @@ from stack import Stack
 
 
 def parenthetical(string):
-    """Examine string for valid use of paretheses.
+    """Examine string for valid use of parentheses.
     args:
         string: the unicode string to Examine
     returns:
-        1 if the string is "open" -- unclosed paretheses
-        0 if the string is "balanced" -- equal number of paretheses
-       -1 if the string is "broken" -- closing paretheses before opening
+        1 if the string is "open" -- unclosed parentheses
+        0 if the string is "balanced" -- equal number of parentheses
+       -1 if the string is "broken" -- closing parentheses before opening
     """
     open_parens = Stack()
     for char in string:
