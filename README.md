@@ -22,7 +22,7 @@ Available methods include:
 See the doc strings for implementation details.
 
 ##Parenthetics
-Contains the parenthetical function which checks the validity of parenthical usage.
+Contains the parenthetical function which checks the validity of parenthetical usage.
 
 The function will examine a unicode string as its sole argument and return as follows:
 
@@ -44,4 +44,4 @@ Broken Case:
 ###Notes
 This function was written with inspiration from the work of:
 * [Jason Tyler](https://github.com/jay-tyler)
-*[Jim Grant](https://github.com/MigrantJ)
+* [Jim Grant](https://github.com/MigrantJ)
