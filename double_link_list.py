@@ -72,8 +72,8 @@ class DoubleLinkList(object):
         """
         search_node = self.search(search_val)
         if search_node == self.head:
-            self.header = search_node.next
-            self.header.prev = None
+            self.head = search_node.next
+            self.head.prev = None
             self.length -= 1
         elif search_node == self.tail:
             self.tail = search_node.prev
