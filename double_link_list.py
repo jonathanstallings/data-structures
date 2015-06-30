@@ -53,8 +53,9 @@ class DoubleLinkList(object):
         """
         current_head = self.head
         self.head = Node(val, prev=None, next_=current_head)
-        current_head.prev = self.head
-        self.length += 1
+        if current_head is not None:
+            current_head.prev = self.head
+        self.length += 1pre
         return None
 
     def pop(self):
