@@ -7,9 +7,9 @@ class Queue():
 
     def __init__(self, iterable=()):
         self.other = LinkedList()
-        self.header = None
-        self.tail = None
-        self.length = 0
+        self.other.header = None
+        self.other.tail = None
+        self.other.length = 0
         for val in (iterable):
             self.enqueue(val)
 
@@ -17,7 +17,7 @@ class Queue():
         return repr(self.other)
 
     def __len__(self):
-        return self.length
+        return self.other.length
 
     def enqueue(self, value):
         """Add a value to the tail of a queue.
@@ -26,12 +26,12 @@ class Queue():
             value: The value to add to the queue
         """
         new_node = Node(value)  # Need to fix this logic
-        if len(self) == 0:
-            self.header = new_node
-        if self.tail is not None:
-            self.tail.next = new_node
-        self.tail = new_node
-        self.length += 1
+        if self.other.tail is None:
+            self.other.header = self.other.tail = new_node
+        else:
+            self.other.tail.next = new_node
+            self.other.tail = new_node
+        self.other.length += 1
 
     def dequeue(self):
         """Remove and return a value from the head of the queue."""
