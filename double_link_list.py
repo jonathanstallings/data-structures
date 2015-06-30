@@ -18,7 +18,7 @@ class DoubleLinkList(object):
     def __init__(self, iterable=()):
         self._current = None
         self.head = None
-        self.tail = None  # update methods for tail
+        self.tail = None
         self.length = 0
         for val in reversed(iterable):
             self.insert(val)
@@ -54,7 +54,9 @@ class DoubleLinkList(object):
         """
         current_head = self.head
         self.head = Node(val, prev=None, next_=current_head)
-        if current_head is not None:
+        if current_head is None:
+            self.head = self.tail
+        else:
             current_head.prev = self.head
         self.length += 1
         return None
@@ -94,7 +96,7 @@ class DoubleLinkList(object):
         args:
             search_node: the node to be removed
         """
-        for node in self:
+        for node in self:  # Check head and tail
             if node == search_node:
                 node.prev.next = node.next
                 node.next.prev = node.prev
