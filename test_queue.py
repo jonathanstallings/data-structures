@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import pytest
 
@@ -45,3 +46,17 @@ def test_enqueue():
         filling_this.enqueue(i)
     assert len(filling_this) == 40
     assert filling_this.dequeue() == 0
+
+
+def test_dequeue():
+    q = Queue([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    for x in range(5):
+        q.dequeue()
+    assert q.dequeue() == 6
+    assert q.other.header.val == 7
+    assert q.other.tail.val == 10
+    assert len(q) == 4
+    while len(q):
+        q.dequeue()
+    assert q.other.header is None
+    assert q.other.tail is None
