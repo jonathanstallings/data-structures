@@ -116,21 +116,21 @@ class DoubleLinkList(object):
             self.head = to_return.next
             try:
                 self.head.prev = None
-            except AttributeError:
+            except AttributeError:  # List is now empty
                 self.tail = None
             self.length -= 1
             return to_return.val
 
     def shift(self):
         """Remove the last value from the tail and return."""
-        if self.tail is None:  # Update with head management
+        if self.tail is None:
             raise IndexError
         else:
             to_return = self.tail
             self.tail = to_return.prev
             try:
                 self.tail.next = None
-            except AttributeError:
+            except AttributeError:  # List is now empty
                 self.head = None
             self.length -= 1
             return to_return.val
