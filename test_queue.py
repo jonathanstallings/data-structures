@@ -1,14 +1,13 @@
 from __future__ import unicode_literals
 import pytest
 
-from linked_list import LinkedList
 from queue import Queue
 
 #  (Input, expected) for well constructed instantiation arguments,
 #  and one subsequent dequeue
 valid_constructor_args_dequeue = [
-    ([1,2,3], 1),
-    ([[1,2,3,], "string" ], [1,2,3]),
+    ([1, 2, 3], 1),
+    ([[1, 2, 3], "string"], [1, 2, 3]),
     ("string", 's')
 ]
 
@@ -20,7 +19,7 @@ invalid_constructor_args = [
 ]
 
 
-@pytest.mark.parametrize("input,deque",valid_constructor_args_dequeue)
+@pytest.mark.parametrize("input,deque", valid_constructor_args_dequeue)
 def test_valid_contructor(input, deque):
     """Test valid constructor using by dequeuing after instantiation"""
     assert Queue(input).dequeue() == deque
