@@ -18,6 +18,7 @@ class DoubleLinkList(object):
     def __init__(self, iterable=()):
         self._current = None
         self.head = None
+        self.tail = None  # update methods for tail
         self.length = 0
         for val in reversed(iterable):
             self.insert(val)
@@ -101,11 +102,23 @@ class DoubleLinkList(object):
 
     def append(self, val):
         """Append a node with value to end of list."""
-        pass
+        current_tail = self.tail  # update with head management
+        self.tail = Node(val, prev=current_tail, next_=None)
+        if current_tail is not None:
+            current_tail.next = self.tail
+        self.length += 1
+        return None
 
     def shift(self):
         """Remove the last value from the tail and return."""
-        pass
+        if self.tail is None:  # Update with head management
+            raise IndexError
+        else:
+            to_return = self.tail
+            self.tail = to_return.prev
+            self.tail.next = None
+            self.length -= 1
+            return to_return.val
 
     def display(self):
         """Shows representation of DoubleLinkList."""
