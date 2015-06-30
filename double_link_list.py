@@ -52,23 +52,25 @@ class DoubleLinkList(object):
         args:
             val: the value to add
         """
-        current_head = self.head
-        self.head = Node(val, prev=None, next_=current_head)
-        if current_head is None:
-            self.head = self.tail
+        old_head = self.head
+        self.head = Node(val, prev=None, next_=old_head)
+        if old_head is None:
+            self.tail = self.head
         else:
-            current_head.prev = self.head
+            old_head.prev = self.head
         self.length += 1
         return None
 
     def pop(self):
         """Pop the first val off the head and return it."""
-        if self.head is None:
+        if self.head is None:  # Add tail management
             raise IndexError
         else:
             to_return = self.head
             self.head = to_return.next
             self.head.prev = None
+            if len(self) == 0:
+                self.tail = None
             self.length -= 1
             return to_return.val
 
@@ -96,11 +98,19 @@ class DoubleLinkList(object):
         args:
             search_node: the node to be removed
         """
-        for node in self:  # Check head and tail
-            if node == search_node:
-                node.prev.next = node.next
-                node.next.prev = node.prev
-                return None
+        if search_node == self.head:
+            self.header = search_node.next
+            self.header.prev = None
+        elif search_node == self.tail:
+            self.tail = search_node.prev
+            self.tail.next = None
+        else:
+            for node in self:
+                if node == search_node:
+                    node.prev.next = node.next
+                    node.next.prev = node.prev
+                    return None
+
 
     def append(self, val):
         """Append a node with value to end of list."""
