@@ -35,6 +35,8 @@ class Queue():
 
     def dequeue(self):
         """Remove and return a value from the head of the queue."""
+        if len(self) == 1:
+            self.other.tail = None
         return self.other.pop()
 
     def size(self):
