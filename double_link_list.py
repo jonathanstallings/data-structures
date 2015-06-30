@@ -46,21 +46,6 @@ class DoubleLinkList(object):
         self._current = self._current.next
         return node
 
-    def insert(self, val):
-        """Insert value at head of DoubleLinkList.
-
-        args:
-            val: the value to add
-        """
-        old_head = self.head
-        self.head = Node(val, prev=None, next_=old_head)
-        if old_head is None:
-            self.tail = self.head
-        else:
-            old_head.prev = self.head
-        self.length += 1
-        return None
-
     def size(self):
         """Return current length of DoubleLinkList."""
         return len(self)
@@ -79,30 +64,55 @@ class DoubleLinkList(object):
         else:
             return None
 
-    def remove(self, search_node):
+    def remove(self, search_val):
         """Remove given node from list, return None.
 
         args:
             search_node: the node to be removed
         """
+        search_node = self.search(search_val)
         if search_node == self.head:
             self.header = search_node.next
             self.header.prev = None
+            self.length -= 1
         elif search_node == self.tail:
             self.tail = search_node.prev
             self.tail.next = None
+            self.length -= 1
         else:
             for node in self:
                 if node == search_node:
                     node.prev.next = node.next
                     node.next.prev = node.prev
+                    self.length -= 1
                     return None
 
+    def insert(self, val):
+        """Insert value at head of list.
+
+        args:
+            val: the value to add
+        """
+        old_head = self.head
+        self.head = Node(val, prev=None, next_=old_head)
+        if old_head is None:
+            self.tail = self.head
+        else:
+            old_head.prev = self.head
+        self.length += 1
+        return None
+
     def append(self, val):
-        """Append a node with value to end of list."""
-        old_tail = self.tail  # update with head management
+        """Append a node with value to end of list.
+
+        args:
+            val: the value to add
+        """
+        old_tail = self.tail
         self.tail = Node(val, prev=old_tail, next_=None)
-        if old_tail is not None:
+        if old_tail is None:
+            self.head = self.tail
+        else:
             old_tail.next = self.tail
         self.length += 1
         return None
