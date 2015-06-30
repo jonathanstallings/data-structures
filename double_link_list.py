@@ -61,19 +61,6 @@ class DoubleLinkList(object):
         self.length += 1
         return None
 
-    def pop(self):
-        """Pop the first val off the head and return it."""
-        if self.head is None:  # Add tail management
-            raise IndexError
-        else:
-            to_return = self.head
-            self.head = to_return.next
-            self.head.prev = None
-            if len(self) == 0:
-                self.tail = None
-            self.length -= 1
-            return to_return.val
-
     def size(self):
         """Return current length of DoubleLinkList."""
         return len(self)
@@ -111,15 +98,28 @@ class DoubleLinkList(object):
                     node.next.prev = node.prev
                     return None
 
-
     def append(self, val):
         """Append a node with value to end of list."""
-        current_tail = self.tail  # update with head management
-        self.tail = Node(val, prev=current_tail, next_=None)
-        if current_tail is not None:
-            current_tail.next = self.tail
+        old_tail = self.tail  # update with head management
+        self.tail = Node(val, prev=old_tail, next_=None)
+        if old_tail is not None:
+            old_tail.next = self.tail
         self.length += 1
         return None
+
+    def pop(self):
+        """Pop the first val off the head and return it."""
+        if self.head is None:
+            raise IndexError
+        else:
+            to_return = self.head
+            self.head = to_return.next
+            try:
+                self.head.prev = None
+            except AttributeError:
+                self.tail = None
+            self.length -= 1
+            return to_return.val
 
     def shift(self):
         """Remove the last value from the tail and return."""
@@ -128,7 +128,10 @@ class DoubleLinkList(object):
         else:
             to_return = self.tail
             self.tail = to_return.prev
-            self.tail.next = None
+            try:
+                self.tail.next = None
+            except AttributeError:
+                self.head = None
             self.length -= 1
             return to_return.val
 
