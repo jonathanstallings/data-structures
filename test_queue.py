@@ -4,76 +4,45 @@ import pytest
 from linked_list import LinkedList
 from queue import Queue
 
-# TODO: check if unpackaging a single tuple
-# These are valid constructors that will support subsequent deque
-valid_constructor_args = [
-    (1,2,3),
-    ([1,2,3,], "string" ),
-    ("string"),
-    ()
+#  (Input, expected) for well constructed instantiation arguments,
+#  and one subsequent dequeue
+valid_constructor_args_dequeue = [
+    ([1,2,3], 1),
+    ([[1,2,3,], "string" ], [1,2,3]),
+    ("string", 's')
 ]
 
+# Invalid instantiation arguments
 invalid_constructor_args = [
-    ((None)),
-    ((1))
+    (None),
+    (1),
+    (4.5235)
 ]
 
-@pytest.mark.parametrize("args", valid_constructor_args)
-def test_valid_contructor(*args):
-    assert Queue(args).deque() == valid_constructor_args[0]
+
+@pytest.mark.parametrize("input,deque",valid_constructor_args_dequeue)
+def test_valid_contructor(input, deque):
+    """Test valid constructor using by dequeuing after instantiation"""
+    assert Queue(input).dequeue() == deque
 
 
+def test_empty_constructor():
+    """Test valid empty constructor via dequeuing after instantiation"""
+    with pytest.raises(IndexError):
+        Queue(()).dequeue()
 
 
-# ******
-# @pytest.fixture
-# def base_stack():
-#     return Stack([1, 2, 3])
+@pytest.mark.parametrize("input", invalid_constructor_args)
+def test_invalid_constructor(input):
+    """Test invalid constuctor arguments"""
+    with pytest.raises(TypeError):
+        Queue(input)
 
 
-# def test_construct_from_iterable_valid(base_stack):
-#     expected_output = "(1, 2, 3)"
-#     assert base_stack.__repr__() == expected_output
-
-
-# def test_construct_from_nested_iterable_valid():
-#     arg = ([1, 2, 3], 'string')
-#     expected_output = "([1, 2, 3], u'string')"
-#     assert Stack(arg).__repr__() == expected_output
-
-
-# def test_construct_from_string_valid():
-#     arg = "string"
-#     expected_output = "(u's', u't', u'r', u'i', u'n', u'g')"
-#     assert Stack(arg).__repr__() == expected_output
-
-
-# def test_construct_empty_valid():
-#     expected_output = "()"
-#     assert Stack().__repr__() == expected_output
-
-
-# def test_construct_from_none_fails():
-#     with pytest.raises(TypeError):
-#         Stack(None)
-
-
-# def test_construct_from_single_integer_fails():
-#     with pytest.raises(TypeError):
-#         Stack(2)
-
-
-# def test_push(base_stack):
-#     base_stack.push(4)
-#     assert base_stack.__repr__() == "(4, 1, 2, 3)"
-
-
-# def test_pop(base_stack):
-#     assert base_stack.pop() == 1
-#     assert base_stack.__repr__() == "(2, 3)"
-
-
-# def test_pop_after_multi_push(base_stack):
-#     for x in range(10):
-#         base_stack.push(x)
-#     assert base_stack.pop() == 9
+def test_enqueue():
+    """Fill an empty contructor argument and assert len, deque)"""
+    filling_this = Queue(())
+    for i in xrange(40):
+        filling_this.enqueue(i)
+    assert len(filling_this) == 40
+    assert filling_this.dequeue() == 0
