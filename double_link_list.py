@@ -55,7 +55,7 @@ class DoubleLinkList(object):
         self.head = Node(val, prev=None, next_=current_head)
         if current_head is not None:
             current_head.prev = self.head
-        self.length += 1pre
+        self.length += 1
         return None
 
     def pop(self):
@@ -98,6 +98,14 @@ class DoubleLinkList(object):
                 node.prev.next = node.next
                 node.next.prev = node.prev
                 return None
+
+    def append(self, val):
+        """Append a node with value to end of list."""
+        pass
+
+    def shift(self):
+        """Remove the last value from the tail and return."""
+        pass
 
     def display(self):
         """Shows representation of DoubleLinkList."""
