@@ -25,7 +25,7 @@ class Queue():
         args:
             value: The value to add to the queue
         """
-        new_node = Node(value)  # Need to fix this logic
+        new_node = Node(value)
         if self.other.tail is None:
             self.other.header = self.other.tail = new_node
         else:
