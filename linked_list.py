@@ -15,19 +15,34 @@ class Node(object):
 class LinkedList(object):
     """Class for a singly-linked list."""
     def __init__(self, iterable=()):
-        self.header = None
+        self._current = None
+        self.head = None
         self.length = 0
         for val in reversed(iterable):
             self.insert(val)
 
     def __repr__(self):
         """Print representation of LinkedList."""
-        node = self.header
+        node = self.head
         output = ""
-        while node is not None:
+        for node in self:
             output += "{!r}, ".format(node.val)
-            node = node.next
         return "({})".format(output.rstrip(' ,'))
+
+    def __len__(self):
+        return self.length
+
+    def __iter__(self):
+        if self.head is not None:
+            self._current = self.head
+        return self
+
+    def next(self):
+        if self._current is None:
+            raise StopIteration
+        node = self._current
+        self._current = self._current.next
+        return node
 
     def insert(self, val):
         """Insert value at head of LinkedList.
@@ -35,79 +50,49 @@ class LinkedList(object):
         args:
             val: the value to add
         """
-        self.header = Node(val, self.header)
+        self.head = Node(val, self.head)
         self.length += 1
         return None
 
     def pop(self):
         """Pop the first val off the head and return it."""
-        if self.header is None:
+        if self.head is None:
             raise IndexError
         else:
-            to_return = self.header
-            self.header = to_return.next
+            to_return = self.head
+            self.head = to_return.next
             self.length -= 1
             return to_return.val
 
     def size(self):
         """Return current length of LinkedList."""
-        return self.length
+        return len(self)
 
-    def search(self, val):
+    def search(self, search_val):
         """Return the node containing val if present, else None.
 
         args:
-            val: the value to add
-        """
-        node, _ = self._find(val)
-        return node
+            search_val: the value to search by
 
-    def remove(self, node):
+        returns: a node object or None
+        """
+        for node in self:
+            if node.val == search_val:
+                return node
+        else:
+            return None
+
+    def remove(self, search_node):
         """Remove given node from list, return None.
 
         args:
-            node: the node to be removed
+            search_node: the node to be removed
         """
-        node_to_remove, left_neighbor = self._find(node.val, node)
-
-        if self.header == node_to_remove:
-            self.pop()
-
-        else:
-            left_neighbor.next = node_to_remove.next
-
-        return None
-
-    def display(self):
-        """Print LinkedList as Tuple literal"""
-        return self.__repr__()
-
-    def _find(self, val, node=None):
-        """
-        Return a node and previous by matching against value or node.
-
-        args:
-            val: the value to find
-            node: optionally, node to match identity against
-        """
-        matched = False
-        node_inspected = self.header
-        left_node = None
-
-        while not matched:
-            #  Interrogate each Node
-            if node_inspected.val == val:
-                if node is not None:
-                    if node_inspected is node:
-                        matched = True
-                        break
-                else:
-                    matched = True
-                    break
-            #  Keeping track of node to left; incrementing node
-            elif node_inspected.next is not None:
-                left_node, node_inspected = node_inspected, node_inspected.next
-            else:
+        for node in self:
+            if node.next == search_node:
+                node.next = node.next.next
                 return None
 
-        return node_inspected, left_node
+    def display(self):
+        """Shows representation of LinkedList."""
+        return repr(self)
