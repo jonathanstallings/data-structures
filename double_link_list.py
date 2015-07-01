@@ -65,19 +65,26 @@ class DoubleLinkList(object):
             return None
 
     def remove(self, search_val):
-        """Remove given node from list, return None.
+        """Remove the first node from list matching the search value.
 
         args:
-            search_node: the node to be removed
+            search_val: the val to be removed
         """
         search_node = self.search(search_val)
+
         if search_node == self.head:
             self.head = search_node.next
-            self.head.prev = None
+            try:
+                self.head.prev = None
+            except AttributeError:
+                pass
             self.length -= 1
         elif search_node == self.tail:
             self.tail = search_node.prev
-            self.tail.next = None
+            try:
+                self.tail.next = None
+            except AttributeError:
+                pass
             self.length -= 1
         else:
             for node in self:
@@ -86,9 +93,7 @@ class DoubleLinkList(object):
                     node.next.prev = node.prev
                     self.length -= 1
                     return None
-            if True:
-                # search value doesn't exist in DoubleLinkList
-                raise ValueError
+            raise ValueError('value not in list')
 
     def insert(self, val):
         """Insert value at head of list.
@@ -123,7 +128,7 @@ class DoubleLinkList(object):
     def pop(self):
         """Pop the first val off the head and return it."""
         if self.head is None:
-            raise IndexError
+            raise IndexError('pop from empty list')
         else:
             to_return = self.head
             self.head = to_return.next
@@ -137,7 +142,7 @@ class DoubleLinkList(object):
     def shift(self):
         """Remove the last value from the tail and return."""
         if self.tail is None:
-            raise IndexError
+            raise IndexError('pop from empty list')
         else:
             to_return = self.tail
             self.tail = to_return.prev
