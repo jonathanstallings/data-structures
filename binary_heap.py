@@ -17,10 +17,14 @@ class BinaryHeap(object):
     def pop(self):
         """Pop the head from the heap and return."""
         if len(self) == 1:
-            return self.tree.pop()
+            to_return = self.tree.pop()
+            self.bubbledown()
+            return to_return
         else:
             self.swap_values(self.tree[0], self.tree[1])
-            return self.tree.pop()  # Should naturally raise error on empty
+            to_return = self.tree.pop()  # Should raise error on empty
+            self.bubbledown()
+            return to_return
 
     def push(self, value):
         """Push a value onto a stack.
