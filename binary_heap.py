@@ -3,33 +3,36 @@ from __future__ import unicode_literals
 
 class BinaryHeap(object):
     """A class for a binary heap."""
-    def __init__(self, arg):
-        pass
+    def __init__(self, iterable=()):
+        self.tree = []
+        for val in iterable:
+            self.push(val)
 
-    def __repr__():
-        pass
+    def __repr__(self):
+        repr(self.tree)
 
-    def pop():
+    def pop(self):
         """Pop the head from the heap and return."""
         pass
 
-    def push(value):
+    def push(self, value):
         """Push a value onto a stack.
 
         args:
             value: the value to add
         """
-        pass
+        self.tree.append(value)  # Add protecion for different types case
+        self.bubbleup()
 
-    def bubbleup():
+    def bubbleup(self):
         """Perform a heap sort from end of tree upwards."""
         pass
 
-    def bubbledown():
+    def bubbledown(self):
         """Perform a heap sort from end of tree downwards."""
         pass
 
-    def find_parent(index):
+    def find_parent(self, index):
         """Returns the index of the parent on the tree.
 
         args:
@@ -37,9 +40,10 @@ class BinaryHeap(object):
 
         Returns: index of the parent
         """
-        pass
+        parent_index = (index - 1) // 2
+        return parent_index
 
-    def find_left_child(index):
+    def find_left_child(self, index):
         """Returns the index of the left child.
 
         args:
@@ -49,7 +53,7 @@ class BinaryHeap(object):
         """
         pass
 
-    def compare_values(child_index, parent_index, min=True):
+    def compare_values(self, child_index, parent_index, min=True):
         """Compares the values of child and parent according to heap type.
 
         For a minheap, checks if child value is greater than parent value.
@@ -64,6 +68,6 @@ class BinaryHeap(object):
         """
         pass
 
-    def swap_values(index1, index2):
+    def swap_values(self, ind1, ind2):
         """Swaps the values of the two indexed positions."""
-        pass
+        self.tree[ind1], self.tree[ind2] = (self.tree[ind2], self.tree[ind1])
