@@ -14,6 +14,9 @@ class BinaryHeap(object):
     def __len__(self):
         len(self.tree)
 
+    def __iter__():
+        pass
+
     def pop(self):
         """Pop the head from the heap and return."""
         if len(self) == 1:
@@ -39,9 +42,22 @@ class BinaryHeap(object):
         """Perform a heap sort from end of tree upwards."""
         pass
 
-    def bubbledown(self):
+    def bubbledown(self, index=0):
         """Perform a heap sort from end of tree downwards."""
-        pass
+        parent = self.tree[index]
+        left_child_index = self.find_left_child(parent)
+        right_child_index = left_child_index + 1
+        try:
+            left_child = self.tree[left_child_index]
+        except IndexError:
+            return
+        try:
+            right_child = self.tree[right_child_index]
+        except IndexError:
+            pass
+        if self.compare_values(parent_value=parent, child_value=left_child):
+            self.swap_values(parent, left_child)
+            self.bubbledown(index=left_child_index)
 
     def find_parent(self, index):
         """Returns the index of the parent on the tree.
@@ -65,7 +81,7 @@ class BinaryHeap(object):
         left_child_index = (index * 2) + 1
         return left_child_index
 
-    def compare_values(self, child_index, parent_index, minheap=True):
+    def compare_values(self, parent_value=None, child_value=None, minheap=True):
         """Compares the values of child and parent according to heap type.
 
         For a minheap, checks if child value is greater than parent value.
@@ -78,8 +94,6 @@ class BinaryHeap(object):
 
         Returns: True if heap type comparison matches
         """
-        child_value = self.tree[child_index].val
-        parent_value = self.tree[parent_index].val
         if minheap is True:
             return child_value > parent_value
         else:
