@@ -11,9 +11,16 @@ class BinaryHeap(object):
     def __repr__(self):
         repr(self.tree)
 
+    def __len__(self):
+        len(self.tree)
+
     def pop(self):
         """Pop the head from the heap and return."""
-        pass
+        if len(self) == 1:
+            return self.tree.pop()
+        else:
+            self.swap_values(self.tree[0], self.tree[1])
+            return self.tree.pop()  # Should naturally raise error on empty
 
     def push(self, value):
         """Push a value onto a stack.
