@@ -49,14 +49,18 @@ class BinaryHeap(object):
         """
         pass
 
-    def compare_values(child_index, parent_index, max=True):
-        """Compares the values of child and parent.
+    def compare_values(child_index, parent_index, min=True):
+        """Compares the values of child and parent according to heap type.
+
+        For a minheap, checks if child value is greater than parent value.
+        For a maxheap, checks if child value is less than parent value.
 
         args:
             child_index: the index of the child
             parent_index: the index of the parent
-            max: heap type, defaults to True
-        Returns: True child value is *greater* than parent value  # True means pair must swap
+            min: heap type comparison, defaults to minheap
+
+        Returns: True if heap type comparison matches
         """
         pass
 
