@@ -51,9 +51,10 @@ class BinaryHeap(object):
 
         Returns: index of the left child
         """
-        pass
+        left_child_index = (index * 2) + 1
+        return left_child_index
 
-    def compare_values(self, child_index, parent_index, min=True):
+    def compare_values(self, child_index, parent_index, minheap=True):
         """Compares the values of child and parent according to heap type.
 
         For a minheap, checks if child value is greater than parent value.
@@ -66,7 +67,12 @@ class BinaryHeap(object):
 
         Returns: True if heap type comparison matches
         """
-        pass
+        child_value = self.tree[child_index].val
+        parent_value = self.tree[parent_index].val
+        if minheap is True:
+            return child_value > parent_value
+        else:
+            return child_value < parent_value
 
     def swap_values(self, ind1, ind2):
         """Swaps the values of the two indexed positions."""
