@@ -72,7 +72,7 @@ def test_push4():
     assert heap_under_test.pop() == 1
 
 
-def test_push4():
+def test_push5():
     """ First push three items from list of [9, 5, 2, 1, 0, 7]; current
         test for min heap """
     heap_under_test = binary_heap()
@@ -84,7 +84,7 @@ def test_push4():
     assert heap_under_test.pop() == 0
 
 
-def test_push5():
+def test_push6():
     """ First push three items from list of [9, 5, 2, 1, 0, 7]; current
         test for min heap """
     heap_under_test = binary_heap()
