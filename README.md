@@ -19,4 +19,11 @@ Available methods include:
 * push(value)
 * pop()
 
+##Dequeque
+The Dequeue data class is a first-in-last-out data structure built via encapsulation of a LinkedList.
+Available methods inlude:
+* enqueque(value)
+* dequeque()
+* len()
+
 See the doc strings for implementation details.
