@@ -86,6 +86,9 @@ class DoubleLinkList(object):
                     node.next.prev = node.prev
                     self.length -= 1
                     return None
+            if True:
+                # search value doesn't exist in DoubleLinkList
+                raise ValueError
 
     def insert(self, val):
         """Insert value at head of list.
