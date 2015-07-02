@@ -94,7 +94,7 @@ def test_push6():
     heap_under_test.push(1)
     heap_under_test.push(0)
     heap_under_test.push(7)
-    assert heap_under_test.pop() == 7
+    assert heap_under_test.pop() == 0
 
 
 def test_pop1():
