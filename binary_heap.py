@@ -6,7 +6,6 @@ class BinaryHeap(object):
     def __init__(self, iterable=()):
         self.tree = []
         for val in iterable:
-            import pdb; pdb.set_trace()
             self.push(val)
 
     def __repr__(self):
@@ -24,7 +23,7 @@ class BinaryHeap(object):
             to_return = self.tree.pop()
             return to_return
         else:
-            self.swap_values(0, len(self.tree) - 1) # Swap values at end of tree with start
+            self.swap_values(0, len(self.tree)-1) # Swap values at end of tree with start
             to_return = self.tree.pop()  # Should raise error on empty
             self.bubbledown()
             return to_return
@@ -39,66 +38,64 @@ class BinaryHeap(object):
         if len(self.tree) > 1:
             self.bubbleup(len(self.tree)-1)
 
-    def bubbleup(self, index):
+    def bubbleup(self, pos):
         """Perform a heap sort from end of tree upwards."""
-        parent_index = self.find_parent(index)
-        try:
-            parent_value = self.tree[parent_index]
-        except IndexError:
+        parent = self.find_parent(pos)
+        if pos == 0:  #  find_parent will return -1 at end of list
             return
-        child = self.tree[index]
-        if child < parent_value:
-            self.swap_values(parent_index, index)
-            self.bubbleup(parent_index)
+        elif self.tree[pos] < self.tree[parent]:
+            self.tree[pos], self.tree[parent] = self.tree[parent], self.tree[pos]
+            self.bubbleup(parent)
 
-    def bubbledown(self, index=0):
+
+    def bubbledown(self, pos=0):
         """Perform a heap sort from end of tree downwards."""
-        parent_value = self.tree[index]
-        left_child_index = self.find_left_child(index)
-        right_child_index = left_child_index + 1
+        parent_value = self.tree[pos]
+        lchild = self.find_lchild(pos)
+        rchild = lchild + 1
         try:
-            left_child = self.tree[left_child_index]
+            left_child = self.tree[lchild]
             try:
-                right_child = self.tree[right_child_index]
+                right_child = self.tree[rchild]
             except IndexError: #  Case of left_child only
                 if left_child < parent_value:
-                    self.swap_values(index, left_child_index)
-                    self.bubbledown(index=left_child_index)
+                    self.swap_values(pos, lchild)
+                    self.bubbledown(pos=lchild)
             else:  #  Case of left_child and right_child
                 if left_child < right_child:
                     target_child = left_child
-                    target_child_index = left_child_index
+                    target_child_pos = lchild
                 else:
                     target_child = right_child
-                    target_child_index = right_child_index
+                    target_child_pos = rchild
                 if target_child < parent_value:
-                    self.swap_values(index, target_child_index)
-                    self.bubbledown(index=target_child_index)
+                    self.swap_values(pos, target_child_pos)
+                    self.bubbledown(pos=target_child_pos)
 
         except IndexError:
             return
 
-    def find_parent(self, index):
-        """Returns the index of the parent on the tree.
+    def find_parent(self, pos):
+        """Returns the pos of the parent on the tree.
 
         args:
-            index: the index to inspect from
+            pos: the pos to inspect from
 
-        Returns: index of the parent
+        Returns: pos of the parent
         """
-        parent_index = (index - 1) // 2
-        return parent_index
+        parent = (pos - 1) // 2
+        return parent
 
-    def find_left_child(self, index):
-        """Returns the index of the left child.
+    def find_lchild(self, pos):
+        """Returns the pos of the left child.
 
         args:
-            index: the index to inspect from
+            pos: the pos to inspect from
 
-        Returns: index of the left child
+        Returns: pos of the left child
         """
-        left_child_index = (index * 2) + 1
-        return left_child_index
+        lchild = (pos * 2) + 1
+        return lchild
 
 
     def compare_values(self, parent_value=None, child_value=None, minheap=True):
@@ -108,8 +105,8 @@ class BinaryHeap(object):
         For a maxheap, checks if child value is less than parent value.
 
         args:
-            child_index: the index of the child
-            parent_index: the index of the parent
+            child_pos: the pos of the child
+            parent: the pos of the parent
             min: heap type comparison, defaults to minheap
 
         Returns: True if heap type comparison matches
@@ -118,7 +115,3 @@ class BinaryHeap(object):
             return child_value > parent_value
         else:
             return child_value < parent_value
-
-    def swap_values(self, ind1, ind2):
-        """Swaps the values of the two indexed positions."""
-        self.tree[ind1], self.tree[ind2] = (self.tree[ind2], self.tree[ind1])
