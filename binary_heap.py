@@ -6,10 +6,11 @@ class BinaryHeap(object):
     def __init__(self, iterable=()):
         self.tree = []
         for val in iterable:
+            import pdb; pdb.set_trace()
             self.push(val)
 
     def __repr__(self):
-        repr(self.tree)
+        return repr(self.tree)
 
     def __len__(self):
         len(self.tree)
@@ -19,11 +20,11 @@ class BinaryHeap(object):
 
     def pop(self):
         """Pop the head from the heap and return."""
-        if len(self) == 1:
+        if len(self.tree) == 1:
             to_return = self.tree.pop()
             return to_return
         else:
-            self.swap_values(self.tree[0], self.tree[1])
+            self.swap_values(0, len(self.tree) - 1) # Swap values at end of tree with start
             to_return = self.tree.pop()  # Should raise error on empty
             self.bubbledown()
             return to_return
@@ -46,31 +47,34 @@ class BinaryHeap(object):
         except IndexError:
             return
         child = self.tree[index]
-        if self.compare_values(parent_value=parent_value, child_value=child):
-            self.swap_values(parent_value, child)
+        if child < parent_value:
+            self.swap_values(parent_index, index)
             self.bubbleup(parent_index)
 
     def bubbledown(self, index=0):
         """Perform a heap sort from end of tree downwards."""
-        parent = self.tree[index]
-        left_child_index = self.find_left_child(parent)
+        parent_value = self.tree[index]
+        left_child_index = self.find_left_child(index)
         right_child_index = left_child_index + 1
         try:
             left_child = self.tree[left_child_index]
             try:
                 right_child = self.tree[right_child_index]
-            except IndexError:
-                if self.compare_values(parent_value=parent, child_value=left_child):
-                    self.swap_values(parent, left_child)
-            if left_child < right_child:
-                target_child = left_child
-                target_child_index = left_child_index
-            else:
-                target_child = right_child
-                target_child_index = right_child_index
-            self.compare_values(parent_value=parent, child_value=target_child)
-            self.swap_values(parent, target_child)
-            self.bubbledown(index=target_child_index)
+            except IndexError: #  Case of left_child only
+                if left_child < parent_value:
+                    self.swap_values(index, left_child_index)
+                    self.bubbledown(index=left_child_index)
+            else:  #  Case of left_child and right_child
+                if left_child < right_child:
+                    target_child = left_child
+                    target_child_index = left_child_index
+                else:
+                    target_child = right_child
+                    target_child_index = right_child_index
+                if target_child < parent_value:
+                    self.swap_values(index, target_child_index)
+                    self.bubbledown(index=target_child_index)
+
         except IndexError:
             return
 
@@ -95,6 +99,7 @@ class BinaryHeap(object):
         """
         left_child_index = (index * 2) + 1
         return left_child_index
+
 
     def compare_values(self, parent_value=None, child_value=None, minheap=True):
         """Compares the values of child and parent according to heap type.
