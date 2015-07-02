@@ -55,9 +55,9 @@ class BinaryHeap(object):
             lval = self.tree[lchild]
             try:
                 rval = self.tree[rchild]
-            except IndexError: #  Case of left_child only
+            except IndexError:  #  Case of left_child only
                 if lval < self.tree[pos]:
-                    lval, self.tree[pos] = self.tree[pos], lval
+                    self.tree[lchild], self.tree[pos] = self.tree[pos], self.tree[lchild]
             else:  #  Case of left_child and right_child
                 if lval < rval:
                     target = lchild
@@ -67,7 +67,7 @@ class BinaryHeap(object):
                     self.tree[target], self.tree[pos] = self.tree[pos], self.tree[target]
                     self.bubbledown(target)
 
-        except IndexError: # Case of no lchild 
+        except IndexError: # Case of no lchild
             return
 
     def find_parent(self, pos):
