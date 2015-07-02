@@ -21,7 +21,6 @@ class BinaryHeap(object):
         """Pop the head from the heap and return."""
         if len(self) == 1:
             to_return = self.tree.pop()
-            self.bubbledown()
             return to_return
         else:
             self.swap_values(self.tree[0], self.tree[1])
@@ -36,11 +35,20 @@ class BinaryHeap(object):
             value: the value to add
         """
         self.tree.append(value)  # Add protecion for different types case
-        self.bubbleup()
+        if len(self.tree) > 1:
+            self.bubbleup(len(self.tree)-1)
 
-    def bubbleup(self):
+    def bubbleup(self, index):
         """Perform a heap sort from end of tree upwards."""
-        pass
+        parent_index = self.find_parent(index)
+        try:
+            parent_value = self.tree[parent_index]
+        except IndexError:
+            return
+        child = self.tree[index]
+        if self.compare_values(parent_value=parent_value, child_value=child):
+            self.swap_values(parent_value, child)
+            self.bubbleup(parent_index)
 
     def bubbledown(self, index=0):
         """Perform a heap sort from end of tree downwards."""
