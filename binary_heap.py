@@ -21,12 +21,11 @@ class BinaryHeap(object):
         """Pop the head from the heap and return."""
         if len(self.tree) == 1:
             to_return = self.tree.pop()
-            return to_return
         else:
-            self.swap_values(0, len(self.tree)-1) # Swap values at end of tree with start
+            self.tree[0], self.tree[len(self.tree) - 1] = self.tree[len(self.tree) - 1], self.tree[0]
             to_return = self.tree.pop()  # Should raise error on empty
-            self.bubbledown()
-            return to_return
+            self.bubbledown(0)
+        return to_return
 
     def push(self, value):
         """Push a value onto a stack.
@@ -48,31 +47,27 @@ class BinaryHeap(object):
             self.bubbleup(parent)
 
 
-    def bubbledown(self, pos=0):
+    def bubbledown(self, pos):
         """Perform a heap sort from end of tree downwards."""
-        parent_value = self.tree[pos]
         lchild = self.find_lchild(pos)
         rchild = lchild + 1
-        try:
-            left_child = self.tree[lchild]
+        try: # Evaluating whether lchild exists; may refactor
+            lval = self.tree[lchild]
             try:
-                right_child = self.tree[rchild]
+                rval = self.tree[rchild]
             except IndexError: #  Case of left_child only
-                if left_child < parent_value:
-                    self.swap_values(pos, lchild)
-                    self.bubbledown(pos=lchild)
+                if lval < self.tree[pos]:
+                    lval, self.tree[pos] = self.tree[pos], lval
             else:  #  Case of left_child and right_child
-                if left_child < right_child:
-                    target_child = left_child
-                    target_child_pos = lchild
+                if lval < rval:
+                    target = lchild
                 else:
-                    target_child = right_child
-                    target_child_pos = rchild
-                if target_child < parent_value:
-                    self.swap_values(pos, target_child_pos)
-                    self.bubbledown(pos=target_child_pos)
+                    target = rchild
+                if self.tree[target] < self.tree[pos]:
+                    self.tree[target], self.tree[pos] = self.tree[pos], self.tree[target]
+                    self.bubbledown(target)
 
-        except IndexError:
+        except IndexError: # Case of no lchild 
             return
 
     def find_parent(self, pos):
