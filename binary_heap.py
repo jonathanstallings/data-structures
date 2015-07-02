@@ -49,15 +49,22 @@ class BinaryHeap(object):
         right_child_index = left_child_index + 1
         try:
             left_child = self.tree[left_child_index]
+            try:
+                right_child = self.tree[right_child_index]
+            except IndexError:
+                if self.compare_values(parent_value=parent, child_value=left_child):
+                    self.swap_values(parent, left_child)
+            if left_child < right_child:
+                target_child = left_child
+                target_child_index = left_child_index
+            else:
+                target_child = right_child
+                target_child_index = right_child_index
+            self.compare_values(parent_value=parent, child_value=target_child)
+            self.swap_values(parent, target_child)
+            self.bubbledown(index=target_child_index)
         except IndexError:
             return
-        try:
-            right_child = self.tree[right_child_index]
-        except IndexError:
-            pass
-        if self.compare_values(parent_value=parent, child_value=left_child):
-            self.swap_values(parent, left_child)
-            self.bubbledown(index=left_child_index)
 
     def find_parent(self, index):
         """Returns the index of the parent on the tree.
