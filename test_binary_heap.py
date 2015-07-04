@@ -56,17 +56,17 @@ def maxheap_sorted(heap):
 
 
 @pytest.fixture()
-def empty_heap():
+def minheap_empty():
     return BinaryHeap()
 
 
 @pytest.fixture()
-def full_minheap():
+def minheap_full():
     return BinaryHeap([6, 7, 9, 4, 2, 1, 56, 8, 0, 43523])
 
 
 @pytest.fixture()
-def full_maxheap():
+def maxheap_():
     return BinaryHeap([6, 7, 9, 4, 2, 1, 56, 8, 0, 43523], minheap=False)
 
 
@@ -93,88 +93,86 @@ def test_invalid_instantiation(bad_input):
         BinaryHeap(bad_input)
 
 
-def test_push1():
+def test_push1(minheap_empty):
     """  First push single item from list of [9, 5, 2, 1, 0, 7] """
-    heap_under_test = BinaryHeap()
-    heap_under_test.push(9)
-    assert heap_under_test.pop() == 9
+    minheap_empty.push(9)
+    assert minheap_empty.pop() == 9
 
 
-def test_push2():
+def test_push2(minheap_empty):
     """ First push two items from list of [9, 5, 2, 1, 0, 7]; current
         test for min heap """
-    heap_under_test = BinaryHeap()
-    heap_under_test.push(5)
-    heap_under_test.push(9)
-    assert heap_under_test.pop() == 5
+    minheap_empty.push(5)
+    minheap_empty.push(9)
+    assert minheap_empty.pop() == 5
 
 
-def test_push3():
+def test_push3(minheap_empty):
     """ First push three items from list of [9, 5, 2, 1, 0, 7]; current
         test for min heap """
-    heap_under_test = BinaryHeap()
-    heap_under_test.push(5)
-    heap_under_test.push(9)
-    heap_under_test.push(2)
-    assert heap_under_test.pop() == 2
+    minheap_empty.push(5)
+    minheap_empty.push(9)
+    minheap_empty.push(2)
+    assert minheap_empty.pop() == 2
 
 
-def test_push4():
+def test_push4(minheap_empty):
     """ First push three items from list of [9, 5, 2, 1, 0, 7]; current
         test for min heap """
-    heap_under_test = BinaryHeap()
-    heap_under_test.push(5)
-    heap_under_test.push(9)
-    heap_under_test.push(2)
-    heap_under_test.push(1)
-    assert heap_under_test.pop() == 1
+    minheap_empty.push(5)
+    minheap_empty.push(9)
+    minheap_empty.push(2)
+    minheap_empty.push(1)
+    assert minheap_empty.pop() == 1
 
 
-def test_push5():
+def test_push5(minheap_empty):
     """ First push three items from list of [9, 5, 2, 1, 0, 7]; current
         test for min heap """
-    heap_under_test = BinaryHeap()
-    heap_under_test.push(5)
-    heap_under_test.push(9)
-    heap_under_test.push(2)
-    heap_under_test.push(1)
-    heap_under_test.push(0)
-    assert heap_under_test.pop() == 0
+    minheap_empty.push(5)
+    minheap_empty.push(9)
+    minheap_empty.push(2)
+    minheap_empty.push(1)
+    minheap_empty.push(0)
+    assert minheap_empty.pop() == 0
 
 
-def test_push6():
+def test_push6(minheap_empty):
     """ First push three items from list of [9, 5, 2, 1, 0, 7]; current
         test for min heap """
-    heap_under_test = BinaryHeap()
-    heap_under_test.push(5)
-    heap_under_test.push(9)
-    heap_under_test.push(2)
-    heap_under_test.push(1)
-    heap_under_test.push(0)
-    heap_under_test.push(7)
-    assert heap_under_test.pop() == 0
+    minheap_empty.push(5)
+    minheap_empty.push(9)
+    minheap_empty.push(2)
+    minheap_empty.push(1)
+    minheap_empty.push(0)
+    minheap_empty.push(7)
+    assert minheap_empty.pop() == 0
 
 
-def test_pop1():
-    #  Will pass argumnents, instantiate, heap, check for expected pop
-    pass
+def test_find_parent():
+    minheap = BinaryHeap([0, 1, 2, 3, 4, 5, 6])
+    assert minheap._find_parent(2) == 0
+    assert minheap._find_parent(6) == 2
 
 
-def test_pop2():
-    # Pop off of an emptied heap
-    pass
+def test_find_children():
+    minheap = BinaryHeap([0, 1, 2, 3, 4, 5, 6])
+    assert minheap._find_children(0) == (1, 2)
+    assert minheap._find_children(2) == (5, 6)
 
 
-def test_pop3():
-    pass
+def test_is_unsorted_minheap_comparison():
+    minheap = BinaryHeap(minheap=True)
+    assert minheap._is_unsorted(1, 2)
 
 
-def test_pop4():
-    pass
+def test_is_unsorted_maxheap_comparison():
+    minheap = BinaryHeap(minheap=False)
+    assert minheap._is_unsorted(2, 1)
 
-def test_push():
-    #  Create range of numbers
-    #  Shuffle that range
-    #  Push each in a for loop
-    #  Check that pop
-    pass
+
+def test_swap():
+    minheap = BinaryHeap([0, 1, 2, 3, 4, 5, 6])
+    minheap._swap(0, 6)
+    assert minheap.tree[0] == 6
+    assert minheap.tree[6] == 0
