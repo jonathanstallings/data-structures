@@ -19,11 +19,11 @@ class BinaryHeap(object):
 
     def pop(self):
         """Pop the head from the heap and return."""
-        if len(self.tree) == 1:
+        if len(self.tree) <= 1:
             to_return = self.tree.pop()
         else:
             self.tree[0], self.tree[len(self.tree) - 1] = self.tree[len(self.tree) - 1], self.tree[0]
-            to_return = self.tree.pop()  # Should raise error on empty
+            to_return = self.tree.pop()
             self._bubbledown(0)
         return to_return
 
