@@ -182,3 +182,35 @@ def test_push6(minheap_empty):
     minheap_empty.push(0)
     minheap_empty.push(7)
     assert minheap_empty.pop() == 0
+
+
+def test_pop_minheap():
+    minheap = BinaryHeap([7, 9, 18, 1, 38, 5.4, 6])
+    minheap.push(0)
+    length = len(minheap)
+    assert minheap.pop() == 0
+    assert len(minheap) == length - 1
+
+
+def test_multipop_minheap():
+    minheap = BinaryHeap([7, 9, 18, 1, 38, 5.4, 6])
+    length = len(minheap)
+    minheap.pop()
+    minheap.pop()
+    minheap.push(0)
+    minheap.pop()
+    minheap.pop()
+    assert minheap.pop() == 7
+    assert len(minheap) == length - 4
+
+
+def test_multipop_maxheap():
+    maxheap = BinaryHeap([7, 9, 18, 1, 38, 5.4, 6], minheap=False)
+    length = len(maxheap)
+    maxheap.pop()
+    maxheap.pop()
+    maxheap.push(400)
+    maxheap.pop()
+    maxheap.pop()
+    assert maxheap.pop() == 7
+    assert len(maxheap) == length - 4
