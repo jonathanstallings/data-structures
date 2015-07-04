@@ -24,6 +24,9 @@ class BinaryHeap(object):
     def __iter__(self):
         return iter(self.tree)
 
+    def __getitem__(self, item):
+        return self.tree[item]
+
     def pop(self):
         """Pop the head from the heap and return."""
         if len(self.tree) <= 1:
