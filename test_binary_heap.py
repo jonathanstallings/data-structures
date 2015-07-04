@@ -27,7 +27,7 @@ invalid_constructors = [
     ]
 
 
-def minheap_sorted(heap):
+def is_minheap_sorted(heap):
     """Confirm that heap is minheap sorted.
 
     Original idea from:
@@ -43,7 +43,7 @@ def minheap_sorted(heap):
             return True
 
 
-def maxheap_sorted(heap):
+def is_maxheap_sorted(heap):
     """Confirm that heap is maxheap sorted."""
     for i in range(len(heap)):
         try:
@@ -60,21 +60,56 @@ def minheap_empty():
     return BinaryHeap()
 
 
-@pytest.fixture()
-def minheap_full():
-    return BinaryHeap([6, 7, 9, 4, 2, 1, 56, 8, 0, 43523])
+def test_find_parent():
+    minheap = BinaryHeap([0, 1, 2, 3, 4, 5, 6])
+    assert minheap._find_parent(2) == 0
+    assert minheap._find_parent(6) == 2
 
 
-@pytest.fixture()
-def maxheap_():
-    return BinaryHeap([6, 7, 9, 4, 2, 1, 56, 8, 0, 43523], minheap=False)
+def test_find_children():
+    minheap = BinaryHeap([0, 1, 2, 3, 4, 5, 6])
+    assert minheap._find_children(0) == (1, 2)
+    assert minheap._find_children(2) == (5, 6)
+
+
+def test_is_unsorted_minheap_comparison():
+    minheap = BinaryHeap(minheap=True)
+    assert minheap._is_unsorted(1, 2)
+
+
+def test_is_unsorted_maxheap_comparison():
+    minheap = BinaryHeap(minheap=False)
+    assert minheap._is_unsorted(2, 1)
+
+
+def test_swap():
+    minheap = BinaryHeap([0, 1, 2, 3, 4, 5, 6])
+    minheap._swap(0, 6)
+    assert minheap.tree[0] == 6
+    assert minheap.tree[6] == 0
+
+
+def test_bubbledown_minheap():
+    minheap = BinaryHeap([0, 1, 2, 3, 4, 5, 6])
+    minheap[0] = 4000
+    minheap._bubbledown(0)
+    assert minheap[0] == 1
+    assert is_minheap_sorted(minheap)
+
+
+def test_bubbledown_maxheap():
+    maxheap = BinaryHeap([6, 5, 4, 3, 2, 1, 0], minheap=False)
+    maxheap[6] = 4000
+    maxheap._bubbleup(6)
+    assert maxheap[0] == 4000
+    assert is_maxheap_sorted(maxheap)
 
 
 @pytest.mark.parametrize("input, output", valid_constructor_args)
 def test_valid_instantiation_min(input, output):
     """Test instantiation by creating and doing one pop"""
     heap_under_test = BinaryHeap(input)
-    assert minheap_sorted(heap_under_test)
+    assert is_minheap_sorted(heap_under_test)
     assert heap_under_test.pop() == output
 
 
@@ -82,7 +117,7 @@ def test_valid_instantiation_min(input, output):
 def test_valid_instantiation_max(input, output):
     """Test instantiation by creating and doing one pop"""
     heap_under_test = BinaryHeap(input, minheap=False)
-    assert maxheap_sorted(heap_under_test)
+    assert is_maxheap_sorted(heap_under_test)
     assert heap_under_test.pop() == output
 
 
@@ -147,32 +182,3 @@ def test_push6(minheap_empty):
     minheap_empty.push(0)
     minheap_empty.push(7)
     assert minheap_empty.pop() == 0
-
-
-def test_find_parent():
-    minheap = BinaryHeap([0, 1, 2, 3, 4, 5, 6])
-    assert minheap._find_parent(2) == 0
-    assert minheap._find_parent(6) == 2
-
-
-def test_find_children():
-    minheap = BinaryHeap([0, 1, 2, 3, 4, 5, 6])
-    assert minheap._find_children(0) == (1, 2)
-    assert minheap._find_children(2) == (5, 6)
-
-
-def test_is_unsorted_minheap_comparison():
-    minheap = BinaryHeap(minheap=True)
-    assert minheap._is_unsorted(1, 2)
-
-
-def test_is_unsorted_maxheap_comparison():
-    minheap = BinaryHeap(minheap=False)
-    assert minheap._is_unsorted(2, 1)
-
-
-def test_swap():
-    minheap = BinaryHeap([0, 1, 2, 3, 4, 5, 6])
-    minheap._swap(0, 6)
-    assert minheap.tree[0] == 6
-    assert minheap.tree[6] == 0
