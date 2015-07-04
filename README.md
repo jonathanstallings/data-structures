@@ -30,7 +30,7 @@ Available methods inlude:
 The Binary Heap data class is a binary tree data structure built implemented on a built-in Python
 list. The binary heap default to a minheap sort, meaning that the smallest values will be sorted to
 the top of the heap. Alternatively, the binary heap can be instantiated as a maxheap so that the
-greates values will be sorted to the top.
+greatest values will be sorted to the top.
 
 Available methods include:
 * pop()
