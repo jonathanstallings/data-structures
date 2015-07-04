@@ -24,7 +24,7 @@ class BinaryHeap(object):
         else:
             self.tree[0], self.tree[len(self.tree) - 1] = self.tree[len(self.tree) - 1], self.tree[0]
             to_return = self.tree.pop()  # Should raise error on empty
-            self.bubbledown(0)
+            self._bubbledown(0)
         return to_return
 
     def push(self, value):
@@ -35,42 +35,41 @@ class BinaryHeap(object):
         """
         self.tree.append(value)  # Add protecion for different types case
         if len(self.tree) > 1:
-            self.bubbleup(len(self.tree)-1)
+            self._bubbleup(len(self.tree)-1)
 
-    def bubbleup(self, pos):
+    def _bubbleup(self, pos):
         """Perform a heap sort from end of tree upwards."""
-        parent = self.find_parent(pos)
-        if pos == 0:  #  find_parent will return -1 at end of list
+        parent = self._find_parent(pos)
+        if pos == 0:  # find_parent will return -1 at end of list
             return
         elif self.tree[pos] < self.tree[parent]:
             self.tree[pos], self.tree[parent] = self.tree[parent], self.tree[pos]
-            self.bubbleup(parent)
+            self._bubbleup(parent)
 
-
-    def bubbledown(self, pos):
+    def _bubbledown(self, pos):
         """Perform a heap sort from end of tree downwards."""
-        lchild = self.find_lchild(pos)
+        lchild = self._find_lchild(pos)
         rchild = lchild + 1
-        try: # Evaluating whether lchild exists; may refactor
+        try:  # Evaluating whether lchild exists; may refactor
             lval = self.tree[lchild]
             try:
                 rval = self.tree[rchild]
-            except IndexError:  #  Case of left_child only
+            except IndexError:  # Case of left_child only
                 if lval < self.tree[pos]:
                     self.tree[lchild], self.tree[pos] = self.tree[pos], self.tree[lchild]
-            else:  #  Case of left_child and right_child
+            else:  # Case of left_child and right_child
                 if lval < rval:
                     target = lchild
                 else:
                     target = rchild
                 if self.tree[target] < self.tree[pos]:
                     self.tree[target], self.tree[pos] = self.tree[pos], self.tree[target]
-                    self.bubbledown(target)
+                    self._bubbledown(target)
 
-        except IndexError: # Case of no lchild
+        except IndexError:  # Case of no lchild
             return
 
-    def find_parent(self, pos):
+    def _find_parent(self, pos):
         """Returns the pos of the parent on the tree.
 
         args:
@@ -81,7 +80,7 @@ class BinaryHeap(object):
         parent = (pos - 1) // 2
         return parent
 
-    def find_lchild(self, pos):
+    def _find_lchild(self, pos):
         """Returns the pos of the left child.
 
         args:
@@ -91,7 +90,6 @@ class BinaryHeap(object):
         """
         lchild = (pos * 2) + 1
         return lchild
-
 
     def compare_values(self, parent_value=None, child_value=None, minheap=True):
         """Compares the values of child and parent according to heap type.
