@@ -152,7 +152,7 @@ def test_push3(minheap_empty):
 
 
 def test_push4(minheap_empty):
-    """ First push three items from list of [9, 5, 2, 1, 0, 7]; current
+    """ First push four items from list of [9, 5, 2, 1, 0, 7]; current
         test for min heap """
     minheap_empty.push(5)
     minheap_empty.push(9)
@@ -162,7 +162,7 @@ def test_push4(minheap_empty):
 
 
 def test_push5(minheap_empty):
-    """ First push three items from list of [9, 5, 2, 1, 0, 7]; current
+    """ First push five items from list of [9, 5, 2, 1, 0, 7]; current
         test for min heap """
     minheap_empty.push(5)
     minheap_empty.push(9)
@@ -173,7 +173,7 @@ def test_push5(minheap_empty):
 
 
 def test_push6(minheap_empty):
-    """ First push three items from list of [9, 5, 2, 1, 0, 7]; current
+    """ First push six items from list of [9, 5, 2, 1, 0, 7]; current
         test for min heap """
     minheap_empty.push(5)
     minheap_empty.push(9)
