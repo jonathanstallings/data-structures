@@ -12,7 +12,7 @@ class BinaryHeap(object):
         return repr(self.tree)
 
     def __len__(self):
-        len(self.tree)
+        return len(self.tree)
 
     def __iter__(self):
         return iter(self.tree)
