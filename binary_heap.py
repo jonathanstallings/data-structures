@@ -3,8 +3,9 @@ from __future__ import unicode_literals
 
 class BinaryHeap(object):
     """A class for a binary heap."""
-    def __init__(self, iterable=()):
+    def __init__(self, iterable=(), heaptype='minheap'):
         self.tree = []
+        self.heaptype = heaptype
         for val in iterable:
             self.push(val)
 
@@ -56,8 +57,7 @@ class BinaryHeap(object):
         args:
             pos: the index position to inspect
         """
-        lchild = self._find_lchild(pos)
-        rchild = lchild + 1
+        lchild, rchild = self._find_children(pos)
         try:  # Evaluating whether lchild exists; may refactor
             lval = self.tree[lchild]
             try:
@@ -88,31 +88,42 @@ class BinaryHeap(object):
         parent = (pos - 1) // 2
         return parent
 
-    def _find_lchild(self, pos):
-        """Returns the left child index of given position.
+    def _find_children(self, pos):
+        """Returns the indexes of children from given position.
 
         args:
             pos: the index position to inspect
 
-        Returns: index of the left child
+        Returns: index of left child and right child
         """
         lchild = (pos * 2) + 1
-        return lchild
+        rchild = lchild + 1
+        return lchild, rchild
 
-    def compare_values(self, parent_value=None, child_value=None, minheap=True):
-        """Compares the values of child and parent according to heap type.
+    def _is_unsorted(self, val1, val2):
+        """Compare two values according to heaptype.
 
-        For a minheap, checks if child value is greater than parent value.
-        For a maxheap, checks if child value is less than parent value.
+        For a minheap, checks if first value is less than second value.
+        For a maxheap, checks if first value is greater than second value.
 
         args:
-            child_pos: the pos of the child
-            parent: the pos of the parent
-            min: heap type comparison, defaults to minheap
+            val1: first value
+            val2: second value
 
-        Returns: True if heap type comparison matches
+        Returns: True if heaptype comparison matches, else False
         """
-        if minheap is True:
-            return child_value > parent_value
+        if self.heaptype == 'minheap':
+            return val1 < val2
+        elif self.heaptype == 'maxheap':
+            return val1 > val2
         else:
-            return child_value < parent_value
+            raise AttributeError('heaptype not assigned')
+
+    def _swap(self, pos1, pos2):
+        """Swap the values at to index positions.
+
+        args:
+            pos1: the index of the first item
+            pos2: the index of the second item'
+        """
+        self.tree[pos1], self.tree[pos2] = self.tree[pos2], self.tree[pos1]
