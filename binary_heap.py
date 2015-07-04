@@ -32,10 +32,10 @@ class BinaryHeap(object):
 
     def pop(self):
         """Pop the head from the heap and return."""
-        if len(self.tree) <= 1:
+        if len(self) <= 1:
             to_return = self.tree.pop()
         else:
-            endpos = len(self.tree) - 1
+            endpos = len(self) - 1
             self._swap(0, endpos)
             to_return = self.tree.pop()
             self._bubbledown(0)
@@ -48,8 +48,8 @@ class BinaryHeap(object):
             value: the value to add
         """
         self.tree.append(value)  # Add protection for different types case
-        if len(self.tree) > 1:
-            endpos = len(self.tree) - 1
+        if len(self) > 1:
+            endpos = len(self) - 1
             self._bubbleup(endpos)
 
     def _bubbleup(self, pos):
@@ -61,7 +61,7 @@ class BinaryHeap(object):
         parent = self._find_parent(pos)
         if pos == 0:  # find_parent will return -1 at end of list
             return
-        elif self._is_unsorted(self.tree[pos], self.tree[parent]):
+        elif self._is_unsorted(self[pos], self[parent]):
             self._swap(pos, parent)
             self._bubbleup(parent)
 
@@ -73,18 +73,18 @@ class BinaryHeap(object):
         """
         lchild, rchild = self._find_children(pos)
         try:  # Evaluating whether lchild exists; may refactor
-            lval = self.tree[lchild]
+            lval = self[lchild]
             try:
-                rval = self.tree[rchild]
+                rval = self[rchild]
             except IndexError:  # Case of left_child only
-                if self._is_unsorted(lval, self.tree[pos]):
+                if self._is_unsorted(lval, self[pos]):
                     self._swap(lchild, pos)
             else:  # Case of left_child and right_child
                 if self._is_unsorted(lval, rval):
                     target = lchild
                 else:
                     target = rchild
-                if self._is_unsorted(self.tree[target], self.tree[pos]):
+                if self._is_unsorted(self[target], self[pos]):
                     self._swap(target, pos)
                     self._bubbledown(target)
 
@@ -140,4 +140,4 @@ class BinaryHeap(object):
             pos1: the index of the first item
             pos2: the index of the second item
         """
-        self.tree[pos1], self.tree[pos2] = self.tree[pos2], self.tree[pos1]
+        self[pos1], self[pos2] = self[pos2], self[pos1]
