@@ -28,6 +28,11 @@ invalid_constructors = [
 
 
 def minheap_sorted(heap):
+    """Confirm that heap is minheap sorted.
+
+    Original idea from:
+    https://github.com/MigrantJ/data-structures/blob/binheap/binheap/binheap.py
+    """
     for i in range(len(heap)):
         try:
             if heap[i] > heap[(2*i + 1)]:
@@ -39,6 +44,7 @@ def minheap_sorted(heap):
 
 
 def maxheap_sorted(heap):
+    """Confirm that heap is maxheap sorted."""
     for i in range(len(heap)):
         try:
             if heap[i] < heap[(2*i + 1)]:
@@ -47,6 +53,21 @@ def maxheap_sorted(heap):
                 return False
         except IndexError:
             return True
+
+
+@pytest.fixture()
+def empty_heap():
+    return BinaryHeap()
+
+
+@pytest.fixture()
+def full_minheap():
+    return BinaryHeap([6, 7, 9, 4, 2, 1, 56, 8, 0, 43523])
+
+
+@pytest.fixture()
+def full_maxheap():
+    return BinaryHeap([6, 7, 9, 4, 2, 1, 56, 8, 0, 43523], minheap=False)
 
 
 @pytest.mark.parametrize("input, output", valid_constructor_args)
