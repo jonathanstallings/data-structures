@@ -41,7 +41,7 @@ class BinaryHeap(object):
         args:
             value: the value to add
         """
-        self.tree.append(value)  # Add protecion for different types case
+        self.tree.append(value)  # Add protection for different types case
         if len(self.tree) > 1:
             endpos = len(self.tree) - 1
             self._bubbleup(endpos)
@@ -128,10 +128,10 @@ class BinaryHeap(object):
             raise AttributeError('heaptype not assigned')
 
     def _swap(self, pos1, pos2):
-        """Swap the values at to index positions.
+        """Swap the values at given index positions.
 
         args:
             pos1: the index of the first item
-            pos2: the index of the second item'
+            pos2: the index of the second item
         """
         self.tree[pos1], self.tree[pos2] = self.tree[pos2], self.tree[pos1]
