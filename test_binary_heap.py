@@ -192,8 +192,16 @@ def test_pop_minheap():
     assert len(minheap) == length - 1
 
 
+def test_pop_maxheap():
+    maxheap = BinaryHeap([7, 9, 18, 1, 38, 5.4, 6], minheap=False)
+    maxheap.push(400)
+    length = len(maxheap)
+    assert maxheap.pop() == 400
+    assert len(maxheap) == length - 1
+
+
 def test_multipop_minheap():
-    minheap = BinaryHeap([7, 9, 18, 1, 38, 5.4, 6])
+    minheap = BinaryHeap([7, 9, 18, 1, 38, 5.4, 6, 200])
     length = len(minheap)
     minheap.pop()
     minheap.pop()
@@ -205,12 +213,12 @@ def test_multipop_minheap():
 
 
 def test_multipop_maxheap():
-    maxheap = BinaryHeap([7, 9, 18, 1, 38, 5.4, 6], minheap=False)
+    maxheap = BinaryHeap([7, 9, 18, 1, 38, 5.4, 6, 200], minheap=False)
     length = len(maxheap)
     maxheap.pop()
     maxheap.pop()
     maxheap.push(400)
     maxheap.pop()
     maxheap.pop()
-    assert maxheap.pop() == 7
+    assert maxheap.pop() == 9
     assert len(maxheap) == length - 4
