@@ -7,7 +7,7 @@ class BinaryHeap(object):
         """Initializes a binary heap, optionally with items from an iterable.
 
         By default, the binary will sort as a minheap, with smallest values
-        at the head. If minheap is set to false, the binary heap with sort
+        at the head. If minheap is set to false, the binary heap will sort
         as a maxheap, with largest values at the head.
         """
         self.tree = []
