@@ -3,9 +3,15 @@ from __future__ import unicode_literals
 
 class BinaryHeap(object):
     """A class for a binary heap."""
-    def __init__(self, iterable=(), heaptype='minheap'):
+    def __init__(self, iterable=(), minheap=True):
+        """Initializes a binary heap, optionally with items from an iterable.
+
+        By default, the binary will sort as a minheap, with smallest values
+        at the head. If minheap is set to false, the binary heap with sort
+        as a maxheap, with largest values at the head.
+        """
         self.tree = []
-        self.heaptype = heaptype
+        self.minheap = minheap
         for val in iterable:
             self.push(val)
 
@@ -114,9 +120,9 @@ class BinaryHeap(object):
 
         Returns: True if heaptype comparison matches, else False
         """
-        if self.heaptype == 'minheap':
+        if self.minheap is True:
             return val1 < val2
-        elif self.heaptype == 'maxheap':
+        elif self.minheap is False:
             return val1 > val2
         else:
             raise AttributeError('heaptype not assigned')
