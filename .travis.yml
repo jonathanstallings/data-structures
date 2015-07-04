@@ -1,0 +1,11 @@
+language: python
+python:
+  - "2.7"
+## command to install dependencies
+install: "pip install -r requirements.text"
+## Script to run
+script: py.test -v
+## whitelist
+branches:
+  only:
+    - master
