@@ -3,8 +3,15 @@ from __future__ import unicode_literals
 
 class BinaryHeap(object):
     """A class for a binary heap."""
-    def __init__(self, iterable=()):
+    def __init__(self, iterable=(), minheap=True):
+        """Initializes a binary heap, optionally with items from an iterable.
+
+        By default, the binary will sort as a minheap, with smallest values
+        at the head. If minheap is set to false, the binary heap with sort
+        as a maxheap, with largest values at the head.
+        """
         self.tree = []
+        self.minheap = minheap
         for val in iterable:
             self.push(val)
 
@@ -12,19 +19,26 @@ class BinaryHeap(object):
         return repr(self.tree)
 
     def __len__(self):
-        len(self.tree)
+        return len(self.tree)
 
-    def __iter__():
-        pass
+    def __iter__(self):
+        return iter(self.tree)
+
+    def __getitem__(self, index):
+        return self.tree[index]
+
+    def __setitem__(self, index, value):
+        self.tree[index] = value
 
     def pop(self):
         """Pop the head from the heap and return."""
-        if len(self.tree) == 1:
+        if len(self) <= 1:
             to_return = self.tree.pop()
         else:
-            self.tree[0], self.tree[len(self.tree) - 1] = self.tree[len(self.tree) - 1], self.tree[0]
-            to_return = self.tree.pop()  # Should raise error on empty
-            self.bubbledown(0)
+            endpos = len(self) - 1
+            self._swap(0, endpos)
+            to_return = self.tree.pop()
+            self._bubbledown(0)
         return to_return
 
     def push(self, value):
@@ -33,80 +47,97 @@ class BinaryHeap(object):
         args:
             value: the value to add
         """
-        self.tree.append(value)  # Add protecion for different types case
-        if len(self.tree) > 1:
-            self.bubbleup(len(self.tree)-1)
+        self.tree.append(value)  # Add protection for different types case
+        if len(self) > 1:
+            endpos = len(self) - 1
+            self._bubbleup(endpos)
 
-    def bubbleup(self, pos):
-        """Perform a heap sort from end of tree upwards."""
-        parent = self.find_parent(pos)
-        if pos == 0:  #  find_parent will return -1 at end of list
+    def _bubbleup(self, pos):
+        """Perform one step of heap sort up the tree.
+
+        args:
+            pos: the index position to inspect
+        """
+        parent = self._find_parent(pos)
+        if pos == 0:  # find_parent will return -1 at end of list
             return
-        elif self.tree[pos] < self.tree[parent]:
-            self.tree[pos], self.tree[parent] = self.tree[parent], self.tree[pos]
-            self.bubbleup(parent)
+        elif self._is_unsorted(self[pos], self[parent]):
+            self._swap(pos, parent)
+            self._bubbleup(parent)
 
+    def _bubbledown(self, pos):
+        """Perform one step of heap sort down the tree.
 
-    def bubbledown(self, pos):
-        """Perform a heap sort from end of tree downwards."""
-        lchild = self.find_lchild(pos)
-        rchild = lchild + 1
-        try: # Evaluating whether lchild exists; may refactor
-            lval = self.tree[lchild]
+        args:
+            pos: the index position to inspect
+        """
+        lchild, rchild = self._find_children(pos)
+        try:  # Evaluating whether lchild exists; may refactor
+            lval = self[lchild]
             try:
-                rval = self.tree[rchild]
-            except IndexError:  #  Case of left_child only
-                if lval < self.tree[pos]:
-                    self.tree[lchild], self.tree[pos] = self.tree[pos], self.tree[lchild]
-            else:  #  Case of left_child and right_child
-                if lval < rval:
+                rval = self[rchild]
+            except IndexError:  # Case of left_child only
+                if self._is_unsorted(lval, self[pos]):
+                    self._swap(lchild, pos)
+            else:  # Case of left_child and right_child
+                if self._is_unsorted(lval, rval):
                     target = lchild
                 else:
                     target = rchild
-                if self.tree[target] < self.tree[pos]:
-                    self.tree[target], self.tree[pos] = self.tree[pos], self.tree[target]
-                    self.bubbledown(target)
+                if self._is_unsorted(self[target], self[pos]):
+                    self._swap(target, pos)
+                    self._bubbledown(target)
 
-        except IndexError: # Case of no lchild
+        except IndexError:  # Case of no lchild
             return
 
-    def find_parent(self, pos):
-        """Returns the pos of the parent on the tree.
+    def _find_parent(self, pos):
+        """Returns the parent index of given position.
 
         args:
-            pos: the pos to inspect from
+            pos: the index position to inspect
 
-        Returns: pos of the parent
+        Returns: index of the parent
         """
         parent = (pos - 1) // 2
         return parent
 
-    def find_lchild(self, pos):
-        """Returns the pos of the left child.
+    def _find_children(self, pos):
+        """Returns the indexes of children from given position.
 
         args:
-            pos: the pos to inspect from
+            pos: the index position to inspect
 
-        Returns: pos of the left child
+        Returns: index of left child and right child
         """
         lchild = (pos * 2) + 1
-        return lchild
+        rchild = lchild + 1
+        return lchild, rchild
 
+    def _is_unsorted(self, val1, val2):
+        """Compare two values according to heaptype.
 
-    def compare_values(self, parent_value=None, child_value=None, minheap=True):
-        """Compares the values of child and parent according to heap type.
-
-        For a minheap, checks if child value is greater than parent value.
-        For a maxheap, checks if child value is less than parent value.
+        For a minheap, checks if first value is less than second value.
+        For a maxheap, checks if first value is greater than second value.
 
         args:
-            child_pos: the pos of the child
-            parent: the pos of the parent
-            min: heap type comparison, defaults to minheap
+            val1: first value
+            val2: second value
 
-        Returns: True if heap type comparison matches
+        Returns: True if heaptype comparison matches, else False
         """
-        if minheap is True:
-            return child_value > parent_value
+        if self.minheap is True:
+            return val1 < val2
+        elif self.minheap is False:
+            return val1 > val2
         else:
-            return child_value < parent_value
+            raise AttributeError('heaptype not assigned')
+
+    def _swap(self, pos1, pos2):
+        """Swap the values at given index positions.
+
+        args:
+            pos1: the index of the first item
+            pos2: the index of the second item
+        """
+        self[pos1], self[pos2] = self[pos2], self[pos1]
