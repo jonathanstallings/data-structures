@@ -38,7 +38,11 @@ class BinaryHeap(object):
             self._bubbleup(len(self.tree)-1)
 
     def _bubbleup(self, pos):
-        """Perform a heap sort from end of tree upwards."""
+        """Perform one step of heap sort up the tree.
+
+        args:
+            pos: the index position to inspect
+        """
         parent = self._find_parent(pos)
         if pos == 0:  # find_parent will return -1 at end of list
             return
@@ -47,7 +51,11 @@ class BinaryHeap(object):
             self._bubbleup(parent)
 
     def _bubbledown(self, pos):
-        """Perform a heap sort from end of tree downwards."""
+        """Perform one step of heap sort down the tree.
+
+        args:
+            pos: the index position to inspect
+        """
         lchild = self._find_lchild(pos)
         rchild = lchild + 1
         try:  # Evaluating whether lchild exists; may refactor
@@ -70,23 +78,23 @@ class BinaryHeap(object):
             return
 
     def _find_parent(self, pos):
-        """Returns the pos of the parent on the tree.
+        """Returns the parent index of given position.
 
         args:
-            pos: the pos to inspect from
+            pos: the index position to inspect
 
-        Returns: pos of the parent
+        Returns: index of the parent
         """
         parent = (pos - 1) // 2
         return parent
 
     def _find_lchild(self, pos):
-        """Returns the pos of the left child.
+        """Returns the left child index of given position.
 
         args:
-            pos: the pos to inspect from
+            pos: the index position to inspect
 
-        Returns: pos of the left child
+        Returns: index of the left child
         """
         lchild = (pos * 2) + 1
         return lchild
