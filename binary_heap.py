@@ -23,7 +23,8 @@ class BinaryHeap(object):
         if len(self.tree) <= 1:
             to_return = self.tree.pop()
         else:
-            self.tree[0], self.tree[len(self.tree) - 1] = self.tree[len(self.tree) - 1], self.tree[0]
+            endpos = len(self.tree) - 1
+            self._swap(0, endpos)
             to_return = self.tree.pop()
             self._bubbledown(0)
         return to_return
@@ -36,7 +37,8 @@ class BinaryHeap(object):
         """
         self.tree.append(value)  # Add protecion for different types case
         if len(self.tree) > 1:
-            self._bubbleup(len(self.tree)-1)
+            endpos = len(self.tree) - 1
+            self._bubbleup(endpos)
 
     def _bubbleup(self, pos):
         """Perform one step of heap sort up the tree.
@@ -48,7 +50,7 @@ class BinaryHeap(object):
         if pos == 0:  # find_parent will return -1 at end of list
             return
         elif self.tree[pos] < self.tree[parent]:
-            self.tree[pos], self.tree[parent] = self.tree[parent], self.tree[pos]
+            self._swap(pos, parent)
             self._bubbleup(parent)
 
     def _bubbledown(self, pos):
@@ -64,14 +66,14 @@ class BinaryHeap(object):
                 rval = self.tree[rchild]
             except IndexError:  # Case of left_child only
                 if lval < self.tree[pos]:
-                    self.tree[lchild], self.tree[pos] = self.tree[pos], self.tree[lchild]
+                    self._swap(lchild, pos)
             else:  # Case of left_child and right_child
                 if lval < rval:
                     target = lchild
                 else:
                     target = rchild
                 if self.tree[target] < self.tree[pos]:
-                    self.tree[target], self.tree[pos] = self.tree[pos], self.tree[target]
+                    self._swap(target, pos)
                     self._bubbledown(target)
 
         except IndexError:  # Case of no lchild
