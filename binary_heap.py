@@ -49,7 +49,7 @@ class BinaryHeap(object):
         parent = self._find_parent(pos)
         if pos == 0:  # find_parent will return -1 at end of list
             return
-        elif self.tree[pos] < self.tree[parent]:
+        elif self._is_unsorted(self.tree[pos], self.tree[parent]):
             self._swap(pos, parent)
             self._bubbleup(parent)
 
@@ -65,14 +65,14 @@ class BinaryHeap(object):
             try:
                 rval = self.tree[rchild]
             except IndexError:  # Case of left_child only
-                if lval < self.tree[pos]:
+                if self._is_unsorted(lval, self.tree[pos]):
                     self._swap(lchild, pos)
             else:  # Case of left_child and right_child
-                if lval < rval:
+                if self._is_unsorted(lval, rval):
                     target = lchild
                 else:
                     target = rchild
-                if self.tree[target] < self.tree[pos]:
+                if self._is_unsorted(self.tree[target], self.tree[pos]):
                     self._swap(target, pos)
                     self._bubbledown(target)
 
