@@ -14,8 +14,8 @@ class BinaryHeap(object):
     def __len__(self):
         len(self.tree)
 
-    def __iter__():
-        pass
+    def __iter__(self):
+        return iter(self.tree)
 
     def pop(self):
         """Pop the head from the heap and return."""
