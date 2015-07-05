@@ -3,9 +3,6 @@ import pytest
 
 from priorityq import PriorityQ, QNode
 
-#  We could parameterize inputs for non-numeric types, but val sorting
-#  will be odd in binheap.
-
 
 @pytest.fixture()
 def QNode_list():
