@@ -19,7 +19,7 @@ def QNode_list():
 
 @pytest.fixture()
 def base_pqueue(QNode_list):
-    return base_pqueue(QNode_list)
+    return PriorityQ(QNode_list)
 
 
 def test_QNode_init_no_priority():
