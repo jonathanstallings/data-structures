@@ -21,7 +21,7 @@ class QNode(object):
 
     def __repr__(self):
         """Print representation of node."""
-        return "{val}".format(val=self.val)
+        return "({val}, {priority})".format(val=self.val, priority=self.priority)
 
     def __str__(self):
         """Pretty print node value and priority."""
