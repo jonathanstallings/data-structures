@@ -18,6 +18,48 @@ def QNode_list():
 def base_pqueue(QNode_list):
     return PriorityQ(QNode_list)
 
+valid_instantiation_args = [
+    [QNode(1, 0), QNode(1, 1), QNode(2, 2)],
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    [(1, 2), (2, 3), (3, 4), (4, 5), (5, 6)],
+    [QNode(1, 0), QNode(1, 1), 1, 2, 3, 4, 5, 6],
+    [QNode(1, 0), QNode(1, 1), (1, 2), (2, 3), (3, 4)],
+    [1, 2, 3, 4, 5, 6, 7, (1, 2), (2, 3), (3, 4), (4, 5)]
+]
+
+invalid_instantiation_args = [
+    [(1, 2, 3), (2, 3), (3, 4), (4, 5), (5, 6)],
+    [(1, 2), (2, 3), (3, 4), (4, 5, 1), (5, 6)]
+]
+
+
+@pytest.mark.parametrize("input", valid_instantiation_args)
+def test_valid_instantiation_args(input):
+    tpq = PriorityQ(input)
+    assert tpq.pop() is not None
+
+
+def test_empty_instantiation_args():
+    tpq = PriorityQ()
+    with pytest.raises(IndexError):
+        tpq.pop()
+
+
+@pytest.mark.parametrize("input", invalid_instantiation_args)
+def test_invalid_instantiation_args(input):
+    with pytest.raises(TypeError):
+        tpq = PriorityQ(input)
+
+
+def test_invalid_number_args_priorityq():
+    with pytest.raises(TypeError):
+        tpq = PriorityQ(1, 2)
+
+
+def test_invalid_number_args_qnode():
+    with pytest.raises(TypeError):
+        tpq = QNode(1, 2, 3, 4)
+
 
 def test_QNode_init_no_priority():
     node1 = QNode(10)
