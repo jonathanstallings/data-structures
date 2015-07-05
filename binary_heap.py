@@ -103,7 +103,7 @@ class BinaryHeap(object):
         return parent
 
     def _find_children(self, pos):
-        """Returns the indexes of children from given position.
+        """Returns the indices of children from given position.
 
         args:
             pos: the index position to inspect
@@ -114,22 +114,22 @@ class BinaryHeap(object):
         rchild = lchild + 1
         return lchild, rchild
 
-    def _is_unsorted(self, val1, val2):
-        """Compare two values according to heaptype.
+    def _is_unsorted(self, item1, item2):
+        """Compare two items according to heaptype.
 
-        For a minheap, checks if first value is less than second value.
-        For a maxheap, checks if first value is greater than second value.
+        For a minheap, checks if first item is less than second item.
+        For a maxheap, checks if first item is greater than second item.
 
         args:
-            val1: first value
-            val2: second value
+            item1: first item
+            item2: second item
 
         Returns: True if heaptype comparison matches, else False
         """
         if self.minheap is True:
-            return val1 < val2
+            return item1 < item2
         elif self.minheap is False:
-            return val1 > val2
+            return item1 > item2
         else:
             raise AttributeError('heaptype not assigned')
 
