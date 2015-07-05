@@ -21,7 +21,8 @@ class QNode(object):
 
     def __repr__(self):
         """Print representation of node."""
-        return "({val}, {priority})".format(val=self.val, priority=self.priority)
+        return "({val}, {priority})".format(val=self.val,
+                                            priority=self.priority)
 
     def __str__(self):
         """Pretty print node value and priority."""
@@ -78,7 +79,7 @@ class PriorityQ(object):
                     self.insert(item[0], item[1])
                 else:
                     raise TypeError("More than two args: instantiation supports\
-                                 non-iter value or value, priority container")
+                                 non-iter value or iter of value, priority")
 
     def __repr__(self):
         return repr(self.heap)
