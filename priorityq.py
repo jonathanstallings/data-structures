@@ -33,8 +33,6 @@ class QNode(object):
         """Overloads equality comparison to check priority, then order."""
         if self.priority == other.priority:
             return self.order == other.order
-        elif self.priority is None or other.priority is None:
-            return False
         else:
             return self.priority == other.priority
 
