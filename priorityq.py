@@ -103,8 +103,8 @@ class PriorityQ(object):
 
     def pop(self):
         """Remove and return the most important item from the queue."""
-        return self.heap.pop()
+        return self.heap.pop().val
 
     def peek(self):
         """Return the most important item from queue without removal."""
-        return self.heap[0]
+        return self.heap[0].val
