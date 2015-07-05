@@ -60,10 +60,25 @@ class PriorityQ(object):
         args:
             iterable: an optional iterable to add to the priority queue. Items
                       added this way will be given a priority of None.
+
+        each item inside iterable can be either:
+        * A QNode object
+        * A container with value, priority
+        * A non-iterable value
+
         """
         self.heap = BinaryHeap(iterable=())
         for item in iterable:
-            self.insert(item)
+            try:
+                is_container = len(item) == 2
+            except TypeError:  # Case of QNode or non-iterable item
+                self.insert(item)
+            else:
+                if is_container:  # Case of value, iterable
+                    self.insert(item[0], item[1])
+                else:
+                    raise TypeError("More than two args: instantiation supports\
+                                 non-iter value or value, priority container")
 
     def __repr__(self):
         return repr(self.heap)
