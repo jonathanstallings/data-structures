@@ -31,7 +31,7 @@ def test_QNode_init_no_priority():
 def test_QNode_init_with_priority():
     node1 = QNode(10, priority=0)
     assert node1.val == 10
-    assert node1.priority is 0
+    assert node1.priority == 0
 
 
 def test_QNode_order_comparison():
@@ -67,7 +67,7 @@ def test_PriorityQ_init_empty():
 def test_PriorityQ_init_iterable_no_QNodes():
     pqueue = PriorityQ([10, 9, 8, 7, 6, 5])
     assert len(pqueue) == 6
-    assert pqueue[0].order == 0
+    assert pqueue[0].val == 10
     assert pqueue[0].priority is None
 
 
@@ -96,10 +96,11 @@ def test_insert_item_QNode_to_empty():
 
 
 def test_insert_item_not_QNode_to_filled(base_pqueue):
-    base_pqueue.insert(500)
+    base_pqueue.insert(500, priority=0)
     assert len(base_pqueue) == 4
-    assert base_pqueue[0].val == 100
-    assert base_pqueue[0].priority == 1
+    assert base_pqueue[0].val == 500
+    assert base_pqueue[0].order == 3
+    assert base_pqueue[0].priority == 0
 
 
 def test_insert_QNode_to_filled(base_pqueue):
@@ -107,6 +108,7 @@ def test_insert_QNode_to_filled(base_pqueue):
     base_pqueue.insert(node1)
     assert len(base_pqueue) == 4
     assert base_pqueue[0].val == 10
+    assert base_pqueue[0].order == 3
     assert base_pqueue[0].priority == 0
 
 
