@@ -115,7 +115,7 @@ def test_pop(base_pqueue):
     length = len(base_pqueue)
     base_pqueue.insert(top_priority)
     assert base_pqueue.pop() is top_priority
-    assert len(base_pqueue) == length - 1
+    assert len(base_pqueue) == length
 
 
 def test_peek(base_pqueue):
