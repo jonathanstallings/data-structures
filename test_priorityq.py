@@ -18,6 +18,48 @@ def QNode_list():
 def base_pqueue(QNode_list):
     return PriorityQ(QNode_list)
 
+valid_instantiation_args = [
+    [QNode(1, 0), QNode(1, 1), QNode(2, 2)],
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    [(1, 2), (2, 3), (3, 4), (4, 5), (5, 6)],
+    [QNode(1, 0), QNode(1, 1), 1, 2, 3, 4, 5, 6],
+    [QNode(1, 0), QNode(1, 1), (1, 2), (2, 3), (3, 4)],
+    [1, 2, 3, 4, 5, 6, 7, (1, 2), (2, 3), (3, 4), (4, 5)]
+]
+
+invalid_instantiation_args = [
+    [(1, 2, 3), (2, 3), (3, 4), (4, 5), (5, 6)],
+    [(1, 2), (2, 3), (3, 4), (4, 5, 1), (5, 6)]
+]
+
+
+@pytest.mark.parametrize("input", valid_instantiation_args)
+def test_valid_instantiation_args(input):
+    tpq = PriorityQ(input)
+    assert tpq.pop() is not None
+
+
+def test_empty_instantiation_args():
+    tpq = PriorityQ()
+    with pytest.raises(IndexError):
+        tpq.pop()
+
+
+@pytest.mark.parametrize("input", invalid_instantiation_args)
+def test_invalid_instantiation_args(input):
+    with pytest.raises(TypeError):
+        tpq = PriorityQ(input)
+
+
+def test_invalid_number_args_priorityq():
+    with pytest.raises(TypeError):
+        tpq = PriorityQ(1, 2)
+
+
+def test_invalid_number_args_qnode():
+    with pytest.raises(TypeError):
+        tpq = QNode(1, 2, 3, 4)
+
 
 def test_QNode_init_no_priority():
     node1 = QNode(10)
@@ -109,7 +151,7 @@ def test_insert_QNode_to_filled(base_pqueue):
     assert base_pqueue[0].priority == 0
 
 
-def test_pop(base_pqueue):
+def test_pop1(base_pqueue):
     top_priority = QNode(9000, priority=0)
     length = len(base_pqueue)
     base_pqueue.insert(top_priority)
@@ -117,8 +159,81 @@ def test_pop(base_pqueue):
     assert len(base_pqueue) == length
 
 
-def test_peek(base_pqueue):
+def test_pop2(base_pqueue):
+    top_priority = QNode(9000, priority=0)
+    length = len(base_pqueue)
+    base_pqueue.insert(top_priority)
+    base_pqueue.pop()
+    assert base_pqueue.pop() == 100
+
+
+def test_pop2(base_pqueue):
+    top_priority = QNode(9000, priority=0)
+    length = len(base_pqueue)
+    base_pqueue.insert(top_priority)
+    base_pqueue.pop()
+    base_pqueue.pop()
+    assert base_pqueue.pop() == 5
+
+
+def test_pop3(base_pqueue):
+    top_priority = QNode(9000, priority=0)
+    length = len(base_pqueue)
+    base_pqueue.insert(top_priority)
+    base_pqueue.pop()
+    base_pqueue.pop()
+    base_pqueue.pop()
+    assert base_pqueue.pop() == 10
+
+
+def test_pop4(base_pqueue):
+    top_priority = QNode(9000, priority=0)
+    length = len(base_pqueue)
+    base_pqueue.insert(top_priority)
+    base_pqueue.pop()
+    base_pqueue.pop()
+    base_pqueue.pop()
+    base_pqueue.pop()
+    with pytest.raises(IndexError):
+        base_pqueue.pop()
+
+
+def test_peek1(base_pqueue):
     top_priority = QNode(9000, priority=0)
     base_pqueue.insert(top_priority)
     assert base_pqueue.peek() == top_priority.val
     assert base_pqueue[0] is top_priority
+
+
+def test_peek2(base_pqueue):
+    top_priority = QNode(9000, priority=0)
+    base_pqueue.insert(top_priority)
+    base_pqueue.pop()
+    assert base_pqueue.peek() == base_pqueue.pop()
+
+
+def test_peek3(base_pqueue):
+    top_priority = QNode(9000, priority=0)
+    base_pqueue.insert(top_priority)
+    base_pqueue.pop()
+    base_pqueue.pop()
+    assert base_pqueue.peek() == base_pqueue.pop()
+
+
+def test_peek4(base_pqueue):
+    top_priority = QNode(9000, priority=0)
+    base_pqueue.insert(top_priority)
+    base_pqueue.pop()
+    base_pqueue.pop()
+    assert base_pqueue.peek() == base_pqueue.pop()
+
+
+def test_peek5(base_pqueue):
+    top_priority = QNode(9000, priority=0)
+    base_pqueue.insert(top_priority)
+    base_pqueue.pop()
+    base_pqueue.pop()
+    base_pqueue.pop()
+    base_pqueue.pop()
+    with pytest.raises(IndexError):
+        base_pqueue.peek()

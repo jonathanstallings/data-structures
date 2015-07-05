@@ -36,3 +36,17 @@ Available methods include:
 * pop()
 * push()
 See the doc strings for implementation details.
+
+##PriorityQ
+The PriorityQ data class is a binary tree that implements sorting primarily by priority value and 
+secondarily by insertion order. The PriorityQ defaults to minheap sorting for both. A QNode is implemented
+as a base class to containerize the value and priority and to provide convenient APIs for comparison.
+
+Available methods include:
+* insert(item)
+* pop()
+* peek()
+See the doc strings for implementation details.
+
+Instantiation of a PriorityQ takes an iterable which may contain (value, priority) iterables,
+non-iterable values, or QNode objects.
