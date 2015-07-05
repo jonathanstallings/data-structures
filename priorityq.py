@@ -7,13 +7,14 @@ from binary_heap import BinaryHeap
 @total_ordering  # Will build out the remaining comparison methods
 class QNode(object):
     """A class for a queue node."""
-    def __init__(self, val, priority=None):
+    def __init__(self, val, priority=None, order=None):
         """Initialize a QNode with a value and an optional priority.
 
         Priority must be an integer, most important being 0.
         """
         self.val = val
         self.priority = priority
+        self.order = order
 
     def __repr__(self):
         """Print representation of node."""
@@ -26,7 +27,7 @@ class QNode(object):
     def __eq__(self, other):
         """Overloads equality comparison to check priority, then value."""
         if self.priority == other.priority:
-            return self.val == other.val
+            return self.order == other.order
         elif self.priority is None or other.priority is None:
             return False
         else:
@@ -35,7 +36,7 @@ class QNode(object):
     def __lt__(self, other):
         """Overloads lesser than comparison to check priority, then value."""
         if self.priority == other.priority:
-            return self.val < other.val
+            return self.order < other.order
         elif self.priority is None:
             return False
         elif other.priority is None:
@@ -58,6 +59,7 @@ class PriorityQ(object):
                       added this way will be given a priority of None.
         """
         self.heap = BinaryHeap(iterable=())
+        self._count = 0
         for item in iterable:
             self.insert(item)
 
@@ -88,9 +90,11 @@ class PriorityQ(object):
             priority: the optional integer priority (0 is most important)
         """
         if isinstance(item, QNode):
+            item.order = self._count
             self.heap.push(item)
         else:
-            self.heap.push(QNode(item, priority))
+            self.heap.push(QNode(item, priority=priority, order=self._count))
+        self._count += 1
 
     def pop(self):
         """Remove and return the most important item from the queue."""

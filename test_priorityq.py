@@ -11,8 +11,8 @@ from priorityq import PriorityQ, QNode
 def QNode_list():
     QNode_list = [
         QNode(10),
-        QNode(5, 2),
-        QNode(100, 1)
+        QNode(5, priority=2),
+        QNode(100, priority=1)
     ]
     return QNode_list
 
@@ -29,32 +29,32 @@ def test_QNode_init_no_priority():
 
 
 def test_QNode_init_with_priority():
-    node1 = QNode(10, 0)
+    node1 = QNode(10, priority=0)
     assert node1.val == 10
     assert node1.priority is 0
 
 
-def test_QNode_val_comparison():
-    node1 = QNode(10)
-    node2 = QNode(5)
-    assert node1 > node2
+def test_QNode_order_comparison():
+    node1 = QNode(10, order=1)
+    node2 = QNode(5, order=2)
+    assert node1 < node2
 
 
 def test_QNode_priority_comparison():
-    node1 = QNode(10, 0)
+    node1 = QNode(10, priority=0)
     node2 = QNode(10)
     assert node1 < node2
 
 
 def test_QNode_equal_priority_comparison():
-    node1 = QNode(10, 1)
-    node2 = QNode(5, 1)
-    assert node1 > node2
+    node1 = QNode(10, priority=1, order=1)
+    node2 = QNode(5, priority=1, order=2)
+    assert node1 < node2
 
 
 def test_QNode_equality_comparison():
-    node1 = QNode(10, 10)
-    node2 = QNode(10, 10)
+    node1 = QNode(10, priority=10)
+    node2 = QNode(10, priority=10)
     assert node1 == node2
 
 
@@ -67,7 +67,7 @@ def test_PriorityQ_init_empty():
 def test_PriorityQ_init_iterable_no_QNodes():
     pqueue = PriorityQ([10, 9, 8, 7, 6, 5])
     assert len(pqueue) == 6
-    assert pqueue[0].val == 5
+    assert pqueue[0].order == 0
     assert pqueue[0].priority is None
 
 
