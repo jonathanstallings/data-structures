@@ -12,6 +12,9 @@ class Stack():
     def __repr__(self):
         return repr(self.other)
 
+    def __len__(self):
+        return self.other.size()
+
     def push(self, value):
         """Add a value to the head of the stack.
 

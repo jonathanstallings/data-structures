@@ -29,6 +29,10 @@ class LinkedList(object):
             node = node.next
         return "({})".format(output.rstrip(' ,'))
 
+    def __len__(self):
+        """Return the length of the LinkedList."""
+        return self.size()
+
     def insert(self, val):
         """Insert value at head of LinkedList.
 
