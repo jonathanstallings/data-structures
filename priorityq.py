@@ -17,23 +17,25 @@ class QNode(object):
 
     def __eq__(self, other):
         """Implement this and following method with logic to compare
-        priority and value appropiately.
+        priority and val appropiately.
         """
-        if self.priority is None and other.priority is None:
-            self.value == other.value
+        if self.priority == other.priority:
+            return self.val == other.val
         elif self.priority is None or other.priority is None:
             return False
         else:
-            self.priority == other.priority
+            return self.priority == other.priority
 
     def __lt__(self, other):
         """Implement in tandem with __eq__."""
-        if self.priority is None and other.priority is None:
-            self.value < other.value
-        elif self.priority is None or other.priority is None:
-            self.priority > other.priority  # Since None is less than anything
+        if self.priority == other.priority:
+            return self.val < other.val
+        elif self.priority is None:
+            return False
+        elif other.priority is None:
+            return True
         else:
-            self.priority < other.priority
+            return self.priority < other.priority
 
 
 class PriorityQ(object):
@@ -43,6 +45,21 @@ class PriorityQ(object):
         self.heap = BinaryHeap(iterable=())
         for item in iterable:
             self.insert(item)
+
+    def __repr__(self):
+        return repr(self.heap)
+
+    def __len__(self):
+        return len(self.heap)
+
+    def __iter__(self):
+        return iter(self.heap)
+
+    def __getitem__(self, index):
+        return self.heap[index]
+
+    def __setitem__(self, index, value):
+        self.heap[index] = value
 
     def insert(self, item, priority=None):  # Want to extend spec to add priority as 2nd optional arg
         """Insert an item into the queue. Would be nice to examine item as follows:
@@ -57,9 +74,10 @@ class PriorityQ(object):
         else:
             self.heap.push(QNode(item, priority))
 
-    def pop():
+    def pop(self):
         """Remove the most important item from the queue."""
-        pass
+        return self.heap.pop()
 
-    def peek():
+    def peek(self):
         """Returns the most important item from queue without removal."""
+        return self.heap[0]
