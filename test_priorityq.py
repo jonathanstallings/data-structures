@@ -151,7 +151,7 @@ def test_insert_QNode_to_filled(base_pqueue):
     assert base_pqueue[0].priority == 0
 
 
-def test_pop(base_pqueue):
+def test_pop1(base_pqueue):
     top_priority = QNode(9000, priority=0)
     length = len(base_pqueue)
     base_pqueue.insert(top_priority)
@@ -159,8 +159,81 @@ def test_pop(base_pqueue):
     assert len(base_pqueue) == length
 
 
-def test_peek(base_pqueue):
+def test_pop2(base_pqueue):
+    top_priority = QNode(9000, priority=0)
+    length = len(base_pqueue)
+    base_pqueue.insert(top_priority)
+    base_pqueue.pop()
+    assert base_pqueue.pop() == 100
+
+
+def test_pop2(base_pqueue):
+    top_priority = QNode(9000, priority=0)
+    length = len(base_pqueue)
+    base_pqueue.insert(top_priority)
+    base_pqueue.pop()
+    base_pqueue.pop()
+    assert base_pqueue.pop() == 5
+
+
+def test_pop3(base_pqueue):
+    top_priority = QNode(9000, priority=0)
+    length = len(base_pqueue)
+    base_pqueue.insert(top_priority)
+    base_pqueue.pop()
+    base_pqueue.pop()
+    base_pqueue.pop()
+    assert base_pqueue.pop() == 10
+
+
+def test_pop4(base_pqueue):
+    top_priority = QNode(9000, priority=0)
+    length = len(base_pqueue)
+    base_pqueue.insert(top_priority)
+    base_pqueue.pop()
+    base_pqueue.pop()
+    base_pqueue.pop()
+    base_pqueue.pop()
+    with pytest.raises(IndexError):
+        base_pqueue.pop()
+
+
+def test_peek1(base_pqueue):
     top_priority = QNode(9000, priority=0)
     base_pqueue.insert(top_priority)
     assert base_pqueue.peek() == top_priority.val
     assert base_pqueue[0] is top_priority
+
+
+def test_peek2(base_pqueue):
+    top_priority = QNode(9000, priority=0)
+    base_pqueue.insert(top_priority)
+    base_pqueue.pop()
+    assert base_pqueue.peek() == base_pqueue.pop()
+
+
+def test_peek3(base_pqueue):
+    top_priority = QNode(9000, priority=0)
+    base_pqueue.insert(top_priority)
+    base_pqueue.pop()
+    base_pqueue.pop()
+    assert base_pqueue.peek() == base_pqueue.pop()
+
+
+def test_peek4(base_pqueue):
+    top_priority = QNode(9000, priority=0)
+    base_pqueue.insert(top_priority)
+    base_pqueue.pop()
+    base_pqueue.pop()
+    assert base_pqueue.peek() == base_pqueue.pop()
+
+
+def test_peek5(base_pqueue):
+    top_priority = QNode(9000, priority=0)
+    base_pqueue.insert(top_priority)
+    base_pqueue.pop()
+    base_pqueue.pop()
+    base_pqueue.pop()
+    base_pqueue.pop()
+    with pytest.raises(IndexError):
+        base_pqueue.peek()
