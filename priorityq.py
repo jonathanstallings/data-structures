@@ -10,7 +10,7 @@ class QNode(object):
     def __init__(self, val, priority=None):
         """Initialize a QNode with a value and an optional priority.
 
-        Priority must be an integer, highest being 0.
+        Priority must be an integer, most important being 0.
         """
         self.val = val
         self.priority = priority
