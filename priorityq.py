@@ -16,7 +16,7 @@ class QNode(object):
         return "{val}".format(val=self.val)
 
     def __eq__(self, other):
-        """Implement this and following two methods with logic to compare
+        """Implement this and following method with logic to compare
         priority and value appropiately.
         """
         pass
@@ -32,12 +32,13 @@ class PriorityQ(object):
         """We can iteratively use insert here."""
         pass
 
-    def insert(item):  # Wamt to extend spec to include priority as 2nd arg
+    def insert(item):  # Want to extend spec to add priority as 2nd optional arg
         """Insert an item into the queue. Would be nice to examine item as follows:
         If item is node:
             add to PriorityQ
         else:
             init QNode with item as val and priority as None
+            add to PriorityQ
         """
         pass
 
