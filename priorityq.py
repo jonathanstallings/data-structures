@@ -61,7 +61,7 @@ class PriorityQ(object):
     def __setitem__(self, index, value):
         self.heap[index] = value
 
-    def insert(self, item, priority=None):  # Want to extend spec to add priority as 2nd optional arg
+    def insert(self, item, priority=None):
         """Insert an item into the queue. Would be nice to examine item as follows:
         If item is node:
             add to PriorityQ
