@@ -113,12 +113,12 @@ def test_pop(base_pqueue):
     top_priority = QNode(9000, priority=0)
     length = len(base_pqueue)
     base_pqueue.insert(top_priority)
-    assert base_pqueue.pop() is top_priority.val
+    assert base_pqueue.pop() == top_priority.val
     assert len(base_pqueue) == length
 
 
 def test_peek(base_pqueue):
     top_priority = QNode(9000, priority=0)
     base_pqueue.insert(top_priority)
-    assert base_pqueue.peek() is top_priority.val
+    assert base_pqueue.peek() == top_priority.val
     assert base_pqueue[0] is top_priority
