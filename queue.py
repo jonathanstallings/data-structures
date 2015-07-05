@@ -7,7 +7,7 @@ class Queue():
 
     def __init__(self, iterable=()):
         self.other = LinkedList()
-        self.other.header = None
+        self.other.head = None
         self.other.tail = None
         self.other.length = 0
         for val in (iterable):
@@ -27,7 +27,7 @@ class Queue():
         """
         new_node = Node(value)
         if self.other.tail is None:
-            self.other.header = self.other.tail = new_node
+            self.other.head = self.other.tail = new_node
         else:
             self.other.tail.next = new_node
             self.other.tail = new_node

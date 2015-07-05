@@ -53,10 +53,10 @@ def test_dequeue():
     for x in range(5):
         q.dequeue()
     assert q.dequeue() == 6
-    assert q.other.header.val == 7
+    assert q.other.head.val == 7
     assert q.other.tail.val == 10
     assert len(q) == 4
     while len(q):
         q.dequeue()
-    assert q.other.header is None
+    assert q.other.head is None
     assert q.other.tail is None
