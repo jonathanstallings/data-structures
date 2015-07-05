@@ -62,7 +62,6 @@ class PriorityQ(object):
                       added this way will be given a priority of None.
         """
         self.heap = BinaryHeap(iterable=())
-        self._count = 0
         for item in iterable:
             self.insert(item)
 
@@ -93,11 +92,10 @@ class PriorityQ(object):
             priority: the optional integer priority (0 is most important)
         """
         if isinstance(item, QNode):
-            item.order = self._count
+            item.order = len(self)
             self.heap.push(item)
         else:
-            self.heap.push(QNode(item, priority=priority, order=self._count))
-        self._count += 1
+            self.heap.push(QNode(item, priority=priority, order=len(self)))
 
     def pop(self):
         """Remove and return the most important item from the queue."""
