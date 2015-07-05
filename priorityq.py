@@ -8,7 +8,6 @@ from binary_heap import BinaryHeap
 class QNode(object):
     """A class for a queue node."""
     def __init__(self, val, priority=None):
-        super(QNode, self).__init__()
         self.val = val
         self.priority = priority
 
@@ -30,14 +29,20 @@ class QNode(object):
 class PriorityQ(object):
     """A class for a priority queue. Compose this from BinaryHeap."""
     def __init__(self, iterable=()):
+        """We can iteratively use insert here."""
         pass
 
-    def insert(item):
-        """Insert an item into the queue."""
+    def insert(item):  # Wamt to extend spec to include priority as 2nd arg
+        """Insert an item into the queue. Would be nice to examine item as follows:
+        If item is node:
+            add to PriorityQ
+        else:
+            init QNode with item as val and priority as None
+        """
         pass
 
     def pop():
-        """Remove the most importan item from the queue."""
+        """Remove the most important item from the queue."""
         pass
 
     def peek():
