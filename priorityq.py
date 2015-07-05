@@ -54,7 +54,8 @@ class PriorityQ(object):
         integer with 0 being the most important.
 
         args:
-            iterable: an optional iterable to add to the priority queue.
+            iterable: an optional iterable to add to the priority queue. Items
+                      added this way will be given a priority of None.
         """
         self.heap = BinaryHeap(iterable=())
         for item in iterable:
