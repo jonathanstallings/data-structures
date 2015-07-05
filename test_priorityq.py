@@ -3,6 +3,9 @@ import pytest
 
 from priorityq import PriorityQ, QNode
 
+#  We could parameterize inputs for non-numeric types, but val sorting
+#  will be odd in binheap.
+
 
 @pytest.fixture()
 def QNode_list():
@@ -26,10 +29,9 @@ def test_QNode_init_no_priority():
 
 
 def test_QNode_init_with_priority():
-    node1 = QNode('string', 0)
-    assert node1.val == 'string'
+    node1 = QNode(10, 0)
+    assert node1.val == 10
     assert node1.priority is 0
-    assert node1.val, node1.priority == ('string', 0)
 
 
 def test_QNode_val_comparison():
