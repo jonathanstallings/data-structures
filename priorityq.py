@@ -7,7 +7,7 @@ from binary_heap import BinaryHeap
 @total_ordering  # Will build out the remaining comparison methods
 class QNode(object):
     """A class for a queue node."""
-    def __init__(self, val, priority):
+    def __init__(self, val, priority=None):
         super(QNode, self).__init__()
         self.val = val
         self.priority = priority
