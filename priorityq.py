@@ -22,7 +22,9 @@ class QNode(object):
 
     def __str__(self):
         """Pretty print node value and priority."""
-        return "{val}, Priority:{p}".format(val=self.val, p=self.priority)
+        return "Value:{val}, Order:{o} Priority:{p}".format(
+            val=self.val, o=self.order, p=self.priority
+        )
 
     def __eq__(self, other):
         """Overloads equality comparison to check priority, then value."""
