@@ -10,7 +10,10 @@ class QNode(object):
     def __init__(self, val, priority=None, order=None):
         """Initialize a QNode with a value and an optional priority.
 
-        Priority must be an integer, most important being 0.
+        args:
+            val: the value to store
+            priority: an integer with 0 being most important
+            order: integer to store queue insertion order
         """
         self.val = val
         self.priority = priority
@@ -27,7 +30,7 @@ class QNode(object):
         )
 
     def __eq__(self, other):
-        """Overloads equality comparison to check priority, then value."""
+        """Overloads equality comparison to check priority, then order."""
         if self.priority == other.priority:
             return self.order == other.order
         elif self.priority is None or other.priority is None:
@@ -36,7 +39,7 @@ class QNode(object):
             return self.priority == other.priority
 
     def __lt__(self, other):
-        """Overloads lesser than comparison to check priority, then value."""
+        """Overloads lesser than comparison to check priority, then order."""
         if self.priority == other.priority:
             return self.order < other.order
         elif self.priority is None:
@@ -53,8 +56,8 @@ class PriorityQ(object):
         """Initialize a priority queue, optionally with items from iterable.
 
         The items in the priority queue are stored in a binary minheap. Items
-        first sorted by priority, then value. Priority is expressed as an
-        integer with 0 being the most important.
+        are first sorted by priority, then queue insertion order. Priority is
+        expressed as an integer with 0 being the most important.
 
         args:
             iterable: an optional iterable to add to the priority queue. Items
@@ -83,9 +86,9 @@ class PriorityQ(object):
     def insert(self, item, priority=None):
         """Insert an item into the priority queue.
 
-        If the item is a QNode object, it will be added as is.
-        If not, a new QNode object is created to hold the item with optional
-        priority assigned.
+        If the item is a QNode object, it will be added tracking queue order.
+        If not, a new QNode object is created to hold the item with queue order
+        and optional priority assigned.
 
         args:
             item: the item to add (QNode or other value)
