@@ -87,7 +87,7 @@ def test_insert_item_not_QNode_to_empty():
 
 
 def test_insert_item_QNode_to_empty():
-    node1 = QNode(10, 0)
+    node1 = QNode(10, priority=0)
     pqueue = PriorityQ()
     pqueue.insert(node1)
     assert len(pqueue) == 1
@@ -103,7 +103,7 @@ def test_insert_item_not_QNode_to_filled(base_pqueue):
 
 
 def test_insert_QNode_to_filled(base_pqueue):
-    node1 = QNode(10, 0)
+    node1 = QNode(10, priority=0)
     base_pqueue.insert(node1)
     assert len(base_pqueue) == 4
     assert base_pqueue[0].val == 10
@@ -111,7 +111,7 @@ def test_insert_QNode_to_filled(base_pqueue):
 
 
 def test_pop(base_pqueue):
-    top_priority = QNode(9000, 0)
+    top_priority = QNode(9000, priority=0)
     length = len(base_pqueue)
     base_pqueue.insert(top_priority)
     assert base_pqueue.pop() is top_priority
@@ -119,7 +119,7 @@ def test_pop(base_pqueue):
 
 
 def test_peek(base_pqueue):
-    top_priority = QNode(9000, 0)
+    top_priority = QNode(9000, priority=0)
     base_pqueue.insert(top_priority)
     assert base_pqueue.peek() is top_priority
     assert base_pqueue[0] is top_priority
