@@ -15,6 +15,10 @@ class QNode(object):
         """Print representation of node."""
         return "{val}".format(val=self.val)
 
+    def __str__(self):
+        """Pretty print node value and priority."""
+        return "{val}, Priority:{p}".format(val=self.val, p=self.priority)
+
     def __eq__(self, other):
         """Implement this and following method with logic to compare
         priority and val appropiately.
