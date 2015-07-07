@@ -30,11 +30,13 @@ class Graph(object):
 
     def add_edge(self, n1, n2):
         """Add a new edge connecting n1 to n2."""
-        if not self.has_node(n1):
-            self.add_node(n1)
         if not self.has_node(n2):
             self.add_node(n2)
-        self[n1].add(n2)
+        try:
+            self[n1].add(n2)
+        except KeyError:
+            self.add_node(n1)
+            self[n1].add(n2)
 
     def del_node(self, n):
         """Delete a node from the graph."""
