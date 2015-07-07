@@ -4,14 +4,14 @@ from __future__ import unicode_literals
 class Graph(object):
     """A class for a simple graph data structure."""
     def __init__(self):
-        self.nodes = {}
+        self.graph = {}
 
     def __repr__(self):
-        pass
+        return repr(self.graph)
 
     def nodes(self):
         """Return a list of all nodes in the graph."""
-        return [node for node in self.nodes]
+        return [node for node in self.graph]
 
     def edges(self):
         """Return a list of all edges in the graph."""
@@ -19,30 +19,30 @@ class Graph(object):
 
     def add_node(self, n):
         """Add a new node to the graph."""
-        self.nodes[n] = set()
+        self.graph[n] = set()
 
     def add_edge(self, n1, n2):
         """Add a new edge connecting n1 to n2."""
-        self.nodes[n1].add(n2)
+        self.graph[n1].add(n2)
 
     def del_node(self, n):
         """Delete a node from the graph."""
-        del self.nodes[n]
-        for edgeset in self.nodes.values:
+        del self.graph[n]
+        for edgeset in self.graph.values():
             edgeset.discard(n)
 
     def del_edge(self, n1, n2):
         """Delete the edge connecting two nodes from graph."""
-        self.nodes[n1].remove(n2)
+        self.graph[n1].remove(n2)
 
     def has_node(self, n):
         """Check if a given node is in the graph."""
-        return n in self.nodes
+        return n in self.graph
 
     def neighbors(self, n):
         """Return a list of all nodes connected to 'n' by edges."""
         neighbors = []
-        for node in self.nodes:
+        for node in self.graph:
             if n in self.node:
                 neighbors.append(node)
         return neighbors
