@@ -30,11 +30,15 @@ class Graph(object):
 
     def edges(self):
         """Return a list of all edges in the graph."""
-        return "edge list"
+        edge_list = []
+        for node in self:
+            for edge in self[node]:
+                edge_list.append([node, edge])
+        return edge_list
 
     def add_node(self, n):
         """Add a new node to the graph."""
-        self.graph.setdefault(n, set())  # Works! But should warn on 2nd add?
+        self.graph.setdefault(n, set())  # Good! But should warn on 2nd add?
 
     def add_edge(self, n1, n2):
         """Add a new edge connecting n1 to n2."""
