@@ -21,15 +21,17 @@ class Graph(object):
     def __setitem__(self, index, value):
         self.graph[index] = value
 
-    def __delitem__(self, index):  # Add cleanup
+    def __delitem__(self, index):
         del self.graph[index]
+        for edgeset in self.graph.values():
+            edgeset.discard(index)
 
     def add_node(self, n):
         """Add a new node to the graph. Will raise an error if node 
         already exists.
 
         Note that node name 'n' needs to be a hashable or immutable value"""
-        if not self.has_node(n):
+        if self.has_node(n):
             raise KeyError('Node already in graph.')
         self[n] = set()
 
@@ -48,8 +50,6 @@ class Graph(object):
         """Delete a node from the graph. Will cleanup all edges pointing
         towards the node being deleted"""
         del self[n]
-        for edgeset in self.graph.values():  # Move cleanup to __delitem__
-            edgeset.discard(n)
 
     def del_edge(self, n1, n2):
         """Delete stated edge connecting node n1 to n2. Will raise a KeyError
