@@ -70,6 +70,8 @@ class Graph(object):
                 yield node
 
     def neighbors(self, n):
+        if not self.has_node(n):
+            raise KeyError('Node is not in the graph')
         return list(self.iter_neighbors(n))
 
     def adjacent(self, n1, n2):
