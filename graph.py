@@ -34,7 +34,7 @@ class Graph(object):
 
     def add_node(self, n):
         """Add a new node to the graph."""
-        self[n] = set()
+        self.graph.setdefault(n, set())  # Works! But should warn on 2nd add?
 
     def add_edge(self, n1, n2):
         """Add a new edge connecting n1 to n2."""
