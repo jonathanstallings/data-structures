@@ -28,13 +28,13 @@ class Graph(object):
         """Return a list of all nodes in the graph."""
         return [node for node in self]
 
-    def edges(self):
-        """Return a list of all edges in the graph."""
-        edge_list = []
+    def _iter_edges(self):
         for node in self:
             for edge in self[node]:
-                edge_list.append([node, edge])
-        return edge_list
+                yield [node, edge]
+
+    def edges(self):
+        return list(self._iter_edges())
 
     def add_node(self, n):
         """Add a new node to the graph."""
