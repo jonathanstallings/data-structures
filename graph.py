@@ -28,13 +28,13 @@ class Graph(object):
         """Return a list of all nodes in the graph."""
         return [node for node in self]
 
-    def _iter_edges(self):
+    def iter_edges(self):
         for node in self:
             for edge in self[node]:
                 yield [node, edge]
 
     def edges(self):
-        return list(self._iter_edges())
+        return list(self.iter_edges())
 
     def add_node(self, n):
         """Add a new node to the graph."""
@@ -58,13 +58,13 @@ class Graph(object):
         """Check if a given node is in the graph."""
         return n in self
 
-    def neighbors(self, n):
-        """Return a list of all nodes connected to 'n' by edges."""
-        neighbors = []
+    def iter_neighbors(self, n):
         for node in self:
             if n in self[node]:
-                neighbors.append(node)
-        return neighbors
+                yield node
+
+    def neighbors(self, n):
+        return list(self.iter_neighbors(n))
 
     def adjacent(self, n1, n2):
         """Check if there is an edge connecting 'n1' and 'n2'."""
