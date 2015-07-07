@@ -24,18 +24,6 @@ class Graph(object):
     def __delitem__(self, index):
         del self.graph[index]
 
-    def nodes(self):
-        """Return a list of all nodes in the graph."""
-        return [node for node in self]
-
-    def iter_edges(self):
-        for node in self:
-            for edge in self[node]:
-                yield [node, edge]
-
-    def edges(self):
-        return list(self.iter_edges())
-
     def add_node(self, n):
         """Add a new node to the graph."""
         self.graph.setdefault(n, set())  # Good! But should warn on 2nd add?
@@ -57,6 +45,18 @@ class Graph(object):
     def has_node(self, n):
         """Check if a given node is in the graph."""
         return n in self
+
+    def nodes(self):
+        """Return a list of all nodes in the graph."""
+        return [node for node in self]
+
+    def iter_edges(self):
+        for node in self:
+            for edge in self[node]:
+                yield [node, edge]
+
+    def edges(self):
+        return list(self.iter_edges())
 
     def iter_neighbors(self, n):
         for node in self:
