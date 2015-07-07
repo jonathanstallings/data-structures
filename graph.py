@@ -9,6 +9,21 @@ class Graph(object):
     def __repr__(self):
         return repr(self.graph)
 
+    def __len__(self):
+        return len(self.graph)
+
+    def __iter__(self):
+        return iter(self.graph)
+
+    def __getitem__(self, index):
+        return self.graph[index]
+
+    def __setitem__(self, index, value):
+        self.graph[index] = value
+
+    def __delitem__(self, index):
+        del self.graph[index]
+
     def nodes(self):
         """Return a list of all nodes in the graph."""
         return [node for node in self.graph]
