@@ -21,12 +21,14 @@ class Graph(object):
     def __setitem__(self, index, value):
         self.graph[index] = value
 
-    def __delitem__(self, index):  # Add cleanup
+    def __delitem__(self, index):
         del self.graph[index]
+        for edgeset in self.graph.values():
+            edgeset.discard(index)
 
     def add_node(self, n):
         """Add a new node to the graph."""
-        if not self.has_node(n):
+        if self.has_node(n):
             raise KeyError('Node already in graph.')
         self[n] = set()
 
@@ -43,8 +45,6 @@ class Graph(object):
     def del_node(self, n):
         """Delete a node from the graph."""
         del self[n]
-        for edgeset in self.graph.values():  # Move cleanup to __delitem__
-            edgeset.discard(n)
 
     def del_edge(self, n1, n2):
         """Delete the edge connecting two nodes from graph."""
