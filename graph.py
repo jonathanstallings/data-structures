@@ -62,3 +62,19 @@ class Graph(object):
                 neighbors.append(node)
         return neighbors
 
+    def adjacent(self, n1, n2):
+        """Check if there is an edge connecting 'n1' and 'n2'."""
+        return n2 in self[n1] or n1 in self[n2]
+
+
+#  helper start conditions for testing
+def helper():
+    g = Graph()
+    g.add_node(5)
+    g.add_node(10)
+    g.add_node(20)
+    g.add_edge(10, 5)
+    g.add_edge(10, 20)
+    g.add_edge(5, 10)
+    return g
+
