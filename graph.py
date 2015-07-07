@@ -25,13 +25,17 @@ class Graph(object):
         del self.graph[index]
 
     def add_node(self, n):
-        """Add a new node to the graph."""
+        """Add a new node to the graph. Will raise an error if node 
+        already exists.
+
+        Note that node name 'n' needs to be a hashable or immutable value"""
         if not self.has_node(n):
             raise KeyError('Node already in graph.')
         self[n] = set()
 
     def add_edge(self, n1, n2):
-        """Add a new edge connecting n1 to n2."""
+        """Add a new edge connecting n1 to n2. Will implicitly create 
+        n1 and n2 if either do not exist."""
         if not self.has_node(n2):
             self.add_node(n2)
         try:
@@ -41,17 +45,20 @@ class Graph(object):
             self[n1].add(n2)
 
     def del_node(self, n):
-        """Delete a node from the graph."""
+        """Delete a node from the graph. Will cleanup all edges pointing
+        towards the node being deleted"""
         del self[n]
         for edgeset in self.graph.values():  # Move cleanup to __delitem__
             edgeset.discard(n)
 
     def del_edge(self, n1, n2):
-        """Delete the edge connecting two nodes from graph."""
+        """Delete stated edge connecting node n1 to n2. Will raise a KeyError
+        if the edge does not exist"""
         self[n1].remove(n2)
 
     def has_node(self, n):
-        """Check if a given node is in the graph."""
+        """Check if a given node is in the graph, return True if it exists,
+        False otherwise"""
         return n in self
 
     def nodes(self):
@@ -59,23 +66,30 @@ class Graph(object):
         return [node for node in self]
 
     def iter_edges(self):
+        """Generate an iterator packed with all existing edges in
+        (node, edge) format"""
         for node in self:
             for edge in self[node]:
                 yield (node, edge)
 
     def edges(self):
+        """Return a list of all edges in (node, edge_node) format,
+        where node points to edge_node"""
         return list(self.iter_edges())
 
     def iter_neighbors(self, n):
+        """Generate an iterator packed with all existing edges for node
+        n"""
         for node in self:
             if n in self[node]:
                 yield node
 
     def neighbors(self, n):
+        """Return the set of edges that node n points towards"""
         return self[n]
 
     def adjacent(self, n1, n2):
-        """Check if there is an edge connecting 'n1' and 'n2'."""
+        """Check if there is an edge pointing from node n1 to n2"""
         return n2 in self[n1] or n1 in self[n2]
 
 
