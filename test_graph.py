@@ -90,10 +90,19 @@ def test_add_edge_n1_new(graph_filled):
     assert len(g[n2]) == 1
 
 
-def test_add_edge_n1_n2_exist(graph_filled):
+def test_add_edge_n1_n2_exist_with_edges(graph_filled):
     g = graph_filled
-    n1, n2 = 10, 15
+    n1, n2 = 20, 10
     g.add_edge(n1, n2)
     assert n1 in g and n2 in g
     assert n2 in g[n1]
-    assert len(g[n2]) == 0
+    assert len(g[n1]) == 2 and len(g[n2]) == 3
+
+
+def test_add_edge_n1_n2_exist_without_edges(graph_filled):
+    g = graph_filled
+    n1, n2 = 25, 30
+    g.add_edge(n1, n2)
+    assert n1 in g and n2 in g
+    assert n2 in g[n1]
+    assert len(g[n1]) == 1 and len(g[n2]) == 0
