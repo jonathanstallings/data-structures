@@ -21,3 +21,18 @@ def graph_filled():
         25: set(),
         30: set()
     }
+    return g
+
+
+def test_nodes_empty(graph_empty):
+    out = graph_empty.nodes()
+    assert str(out) == "[]"
+
+
+def test_nodes_filled(graph_filled):
+    out = graph_filled.nodes()
+    expected_nodes = set([5, 10, 15, 20, 25, 30])
+    assert set(out) == expected_nodes
+    assert len(out) == 6
+
+
