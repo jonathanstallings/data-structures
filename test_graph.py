@@ -27,6 +27,7 @@ def graph_filled():
 def test_nodes_empty(graph_empty):
     out = graph_empty.nodes()
     assert str(out) == "[]"
+    assert len(out) == 0
 
 
 def test_nodes_filled(graph_filled):
@@ -36,3 +37,14 @@ def test_nodes_filled(graph_filled):
     assert len(out) == 6
 
 
+def test_edges_empty(graph_empty):
+    out = graph_empty.edges()
+    assert str(out) == "[]"
+    assert len(out) == 0
+
+
+def test_edges_filled(graph_filled):
+    out = graph_filled.edges()
+    expected_edges = set([(5, 10), (10, 5), (10, 20), (10, 15), (20, 5)])
+    assert set(out) == expected_edges
+    assert len(out) == 5
