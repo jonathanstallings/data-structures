@@ -48,3 +48,7 @@ def test_edges_filled(graph_filled):
     expected_edges = set([(5, 10), (10, 5), (10, 20), (10, 15), (20, 5)])
     assert set(out) == expected_edges
     assert len(out) == 5
+
+
+def test_has_edge_empty(graph_empty):
+    assert graph_empty.has_edge() == False
