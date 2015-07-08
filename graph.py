@@ -90,7 +90,7 @@ class Graph(object):
 
     def adjacent(self, n1, n2):
         """Check if there is an edge pointing from node n1 to n2"""
-        return n2 in self[n1] or n1 in self[n2]
+        return n2 in self[n1]
 
 
 #  helper start conditions for testing
