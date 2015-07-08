@@ -6,7 +6,7 @@ class Graph(object):
     def __init__(self):
         self.graph = {}
 
-    def __repr__(self):  # Consider how we want to repr this.
+    def __repr__(self):
         return repr(self.graph)
 
     def __len__(self):
@@ -91,16 +91,3 @@ class Graph(object):
     def adjacent(self, n1, n2):
         """Check if there is an edge pointing from node n1 to n2"""
         return n2 in self[n1]
-
-
-#  helper start conditions for testing
-def helper():
-    g = Graph()
-    g.add_node(5)
-    g.add_node(10)
-    g.add_node(20)
-    g.add_edge(10, 5)
-    g.add_edge(10, 20)
-    g.add_edge(5, 10)
-    return g
-
