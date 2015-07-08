@@ -37,7 +37,24 @@ def test_invalid_constructor():
 
 
 def test_add_node_to_empty(graph_empty):
-    graph_empty.add_node(10)
-    assert 10 in graph_empty
-    assert isinstance(graph_empty[10], set) and len(graph_empty[10]) == 0
+    graph_empty.add_node(40)
+    assert 40 in graph_empty
+    assert isinstance(graph_empty[40], set) and len(graph_empty[40]) == 0
+
+
+def test_add_node_to_filled(graph_filled):
+    graph_filled.add_node(40)
+    assert 40 in graph_filled
+    assert isinstance(graph_filled[40], set)
+    assert len(graph_filled[40]) == 0
+
+
+def test_add_node_to_filled_existing_node(graph_filled):
+    with pytest.raises(KeyError):
+        graph_filled.add_node(5)
+
+
+def test_add_node_wrong_type(graph_empty):
+    with pytest.raises(TypeError):
+        graph_empty.add_node([1, 2, 3])
 
