@@ -21,3 +21,23 @@ def graph_filled():
         25: set(),
         30: set()
     }
+    return g
+
+
+def test_valid_constructor():
+    g = Graph()
+    assert isinstance(g, Graph)
+    assert isinstance(g.graph, dict)
+    assert len(g.graph) == 0 and len(g) == 0
+
+
+def test_invalid_constructor():
+    with pytest.raises(TypeError):
+        Graph(10)
+
+
+def test_add_node_to_empty(graph_empty):
+    graph_empty.add_node(10)
+    assert 10 in graph_empty
+    assert isinstance(graph_empty[10], set) and len(graph_empty[10]) == 0
+
