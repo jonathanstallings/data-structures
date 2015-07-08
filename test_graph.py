@@ -87,7 +87,7 @@ neighbor_params = [
 
 @pytest.mark.parametrize("input, out", neighbor_params)
 def test_neighbors_filled_present(input, out, graph_filled):
-    assert graph_filled.neighbors(input) == out 
+    assert graph_filled.neighbors(input) == out
 
 
 def test_adjacent_empty(graph_empty):
@@ -98,13 +98,13 @@ def test_adjacent_empty(graph_empty):
 def test_adjacent_filled_existing(graph_filled):
     expected_edges = set([(5, 10), (10, 5), (10, 20), (10, 15), (20, 5)])
     for a, b in expected_edges:
-        assert graph_filled.adjacent(a, b) == True
+        assert graph_filled.adjacent(a, b) is True
 
 
 def test_adjacent_filled_existing_node_unexisting_edge(graph_filled):
     bad_edges = set([(5, 15), (20, 10), (5, 20)])
     for a, b in bad_edges:
-        assert graph_filled.adjacent(a, b) == False
+        assert graph_filled.adjacent(a, b) is False
 
 
 def test_adjacent_filled_missing_node(graph_filled):
