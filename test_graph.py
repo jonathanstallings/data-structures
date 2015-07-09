@@ -23,6 +23,7 @@ def graph_filled():
     }
     return g
 
+
 def test_valid_constructor():
     g = Graph()
     assert isinstance(g, Graph)
@@ -161,16 +162,16 @@ def test_edges_filled(graph_filled):
 def test_host_node_empty(graph_empty):
     unexpected_nodes = set([0, 2, 7, 13, 27, 33])
     for node in unexpected_nodes:
-        assert graph_empty.has_node(node) == False
+        assert graph_empty.has_node(node) is False
 
 
 def test_has_node_filled(graph_filled):
     expected_nodes = set([5, 10, 15, 20, 25, 30])
     unexpected_nodes = set([0, 2, 7, 13, 27, 33])
     for node in expected_nodes:
-        assert graph_filled.has_node(node) == True
+        assert graph_filled.has_node(node) is True
     for node in unexpected_nodes:
-        assert graph_filled.has_node(node) == False
+        assert graph_filled.has_node(node) is False
 
 
 def test_neighbors_empty(graph_empty):
