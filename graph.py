@@ -105,6 +105,8 @@ class Graph(object):
 
         args:
             start: the node to start traversal
+
+        returns: the list of nodes traversed
         """
         path = []
         visited = set()
@@ -125,6 +127,8 @@ class Graph(object):
 
         args:
             start: the node to start traversal
+
+        returns: a list of nodes traversed
         """
         path = []
         visited = set()
