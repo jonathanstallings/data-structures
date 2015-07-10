@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+from queue import Queue
+
 
 class Graph(object):
     """A class for a simple graph data structure."""
@@ -98,3 +100,33 @@ class Graph(object):
         """Check if there is an edge pointing from node n1 to n2."""
         return n2 in self[n1]
 
+    def depth_first_traversal(self, start):
+        """Perform full depth-first traversal of graph from start."""
+        path = []
+        visited = set()
+
+        def step(node, path, visited):
+            if node not in visited:
+                path.append(node)
+                visited.add(node)
+                for child in iter(self[node]):
+                    step(child, path, visited)
+                return
+
+        step(start, path, visited)
+        return path
+
+    def breadth_first_traversal(self, start):
+        path = []
+        visited = set()
+        temp = Queue([start])
+
+        while temp:
+            node = temp.dequeue()
+            if node not in visited:
+                path.append(node)
+                visited.add(node)
+                for child in self[node]:
+                    if child not in visited:
+                        temp.enqueue(child)
+        return path
