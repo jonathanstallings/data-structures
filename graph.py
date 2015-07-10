@@ -101,7 +101,11 @@ class Graph(object):
         return n2 in self[n1]
 
     def depth_first_traversal(self, start):
-        """Perform full depth-first traversal of graph from start."""
+        """Perform full depth-first traversal of graph from start.
+
+        args:
+            start: the node to start traversal
+        """
         path = []
         visited = set()
 
@@ -117,6 +121,11 @@ class Graph(object):
         return path
 
     def breadth_first_traversal(self, start):
+        """Perform a full breadth first traversal of graph from start.
+
+        args:
+            start: the node to start traversal
+        """
         path = []
         visited = set()
         temp = Queue([start])
