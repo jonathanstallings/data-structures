@@ -24,6 +24,21 @@ def graph_filled():
     return g
 
 
+@pytest.fixture()
+def graph_filled_for_traversal():
+    g = Graph()
+    g.graph = {
+        1: set([2, 3]),
+        2: set([4, 5]),
+        3: set([6, 7]),
+        4: set([]),
+        5: set([3]),
+        6: set([5]),
+        7: set([6])
+    }
+    return g
+
+
 def test_valid_constructor():
     g = Graph()
     assert isinstance(g, Graph)
@@ -219,3 +234,41 @@ def test_adjacent_filled_existing_node_unexisting_edge(graph_filled):
 def test_adjacent_filled_missing_node(graph_filled):
     with pytest.raises(KeyError):
         graph_filled.adjacent(7, 3)
+
+
+def test_depth_first_traversal(graph_filled_for_traversal):
+    level1 = set([1])
+    level2 = set([2, 3])
+    level3 = set([4, 5, 6, 7])
+    output = graph_filled_for_traversal.depth_first_traversal(1)
+    assert len(output) == 7
+    assert output[0] in level1
+    assert output[1] in level2
+    assert output[2] in level3
+    assert output[3] in level3
+    assert output[4] in level2
+    assert output[5] in level3
+
+
+def test_breadth_first_traversal(graph_filled_for_traversal):
+    level1 = set([1])
+    level2 = set([2, 3])
+    level3 = set([4, 5, 6, 7])
+    output = graph_filled_for_traversal.breadth_first_traversal(1)
+    assert len(output) == 7
+    assert output[0] in level1
+    assert output[1] in level2
+    assert output[2] in level2
+    assert output[3] in level3
+    assert output[4] in level3
+    assert output[5] in level3
+
+
+def test_depth_first_traversal_no_arg(graph_filled_for_traversal):
+    with pytest.raises(TypeError):
+        graph_filled_for_traversal.depth_first_traversal()
+
+
+def test_breadth_first_traversal_no_arg(graph_filled_for_traversal):
+    with pytest.raises(TypeError):
+        graph_filled_for_traversal.breadth_first_traversal()
