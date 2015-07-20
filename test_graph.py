@@ -203,11 +203,12 @@ def test_neighbors_filled_not_present(graph_filled):
 
 #  input, expected output for neighbors in graph_filled
 neighbor_params = [
-    (5, set([10])),
-    (10, set([5, 20, 15])),
-    (20, set([5])),
-    (25, set()),
-    (30, set())
+    ('A', {'B'}),
+    ('B', {'A', 'D', 'C'}),
+    ('C', {})
+    ('D', {'A'}),
+    ('E', {}),
+    ('F', {})
 ]
 
 
@@ -218,24 +219,26 @@ def test_neighbors_filled_present(input, out, graph_filled):
 
 def test_adjacent_empty(graph_empty):
     with pytest.raises(KeyError):
-        graph_empty.adjacent(4, 2)
+        graph_empty.adjacent('A', 'B')
 
 
 def test_adjacent_filled_existing(graph_filled):
-    expected_edges = set([(5, 10), (10, 5), (10, 20), (10, 15), (20, 5)])
+    expected_edges = set([
+        ('A', 'B'), ('B', 'A'), ('B', 'D'), ('B', 'C'), ('D', 'A')
+    ])
     for a, b in expected_edges:
         assert graph_filled.adjacent(a, b) is True
 
 
 def test_adjacent_filled_existing_node_unexisting_edge(graph_filled):
-    bad_edges = set([(5, 15), (20, 10), (5, 20)])
+    bad_edges = set([('A', 'C'), ('D', 'B'), ('A', 'D')])
     for a, b in bad_edges:
         assert graph_filled.adjacent(a, b) is False
 
 
 def test_adjacent_filled_missing_node(graph_filled):
     with pytest.raises(KeyError):
-        graph_filled.adjacent(7, 3)
+        graph_filled.adjacent('G', 'H')
 
 
 def test_depth_first_traversal(graph_filled_for_traversal):
