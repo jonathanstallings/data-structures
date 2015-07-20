@@ -74,3 +74,4 @@ Available methods include:
 
 See the doc strings for implementation details.
 
+[![Build Status](https://travis-ci.org/jonathanstallings/data-structures.svg?branch=feature%2Fbinheap%2Fjonathan)](https://travis-ci.org/jonathanstallings/data-structures)
