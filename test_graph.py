@@ -111,33 +111,33 @@ def test_add_edge_n1_n2_exist_with_edges(graph_filled):
     g.add_edge(n1, n2, 10)
     assert n1 in g and n2 in g
     assert n2 in g[n1]
-    assert len(g[n1]) == 2 and len(g[n2]) == 3
+    assert g[n1][n2] == 10
 
 
 def test_add_edge_n1_n2_exist_without_edges(graph_filled):
     g = graph_filled
-    n1, n2 = 25, 30
-    g.add_edge(n1, n2)
+    n1, n2 = 'E', 'F'
+    g.add_edge(n1, n2, 10)
     assert n1 in g and n2 in g
     assert n2 in g[n1]
-    assert len(g[n1]) == 1 and len(g[n2]) == 0
+    assert g[n1][n2] == 10
 
 
 def test_del_node_exists(graph_filled):
     g = graph_filled
-    g.del_node(5)
-    assert 5 not in g
-    assert 5 not in g.graph.values()
+    g.del_node('A')
+    assert 'A' not in g
+    assert 'A' not in g.graph.values()
 
 
 def test_del_node_empty_error(graph_empty):
     with pytest.raises(KeyError):
-        graph_empty.del_node(10)
+        graph_empty.del_node('A')
 
 
 def test_del_edge_exists(graph_filled):
     g = graph_filled
-    n1, n2 = 10, 5
+    n1, n2 = 'B', 'A'
     g.del_edge(n1, n2)
     assert n1 in g and n2 in g
     assert n2 not in g[n1]
@@ -145,7 +145,7 @@ def test_del_edge_exists(graph_filled):
 
 def test_del_edge_not_exist(graph_filled):
     with pytest.raises(KeyError):
-        graph_filled.del_edge(100, 200)
+        graph_filled.del_edge('X', 'Y')
 
 
 def test_nodes_empty(graph_empty):
@@ -156,7 +156,7 @@ def test_nodes_empty(graph_empty):
 
 def test_nodes_filled(graph_filled):
     out = graph_filled.nodes()
-    expected_nodes = set([5, 10, 15, 20, 25, 30])
+    expected_nodes = set(['A', 'B', 'C', 'D', 'E', 'F'])
     assert set(out) == expected_nodes
     assert len(out) == 6
 
@@ -169,7 +169,9 @@ def test_edges_empty(graph_empty):
 
 def test_edges_filled(graph_filled):
     out = graph_filled.edges()
-    expected_edges = set([(5, 10), (10, 5), (10, 20), (10, 15), (20, 5)])
+    expected_edges = set([
+        ('A', 'B'), ('B', 'A'), ('B', 'D'), ('B', 'C'), ('D', 'A')
+    ])
     assert set(out) == expected_edges
     assert len(out) == 5
 
@@ -181,8 +183,8 @@ def test_host_node_empty(graph_empty):
 
 
 def test_has_node_filled(graph_filled):
-    expected_nodes = set([5, 10, 15, 20, 25, 30])
-    unexpected_nodes = set([0, 2, 7, 13, 27, 33])
+    expected_nodes = set(['A', 'B', 'C', 'D', 'E', 'F'])
+    unexpected_nodes = set(['G', 'H', 'I', 'J', 'K', 10])
     for node in expected_nodes:
         assert graph_filled.has_node(node) is True
     for node in unexpected_nodes:
@@ -191,12 +193,12 @@ def test_has_node_filled(graph_filled):
 
 def test_neighbors_empty(graph_empty):
     with pytest.raises(KeyError):
-        graph_empty.neighbors(3)
+        graph_empty.neighbors('G')
 
 
 def test_neighbors_filled_not_present(graph_filled):
     with pytest.raises(KeyError):
-        graph_filled.neighbors(3)
+        graph_filled.neighbors('G')
 
 
 #  input, expected output for neighbors in graph_filled
