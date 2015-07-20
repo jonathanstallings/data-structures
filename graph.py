@@ -45,11 +45,10 @@ class Graph(object):
         if not self.has_node(node2):
             self.add_node(node2)
         try:
-            self[node1].add(node2)
+            self[node1].update({node2: edge_weight})
         except KeyError:
             self.add_node(node1)
-            self[node1].add(node2)
-        self[node1][node2] = edge_weight
+            self[node1].update({node2: edge_weight})
 
     def del_node(self, n):
         """Delete a node from the graph. Will cleanup all edges pointing
