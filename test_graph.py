@@ -205,7 +205,7 @@ def test_neighbors_filled_not_present(graph_filled):
 neighbor_params = [
     ('A', {'B'}),
     ('B', {'A', 'D', 'C'}),
-    ('C', {})
+    ('C', {}),
     ('D', {'A'}),
     ('E', {}),
     ('F', {})
