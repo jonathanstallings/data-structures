@@ -29,7 +29,7 @@ def graph_filled_for_traversal():
     g = Graph()
     g.graph = {
         'A': {'B': 10, 'C': 15},
-        'B': {'D': 15, 'E': 5},
+        'B': {'D': 15, 'E': 5, 'C': 5},
         'C': {'F': 50, 'G': 25},
         'D': {},
         'E': {'C': 5},
@@ -237,32 +237,26 @@ def test_adjacent_filled_missing_node(graph_filled):
 
 
 def test_depth_first_traversal(graph_filled_for_traversal):
-    level1 = set([1])
-    level2 = set([2, 3])
-    level3 = set([4, 5, 6, 7])
-    output = graph_filled_for_traversal.depth_first_traversal(1)
+    level1 = set(['A'])
+    level2 = set(['B', 'C'])
+    level3 = set(['D', 'E', 'F', 'G'])
+    output = graph_filled_for_traversal.depth_first_traversal('A')
     assert len(output) == 7
     assert output[0] in level1
     assert output[1] in level2
     assert output[2] in level3
-    assert output[3] in level3
-    assert output[4] in level2
-    assert output[5] in level3
 
 
 def test_breadth_first_traversal(graph_filled_for_traversal):
-    level1 = set([1])
-    level2 = set([2, 3])
-    level3 = set([4, 5, 6, 7])
-    output = graph_filled_for_traversal.breadth_first_traversal(1)
+    level1 = set(['A'])
+    level2 = set(['B', 'C'])
+    level3 = set(['D', 'E', 'F', 'G'])
+    output = graph_filled_for_traversal.breadth_first_traversal('A')
     assert len(output) == 7
     assert output[0] in level1
     assert output[1] in level2
     assert output[2] in level2
     assert output[3] in level3
-    assert output[4] in level3
-    assert output[5] in level3
-
 
 def test_depth_first_traversal_no_arg(graph_filled_for_traversal):
     with pytest.raises(TypeError):
@@ -272,3 +266,11 @@ def test_depth_first_traversal_no_arg(graph_filled_for_traversal):
 def test_breadth_first_traversal_no_arg(graph_filled_for_traversal):
     with pytest.raises(TypeError):
         graph_filled_for_traversal.breadth_first_traversal()
+
+
+def test_graph_weighted_edges(graph_filled):
+    assert graph_filled['A']['B'] == 10
+    assert graph_filled['B']['A'] == 5
+    assert graph_filled['B']['D'] == 15
+    assert graph_filled['B']['C'] == 20
+    assert graph_filled['D']['A'] == 5
