@@ -53,24 +53,24 @@ def test_invalid_constructor():
 
 def test_add_node_to_empty(graph_empty):
     g = graph_empty
-    new = 40
+    new = 'A'
     g.add_node(new)
     assert new in g
-    assert isinstance(g[new], set) and len(g[new]) == 0
+    assert isinstance(g[new], dict) and len(g[new]) == 0
 
 
 def test_add_node_to_filled(graph_filled):
     g = graph_filled
-    new = 40
+    new = 'G'
     g.add_node(new)
     assert new in g
-    assert isinstance(g[new], set)
+    assert isinstance(g[new], dict)
     assert len(g[new]) == 0
 
 
 def test_add_node_to_filled_existing_node(graph_filled):
     with pytest.raises(KeyError):
-        graph_filled.add_node(5)
+        graph_filled.add_node('B')
 
 
 def test_add_node_wrong_type(graph_empty):
@@ -80,35 +80,35 @@ def test_add_node_wrong_type(graph_empty):
 
 def test_add_edge_new_nodes(graph_empty):
     g = graph_empty
-    n1, n2 = 30, 40
-    g.add_edge(n1, n2)
+    n1, n2 = 'A', 'B'
+    g.add_edge(n1, n2, 10)
     assert n1 in g and n2 in g
     assert n2 in g[n1]
-    assert len(g[n2]) == 0
+    assert g[n1][n2] == 10
 
 
 def test_add_edge_n2_new(graph_filled):
     g = graph_filled
-    n1, n2 = 30, 40
-    g.add_edge(n1, n2)
+    n1, n2 = 'A', 'G'
+    g.add_edge(n1, n2, 10)
     assert n1 in g and n2 in g
     assert n2 in g[n1]
-    assert len(g[n2]) == 0
+    assert g[n1][n2] == 10
 
 
 def test_add_edge_n1_new(graph_filled):
     g = graph_filled
-    n1, n2 = 1, 5
-    g.add_edge(n1, n2)
+    n1, n2 = 'G', 'A'
+    g.add_edge(n1, n2, 10)
     assert n1 in g and n2 in g
     assert n2 in g[n1]
-    assert len(g[n2]) == 1
+    assert g[n1][n2] == 10
 
 
 def test_add_edge_n1_n2_exist_with_edges(graph_filled):
     g = graph_filled
-    n1, n2 = 20, 10
-    g.add_edge(n1, n2)
+    n1, n2 = 'D', 'A'
+    g.add_edge(n1, n2, 10)
     assert n1 in g and n2 in g
     assert n2 in g[n1]
     assert len(g[n1]) == 2 and len(g[n2]) == 3
