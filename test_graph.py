@@ -14,12 +14,12 @@ def graph_empty():
 def graph_filled():
     g = Graph()
     g.graph = {
-        5: set([10]),
-        10: set([5, 20, 15]),
-        15: set(),
-        20: set([5]),
-        25: set(),
-        30: set()
+        'A': {'B': 10},
+        'B': {'A': 5, 'D': 15, 'C': 20},
+        'C': {},
+        'D': {'A': 5},
+        'E': {},
+        'F': {}
     }
     return g
 
@@ -28,13 +28,13 @@ def graph_filled():
 def graph_filled_for_traversal():
     g = Graph()
     g.graph = {
-        1: set([2, 3]),
-        2: set([4, 5]),
-        3: set([6, 7]),
-        4: set([]),
-        5: set([3]),
-        6: set([5]),
-        7: set([6])
+        'A': {'B': 10, 'C': 15},
+        'B': {'D': 15, 'E': 5, 'C': 5},
+        'C': {'F': 50, 'G': 25},
+        'D': {},
+        'E': {'C': 5},
+        'F': {'E': 10},
+        'G': {'F': 20}
     }
     return g
 
@@ -53,24 +53,24 @@ def test_invalid_constructor():
 
 def test_add_node_to_empty(graph_empty):
     g = graph_empty
-    new = 40
+    new = 'A'
     g.add_node(new)
     assert new in g
-    assert isinstance(g[new], set) and len(g[new]) == 0
+    assert isinstance(g[new], dict) and len(g[new]) == 0
 
 
 def test_add_node_to_filled(graph_filled):
     g = graph_filled
-    new = 40
+    new = 'G'
     g.add_node(new)
     assert new in g
-    assert isinstance(g[new], set)
+    assert isinstance(g[new], dict)
     assert len(g[new]) == 0
 
 
 def test_add_node_to_filled_existing_node(graph_filled):
     with pytest.raises(KeyError):
-        graph_filled.add_node(5)
+        graph_filled.add_node('B')
 
 
 def test_add_node_wrong_type(graph_empty):
@@ -80,64 +80,64 @@ def test_add_node_wrong_type(graph_empty):
 
 def test_add_edge_new_nodes(graph_empty):
     g = graph_empty
-    n1, n2 = 30, 40
-    g.add_edge(n1, n2)
+    n1, n2 = 'A', 'B'
+    g.add_edge(n1, n2, 10)
     assert n1 in g and n2 in g
     assert n2 in g[n1]
-    assert len(g[n2]) == 0
+    assert g[n1][n2] == 10
 
 
 def test_add_edge_n2_new(graph_filled):
     g = graph_filled
-    n1, n2 = 30, 40
-    g.add_edge(n1, n2)
+    n1, n2 = 'A', 'G'
+    g.add_edge(n1, n2, 10)
     assert n1 in g and n2 in g
     assert n2 in g[n1]
-    assert len(g[n2]) == 0
+    assert g[n1][n2] == 10
 
 
 def test_add_edge_n1_new(graph_filled):
     g = graph_filled
-    n1, n2 = 1, 5
-    g.add_edge(n1, n2)
+    n1, n2 = 'G', 'A'
+    g.add_edge(n1, n2, 10)
     assert n1 in g and n2 in g
     assert n2 in g[n1]
-    assert len(g[n2]) == 1
+    assert g[n1][n2] == 10
 
 
 def test_add_edge_n1_n2_exist_with_edges(graph_filled):
     g = graph_filled
-    n1, n2 = 20, 10
-    g.add_edge(n1, n2)
+    n1, n2 = 'D', 'A'
+    g.add_edge(n1, n2, 10)
     assert n1 in g and n2 in g
     assert n2 in g[n1]
-    assert len(g[n1]) == 2 and len(g[n2]) == 3
+    assert g[n1][n2] == 10
 
 
 def test_add_edge_n1_n2_exist_without_edges(graph_filled):
     g = graph_filled
-    n1, n2 = 25, 30
-    g.add_edge(n1, n2)
+    n1, n2 = 'E', 'F'
+    g.add_edge(n1, n2, 10)
     assert n1 in g and n2 in g
     assert n2 in g[n1]
-    assert len(g[n1]) == 1 and len(g[n2]) == 0
+    assert g[n1][n2] == 10
 
 
 def test_del_node_exists(graph_filled):
     g = graph_filled
-    g.del_node(5)
-    assert 5 not in g
-    assert 5 not in g.graph.values()
+    g.del_node('A')
+    assert 'A' not in g
+    assert 'A' not in g.graph.values()
 
 
 def test_del_node_empty_error(graph_empty):
     with pytest.raises(KeyError):
-        graph_empty.del_node(10)
+        graph_empty.del_node('A')
 
 
 def test_del_edge_exists(graph_filled):
     g = graph_filled
-    n1, n2 = 10, 5
+    n1, n2 = 'B', 'A'
     g.del_edge(n1, n2)
     assert n1 in g and n2 in g
     assert n2 not in g[n1]
@@ -145,7 +145,7 @@ def test_del_edge_exists(graph_filled):
 
 def test_del_edge_not_exist(graph_filled):
     with pytest.raises(KeyError):
-        graph_filled.del_edge(100, 200)
+        graph_filled.del_edge('X', 'Y')
 
 
 def test_nodes_empty(graph_empty):
@@ -156,7 +156,7 @@ def test_nodes_empty(graph_empty):
 
 def test_nodes_filled(graph_filled):
     out = graph_filled.nodes()
-    expected_nodes = set([5, 10, 15, 20, 25, 30])
+    expected_nodes = set(['A', 'B', 'C', 'D', 'E', 'F'])
     assert set(out) == expected_nodes
     assert len(out) == 6
 
@@ -169,7 +169,9 @@ def test_edges_empty(graph_empty):
 
 def test_edges_filled(graph_filled):
     out = graph_filled.edges()
-    expected_edges = set([(5, 10), (10, 5), (10, 20), (10, 15), (20, 5)])
+    expected_edges = set([
+        ('A', 'B'), ('B', 'A'), ('B', 'D'), ('B', 'C'), ('D', 'A')
+    ])
     assert set(out) == expected_edges
     assert len(out) == 5
 
@@ -181,8 +183,8 @@ def test_host_node_empty(graph_empty):
 
 
 def test_has_node_filled(graph_filled):
-    expected_nodes = set([5, 10, 15, 20, 25, 30])
-    unexpected_nodes = set([0, 2, 7, 13, 27, 33])
+    expected_nodes = set(['A', 'B', 'C', 'D', 'E', 'F'])
+    unexpected_nodes = set(['G', 'H', 'I', 'J', 'K', 10])
     for node in expected_nodes:
         assert graph_filled.has_node(node) is True
     for node in unexpected_nodes:
@@ -191,21 +193,22 @@ def test_has_node_filled(graph_filled):
 
 def test_neighbors_empty(graph_empty):
     with pytest.raises(KeyError):
-        graph_empty.neighbors(3)
+        graph_empty.neighbors('G')
 
 
 def test_neighbors_filled_not_present(graph_filled):
     with pytest.raises(KeyError):
-        graph_filled.neighbors(3)
+        graph_filled.neighbors('G')
 
 
 #  input, expected output for neighbors in graph_filled
 neighbor_params = [
-    (5, set([10])),
-    (10, set([5, 20, 15])),
-    (20, set([5])),
-    (25, set()),
-    (30, set())
+    ('A', {'B': 10}),
+    ('B', {'A': 5, 'D': 15, 'C': 20}),
+    ('C', {}),
+    ('D', {'A': 5}),
+    ('E', {}),
+    ('F', {})
 ]
 
 
@@ -216,53 +219,49 @@ def test_neighbors_filled_present(input, out, graph_filled):
 
 def test_adjacent_empty(graph_empty):
     with pytest.raises(KeyError):
-        graph_empty.adjacent(4, 2)
+        graph_empty.adjacent('A', 'B')
 
 
 def test_adjacent_filled_existing(graph_filled):
-    expected_edges = set([(5, 10), (10, 5), (10, 20), (10, 15), (20, 5)])
+    expected_edges = set([
+        ('A', 'B'), ('B', 'A'), ('B', 'D'), ('B', 'C'), ('D', 'A')
+    ])
     for a, b in expected_edges:
         assert graph_filled.adjacent(a, b) is True
 
 
 def test_adjacent_filled_existing_node_unexisting_edge(graph_filled):
-    bad_edges = set([(5, 15), (20, 10), (5, 20)])
+    bad_edges = set([('A', 'C'), ('D', 'B'), ('A', 'D')])
     for a, b in bad_edges:
         assert graph_filled.adjacent(a, b) is False
 
 
 def test_adjacent_filled_missing_node(graph_filled):
     with pytest.raises(KeyError):
-        graph_filled.adjacent(7, 3)
+        graph_filled.adjacent('G', 'H')
 
 
 def test_depth_first_traversal(graph_filled_for_traversal):
-    level1 = set([1])
-    level2 = set([2, 3])
-    level3 = set([4, 5, 6, 7])
-    output = graph_filled_for_traversal.depth_first_traversal(1)
+    level1 = set(['A'])
+    level2 = set(['B', 'C'])
+    level3 = set(['D', 'E', 'F', 'G'])
+    output = graph_filled_for_traversal.depth_first_traversal('A')
     assert len(output) == 7
     assert output[0] in level1
     assert output[1] in level2
     assert output[2] in level3
-    assert output[3] in level3
-    assert output[4] in level2
-    assert output[5] in level3
 
 
 def test_breadth_first_traversal(graph_filled_for_traversal):
-    level1 = set([1])
-    level2 = set([2, 3])
-    level3 = set([4, 5, 6, 7])
-    output = graph_filled_for_traversal.breadth_first_traversal(1)
+    level1 = set(['A'])
+    level2 = set(['B', 'C'])
+    level3 = set(['D', 'E', 'F', 'G'])
+    output = graph_filled_for_traversal.breadth_first_traversal('A')
     assert len(output) == 7
     assert output[0] in level1
     assert output[1] in level2
     assert output[2] in level2
     assert output[3] in level3
-    assert output[4] in level3
-    assert output[5] in level3
-
 
 def test_depth_first_traversal_no_arg(graph_filled_for_traversal):
     with pytest.raises(TypeError):
@@ -272,3 +271,11 @@ def test_depth_first_traversal_no_arg(graph_filled_for_traversal):
 def test_breadth_first_traversal_no_arg(graph_filled_for_traversal):
     with pytest.raises(TypeError):
         graph_filled_for_traversal.breadth_first_traversal()
+
+
+def test_graph_weighted_edges(graph_filled):
+    assert graph_filled['A']['B'] == 10
+    assert graph_filled['B']['A'] == 5
+    assert graph_filled['B']['D'] == 15
+    assert graph_filled['B']['C'] == 20
+    assert graph_filled['D']['A'] == 5

@@ -26,7 +26,7 @@ class Graph(object):
     def __delitem__(self, index):
         del self.graph[index]
         for edgeset in self.graph.values():
-            edgeset.discard(index)
+            edgeset.pop(index, None)
 
     def add_node(self, n):
         """Add a new node to the graph. Will raise an error if node
@@ -36,19 +36,19 @@ class Graph(object):
         """
         if self.has_node(n):
             raise KeyError('Node already in graph.')
-        self[n] = set()
+        self[n] = dict()
 
-    def add_edge(self, n1, n2):
+    def add_edge(self, node1, node2, edge_weight):
         """Add a new edge connecting n1 to n2. Will implicitly create
         n1 and n2 if either do not exist.
         """
-        if not self.has_node(n2):
-            self.add_node(n2)
+        if not self.has_node(node2):
+            self.add_node(node2)
         try:
-            self[n1].add(n2)
+            self[node1].update({node2: edge_weight})
         except KeyError:
-            self.add_node(n1)
-            self[n1].add(n2)
+            self.add_node(node1)
+            self[node1].update({node2: edge_weight})
 
     def del_node(self, n):
         """Delete a node from the graph. Will cleanup all edges pointing
@@ -60,7 +60,7 @@ class Graph(object):
         """Delete stated edge connecting node n1 to n2. Will raise a KeyError
         if the edge does not exist.
         """
-        self[n1].remove(n2)
+        self[n1].pop(n2)
 
     def has_node(self, n):
         """Check if a given node is in the graph, return True if it exists,
@@ -143,4 +143,3 @@ class Graph(object):
                     if child not in visited:
                         temp.enqueue(child)
         return path
-
