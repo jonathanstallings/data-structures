@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from queue import Queue
-from priorityq import QNode, PriorityQ
+import priorityq as pq
 
 
 class Graph(object):
@@ -147,7 +147,7 @@ class Graph(object):
 
     def uniform_cost_search(self, start, goal):
         """Return the shortest path from start to goal node."""
-        q = PriorityQ()
+        q = pq.PriorityQ()
         q.insert((0, start, []), priority=0)
         seen = {}
 
@@ -159,7 +159,7 @@ class Graph(object):
             if point == goal:
                 return path
             for child in self[point]:
-                child_cost = self.point[child]
+                child_cost = self[point][child]
                 if child not in seen:
                     tot_cost = child_cost + cost
                     q.insert((tot_cost, child, path), priority=tot_cost)
