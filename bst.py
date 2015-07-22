@@ -12,9 +12,12 @@ class Node(object):
         return '{}'.format(self.val)
 
     def insert(self, val):
-        """insert a node with val into the BST.
+        """Insert a node with a value into the tree.
 
         If val is already present, it will be ignored.
+
+        args:
+            val: the value to insert
         """
         if val == self.val:
             return None
@@ -30,8 +33,13 @@ class Node(object):
                 self.right.insert(val)
 
     def contains(self, val):
-        """return True if val is in the BST, False if not"""
-        # import pdb; pdb.set_trace()
+        """Check tree for node with given value.
+
+        args:
+            val: the value to check for
+
+        returns: True if val is in the tree, False if not.
+        """
         if val == self.val:
             return True
         elif val < self.val:
@@ -44,31 +52,34 @@ class Node(object):
             return self.right.contains(val)
 
     def size(self):
-        """return the integer size of the BST.
+        """Return the total number of nodes in the tree.
 
-        (equal to the total number of values stored in the tree),
-        0 if the tree is empty.
+        returns: integer of total node; 0 if empty
         """
         left_size = self.left.size() if self.left is not None else 0
         right_size = self.right.size() if self.right is not None else 0
         return left_size + right_size + 1
 
     def depth(self):
-        """return an integer representing the total number of levels in the tree.
+        """Return an the total number of levels in the tree.
 
         If there is one value, the depth should be 1, if two values it'll be 2,
         if three values it may be 2 or three, depending, etc.
+
+        returns: integer of level number
         """
         left_depth = self.left.depth() if self.left is not None else 0
         right_depth = self.right.depth() if self.right is not None else 0
         return max(left_depth, right_depth) + 1
 
     def balance(self):
-        """return an integer, positive or negative represents how balanced the tree is.
+        """Return a positive or negative number representing tree balance.
 
-        Trees which are higher on the left than the right should return a positive value,
-        trees which are higher on the right than the left should return a negative value.
-        An ideallyl-balanced tree should return 0.
+        Trees higher on the left than the right should return a positive value,
+        trees higher on the right than the left should return a negative value.
+        An ideally-balanced tree should return 0.
+
+        returns: integer
         """
         left_depth = self.left.depth() if self.left else 0
         right_depth = self.right.depth() if self.right else 0
