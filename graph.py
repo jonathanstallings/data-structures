@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from queue import Queue
+import priorityq as pq
 
 
 class Graph(object):
@@ -143,3 +144,29 @@ class Graph(object):
                     if child not in visited:
                         temp.enqueue(child)
         return path
+
+    def uniform_cost_search(self, start, goal):
+        """Return the shortest path from start to goal node.
+
+        args:
+            start: the node to begin the path
+            goal: the node to end the path
+        """
+        q = pq.PriorityQ()
+        q.insert((0, start, []), priority=0)
+        seen = {}
+
+        while q:
+            cost, point, path = q.pop()
+            if point in seen and seen[point] < cost:
+                continue
+            path = path + [point]
+            if point == goal:
+                return path
+            for child in self[point]:
+                child_cost = self[point][child]
+                if child not in seen:
+                    tot_cost = child_cost + cost
+                    q.insert((tot_cost, child, path), priority=tot_cost)
+            seen[point] = cost
+        return None
