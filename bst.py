@@ -70,9 +70,11 @@ class Node(object):
         trees which are higher on the right than the left should return a negative value.
         An ideallyl-balanced tree should return 0.
         """
-        if self.left.depth() > self.right.depth():
+        left_depth = self.left.depth() if self.left else 0
+        right_depth = self.right.depth() if self.right else 0
+        if left_depth > right_depth:
             return 1
-        elif self.left.depth() < self.right.depth():
+        elif left_depth < right_depth:
             return -1
         else:
             return 0
