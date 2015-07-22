@@ -7,6 +7,7 @@ class Node(object):
         self.val = val
         self.left = None
         self.right = None
+        self.count = 0
 
     def insert(self, val):
         """insert a node with val into the BST.
@@ -15,6 +16,7 @@ class Node(object):
         """
         if self.contains(val):
             return
+        self.count += 1
         if val < self.val:
             if self.left is None:
                 self.left = Node(val)
@@ -45,7 +47,7 @@ class Node(object):
         (equal to the total number of values stored in the tree),
         0 if the tree is empty.
         """
-        pass
+        return self.count
 
     def depth(self):
         """return an integer representing the total number of levels in the tree.
@@ -62,4 +64,9 @@ class Node(object):
         trees which are higher on the right than the left should return a negative value.
         An ideallyl-balanced tree should return 0.
         """
-        pass
+        if self.left.depth() > self.right.depth():
+            return 1
+        elif self.left.depth() < self.right.depth():
+            return -1
+        else:
+            return 0
