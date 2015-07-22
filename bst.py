@@ -28,7 +28,16 @@ class Node(object):
 
     def contains(self, val):
         """return True if val is in the BST, False if not"""
-        pass
+        if val < self.val:
+            if self.left is None:
+                return False
+            return self.left.contains(val)
+        elif val > self.val:
+            if self.right is None:
+                return False
+            return self.left.contains(val)
+        else:
+            return True
 
     def size(self):
         """return the integer size of the BST.
