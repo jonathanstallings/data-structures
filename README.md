@@ -71,8 +71,21 @@ Available methods include:
 * adjacent(n1, n2)
 * depth_first_traversal(start)
 * breadth_first_traversal(start)
+* uniform_cost_search(n1, n2)
+* bellmanford(n1, n2)
 
-See the doc strings for implementation details.
+The uniform_cost_search method returns a path that corresponds to the
+shortest path between n1 and n2. This algorithm tracks historical paths
+and is able to search for the shortest path in a relatively uncostly way.
+Time complexity is O(edges + node log nodes) with relatively low memory
+overhead.
+
+The bellmanfor search method also returns the same path, but has the added
+ability to handle edges with negative values and detect negative feedback
+loops. It is relatively robust, but at added time complexity cost of 
+O(nodes * edges).
+
+See the doc strings for additional implementation details.
 
 [![Build Status](https://travis-ci.org/jonathanstallings/data-structures.svg?branch=feature%2Fbinheap%2Fjonathan)](https://travis-ci.org/jonathanstallings/data-structures)
 
