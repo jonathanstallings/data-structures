@@ -53,27 +53,27 @@ def test_contains(rand_setup):
 
 def test_size(rand_setup):
     pre_size = rand_setup.size()
-    rand = randint(1, 100)
-    rand_setup.insert(rand)
-    rand_setup.insert(rand)
+    new = 200
+    rand_setup.insert(new)
+    rand_setup.insert(new)
     post_size = rand_setup.size()
     assert post_size > pre_size
     assert post_size == pre_size + 1
 
 
 def test_depth(fixed_setup):
-    assert fixed_setup.left.depth() == 5
-    assert fixed_setup.right.depth() == 4
+    assert fixed_setup.left.depth() == 4
+    assert fixed_setup.right.depth() == 3
     fixed_setup.insert(13)
-    assert fixed_setup.left.depth() == 6
+    assert fixed_setup.left.depth() == 5
 
 
 def test_balance(rand_setup):
     left = rand_setup.left.depth()
     right = rand_setup.right.depth()
     if left > right:
-        assert rand_setup.balance() < 0
+        assert rand_setup.balance() == 1
     elif right > left:
-        assert rand_setup.balance() > 0
+        assert rand_setup.balance() == -1
     else:
         assert rand_setup.balance() == 0
