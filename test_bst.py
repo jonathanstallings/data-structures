@@ -9,7 +9,10 @@ def rand_setup():
     root = Node(randint(1, 100))
     for idx in range(20):
         val = randint(1, 100)
-        root.insert(val)
+        try:
+            root.insert(val)
+        except AttributeError:
+            continue
 
     return root
 
@@ -27,6 +30,8 @@ def fixed_setup():
     root.insert(24)
     root.insert(40)
     root.insert(14)
+
+    return root
 
 
 def test_insert(rand_setup):
@@ -67,8 +72,8 @@ def test_balance(rand_setup):
     left = rand_setup.left.depth()
     right = rand_setup.right.depth()
     if left > right:
-        assert rand_setup.balance() == -int
+        assert rand_setup.balance() < 0
     elif right > left:
-        assert rand_setup.balance() == abs(int)
+        assert rand_setup.balance() > 0
     else:
         assert rand_setup.balance() == 0
