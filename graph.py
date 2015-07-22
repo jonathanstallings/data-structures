@@ -146,7 +146,12 @@ class Graph(object):
         return path
 
     def uniform_cost_search(self, start, goal):
-        """Return the shortest path from start to goal node."""
+        """Return the shortest path from start to goal node.
+
+        args:
+            start: the node to begin the path
+            goal: the node to end the path
+        """
         q = pq.PriorityQ()
         q.insert((0, start, []), priority=0)
         seen = {}
