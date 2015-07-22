@@ -3,16 +3,19 @@ from __future__ import unicode_literals
 
 class Node(object):
     """A class for a binary search tree node."""
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, val):
+        self.val = val
         self.left = None
         self.right = None
 
     def insert(self, val):
-        """insert the value val into the BST.
+        """insert a node with val into the BST.
 
         If val is already present, it will be ignored.
         """
+        if self.contains(val):
+            return
+        
         pass
 
     def contains(self, val):
