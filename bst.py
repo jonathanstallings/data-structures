@@ -7,7 +7,7 @@ class Node(object):
         self.val = val
         self.left = None
         self.right = None
-        self.count = 0
+        self.count = 1
 
     def insert(self, val):
         """insert a node with val into the BST.
@@ -55,7 +55,9 @@ class Node(object):
         If there is one value, the depth should be 1, if two values it'll be 2,
         if three values it may be 2 or three, depending, etc.
         """
-        pass
+        left_depth = self.left.depth() if self.left else 0
+        right_depth = self.right.depth() if self.right else 0
+        return max(left_depth, right_depth) + 1
 
     def balance(self):
         """return an integer, positive or negative represents how balanced the tree is.
