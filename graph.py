@@ -143,3 +143,50 @@ class Graph(object):
                     if child not in visited:
                         temp.enqueue(child)
         return path
+
+
+    def bellmanford(self, node1, node2):
+        """Find the shortest path from node1 to node2
+
+        It is possible to access a graph with negatives weights using this
+        algorithm
+
+        This implementation is adapted for Python from the pseudocode
+        here:
+        https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm#Algorithm
+
+        This algorithm is currently generating useful, extra data that
+        isn't being returned. May want to update the API to allow access
+        to this info.
+        """
+
+        distance = {node: float("inf") if node != node1 else 0
+                     for node in self}
+
+        predecessor = {node: None for node in self}
+
+        for _ in self:
+            for node in self:
+                # Point of this and inner loop is to grab each of the edges by
+                # node times; expect O( node * edge ); note that edges are nested
+                # under nodes dict ; hence two inner loops needed to grab these
+                for edgen, weight in self[node].iteritems():
+                    if distance[node] + weight < distance[edgen]:
+                        distance[edgen] = distance[node] + weight
+                        predecessor[edgen] = node
+        for node in self:
+                # Consistancy check per pseudo code; check for loops where
+                # cost is negative per cycle
+                for edgen, weight in self[node].iteritems():
+                    if distance[node] + weight < distance[edgen]:
+                        raise ZeroDivisionError
+        # Now build a path from predecessor dict
+        rpath = []
+        pointer = node2
+        while True:
+            rpath.append(pointer)
+            if pointer == node1:
+                break
+            pointer = predecessor[pointer]
+        rpath.reverse()
+        return rpath
