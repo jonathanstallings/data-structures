@@ -36,10 +36,10 @@ def fixed_setup():
 
 def test_insert(rand_setup):
     pre_size = rand_setup.size()
-    rand = randint(1, 100)
-    rand_setup.insert(rand)
-    assert rand_setup.insert(rand) is None
-    rand_setup.insert(rand)
+    new = 200
+    rand_setup.insert(new)
+    assert rand_setup.insert(new) is None
+    rand_setup.insert(new)
     post_size = rand_setup.size()
     assert post_size > pre_size
     assert post_size == pre_size + 1
@@ -69,8 +69,8 @@ def test_depth(fixed_setup):
 
 
 def test_balance(rand_setup):
-    left = rand_setup.left.depth()
-    right = rand_setup.right.depth()
+    left = rand_setup.left.depth() if rand_setup.left is not None else 0
+    right = rand_setup.right.depth() if rand_setup.right is not None else 0
     if left > right:
         assert rand_setup.balance() == 1
     elif right > left:
