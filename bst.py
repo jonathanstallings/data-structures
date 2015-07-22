@@ -9,13 +9,16 @@ class Node(object):
         self.right = None
         self.count = 1
 
+    def __repr__(self):
+        return '{}'.format(self.val)
+
     def insert(self, val):
         """insert a node with val into the BST.
 
         If val is already present, it will be ignored.
         """
-        if self.contains(val):
-            return
+        if val == self.val:
+            return None
         self.count += 1
         if val < self.val:
             if self.left is None:
@@ -30,16 +33,17 @@ class Node(object):
 
     def contains(self, val):
         """return True if val is in the BST, False if not"""
-        if val < self.val:
+        # import pdb; pdb.set_trace()
+        if val == self.val:
+            return True
+        elif val < self.val:
             if self.left is None:
                 return False
             return self.left.contains(val)
         elif val > self.val:
             if self.right is None:
                 return False
-            return self.left.contains(val)
-        else:
-            return True
+            return self.right.contains(val)
 
     def size(self):
         """return the integer size of the BST.
