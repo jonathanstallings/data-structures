@@ -87,5 +87,5 @@ O(nodes * edges).
 
 See the doc strings for additional implementation details.
 
-[![Build Status](https://travis-ci.org/jonathanstallings/data-structures.svg?branch=feature%2Fbinheap%2Fjonathan)](https://travis-ci.org/jonathanstallings/data-structures)
+[![Build Status](https://travis-ci.org/jonathanstallings/data-structures.svg?branch=master)](https://travis-ci.org/jonathanstallings/data-structures)
 
