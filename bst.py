@@ -7,7 +7,7 @@ class Node(object):
         self.val = val
         self.left = None
         self.right = None
-        self.count = 0
+        self.count = 1
 
     def insert(self, val):
         """insert a node with val into the BST.
