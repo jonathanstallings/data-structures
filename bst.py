@@ -7,7 +7,6 @@ class Node(object):
         self.val = val
         self.left = None
         self.right = None
-        self.count = 1
 
     def __repr__(self):
         return '{}'.format(self.val)
@@ -19,7 +18,6 @@ class Node(object):
         """
         if val == self.val:
             return None
-        self.count += 1
         if val < self.val:
             if self.left is None:
                 self.left = Node(val)
@@ -51,7 +49,9 @@ class Node(object):
         (equal to the total number of values stored in the tree),
         0 if the tree is empty.
         """
-        return self.count
+        left_size = self.left.size() if self.left is not None else 0
+        right_size = self.right.size() if self.right is not None else 0
+        return left_size + right_size + 1
 
     def depth(self):
         """return an integer representing the total number of levels in the tree.
@@ -59,8 +59,8 @@ class Node(object):
         If there is one value, the depth should be 1, if two values it'll be 2,
         if three values it may be 2 or three, depending, etc.
         """
-        left_depth = self.left.depth() if self.left else 0
-        right_depth = self.right.depth() if self.right else 0
+        left_depth = self.left.depth() if self.left is not None else 0
+        right_depth = self.right.depth() if self.right is not None else 0
         return max(left_depth, right_depth) + 1
 
     def balance(self):
