@@ -15,8 +15,16 @@ class Node(object):
         """
         if self.contains(val):
             return
-        
-        pass
+        if val < self.val:
+            if self.left is None:
+                self.left = Node(val)
+            else:
+                self.left.insert(val)
+        elif val > self.val:
+            if self.right is None:
+                self.right = Node(val)
+            else:
+                self.right.insert(val)
 
     def contains(self, val):
         """return True if val is in the BST, False if not"""
