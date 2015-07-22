@@ -29,10 +29,40 @@ def graph_filled_for_traversal():
     g = Graph()
     g.graph = {
         'A': {'B': 10, 'C': 15},
-        'B': {'D': 15, 'E': 5, 'C': 5},
+        'B': {'D': 15, 'E': 5, 'C': 2},
         'C': {'F': 50, 'G': 25},
         'D': {},
         'E': {'C': 5},
+        'F': {'E': 10},
+        'G': {'F': 20}
+    }
+    return g
+
+
+@pytest.fixture()
+def graph_filled_for_traversal_neg_edges():
+    g = Graph()
+    g.graph = {
+        'A': {'B': -5, 'C': 15},
+        'B': {'D': 15, 'E': 5, 'C': 2},
+        'C': {'F': 50, 'G': -20},
+        'D': {},
+        'E': {'C': 5},
+        'F': {'E': 10},
+        'G': {'F': 20}
+    }
+    return g
+
+
+@pytest.fixture()
+def graph_filled_for_traversal_neg_edges_loop():
+    g = Graph()
+    g.graph = {
+        'A': {'B': -5, 'C': 15},
+        'B': {'D': 15, 'E': 5, 'C': 2},
+        'C': {'F': 50, 'G': -20},
+        'D': {},
+        'E': {'C': -50},
         'F': {'E': 10},
         'G': {'F': 20}
     }
@@ -263,6 +293,7 @@ def test_breadth_first_traversal(graph_filled_for_traversal):
     assert output[2] in level2
     assert output[3] in level3
 
+
 def test_depth_first_traversal_no_arg(graph_filled_for_traversal):
     with pytest.raises(TypeError):
         graph_filled_for_traversal.depth_first_traversal()
@@ -279,3 +310,32 @@ def test_graph_weighted_edges(graph_filled):
     assert graph_filled['B']['D'] == 15
     assert graph_filled['B']['C'] == 20
     assert graph_filled['D']['A'] == 5
+
+
+def test_uniform_cost_search(graph_filled_for_traversal):
+    g = graph_filled_for_traversal
+    expected = ['A', 'B', 'C', 'G', 'F']
+    actual = g.uniform_cost_search('A', 'F')
+    assert expected == actual
+
+
+def test_bellmanford(graph_filled_for_traversal):
+    g = graph_filled_for_traversal
+    expected = ['A', 'B', 'C', 'G', 'F']
+    actual = g.bellmanford('A', 'F')
+    assert expected == actual
+
+
+def test_bellmanford_neg_edges(graph_filled_for_traversal_neg_edges):
+    g = graph_filled_for_traversal_neg_edges
+    expected = ['A', 'B', 'C', 'G', 'F']
+    actual = g.bellmanford('A', 'F')
+    assert expected == actual
+
+
+def test_bellmanford_neg_edges_with_loop(
+        graph_filled_for_traversal_neg_edges_loop):
+    g = graph_filled_for_traversal_neg_edges_loop
+    expected = ['A', 'B', 'C', 'G', 'F']
+    with pytest.raises(ZeroDivisionError):
+        g.bellmanford('A', 'F')
