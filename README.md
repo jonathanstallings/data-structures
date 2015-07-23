@@ -87,5 +87,21 @@ O(nodes * edges).
 
 See the doc strings for additional implementation details.
 
+##Binary Search Tree
+The included node class implements a [binary search tree](https://en.wikipedia.org/wiki/Binary_search_tree). Binary search trees allow lookup operations using binary search, which allows operations such as search and insert to be completed with an average case time complexity of O(log n) and worst case O(n). 
+
+This module was completed with reference to the very helpful post [Binary Search Tree libary in Python](http://www.laurentluce.com/posts/binary-search-tree-library-in-python/) by Laurent Luce.
+
+Available methods include:
+
+* insert(val)
+* contains(val)
+* size()
+* depth()
+* balance()
+
+See the doc strings for additional implementation details.
+
+
 [![Build Status](https://travis-ci.org/jonathanstallings/data-structures.svg?branch=master)](https://travis-ci.org/jonathanstallings/data-structures)
 
