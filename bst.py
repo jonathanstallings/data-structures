@@ -81,11 +81,12 @@ class Node(object):
 
         returns: integer
         """
-        left_depth = self.left.depth() if self.left else 0
-        right_depth = self.right.depth() if self.right else 0
+        left_depth = self.left.depth() if self.left is not None else 0
+        right_depth = self.right.depth() if self.right is not None else 0
         if left_depth > right_depth:
             return 1
         elif left_depth < right_depth:
             return -1
         else:
             return 0
+
