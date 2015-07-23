@@ -90,3 +90,31 @@ class Node(object):
         else:
             return 0
 
+
+if __name__ == '__main__':
+    from timeit import Timer
+
+    """Document the best and worst cases for searching for a value in the tree.
+        The worst case consists of a tree with one long linear branch.
+        the best case is a perfectly balanced tree.
+    """
+    worst = Node(1)
+    for val in range(2, 32):
+        worst.insert(val)
+
+    best = Node(16)
+    best_values = [
+        8, 24, 4, 12, 20, 28, 2, 6, 10, 14, 18, 22, 26, 30, 1, 3, 5,
+        7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31
+    ]
+    for val in best_values:
+        best.insert(val)
+
+    worst_case = Timer(
+        'worst.contains(31)', 'from __main__ import worst').timeit(1000)
+    best_case = Timer(
+        'best.contains(31)', 'from __main__ import best').timeit(1000)
+
+    print "The worst case took {}.".format(worst_case)
+    print "The best case took {}.".format(best_case)
+    
