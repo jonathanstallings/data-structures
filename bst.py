@@ -4,7 +4,7 @@ from queue import Queue
 
 class Node(object):
     """A class for a binary search tree node."""
-    def __init__(self, val):
+    def __init__(self, val=None):
         self.val = val
         self.left = None
         self.right = None
@@ -26,18 +26,21 @@ class Node(object):
         args:
             val: the value to insert
         """
-        if val == self.val:
-            return None
-        if val < self.val:
-            if self.left is None:
-                self.left = Node(val)
-            else:
-                self.left.insert(val)
-        elif val > self.val:
-            if self.right is None:
-                self.right = Node(val)
-            else:
-                self.right.insert(val)
+        if self.val is not None:
+            if val == self.val:
+                return None
+            if val < self.val:
+                if self.left is None:
+                    self.left = Node(val)
+                else:
+                    self.left.insert(val)
+            elif val > self.val:
+                if self.right is None:
+                    self.right = Node(val)
+                else:
+                    self.right.insert(val)
+        else:
+            self.val = val
 
     def contains(self, val):
         """Check tree for node with given value.
