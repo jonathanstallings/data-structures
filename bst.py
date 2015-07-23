@@ -157,17 +157,24 @@ if __name__ == '__main__':
         The worst case consists of a tree with one long linear branch.
         The best case is a perfectly balanced tree.
     """
-    worst = Node(1)
-    for val in range(2, 32):
+
+    def sorted_list_to_BST(items=[], start=None, end=None):
+        if start > end:
+            return None
+        mid = start + (end - start) / 2
+        node = Node(items[mid])
+        node.left = sorted_list_to_BST(items, start, mid-1)
+        node.right = sorted_list_to_BST(items, mid+1, end)
+        return node
+
+    def create_best_case(n):
+        return sorted_list_to_BST(range(n), 0, n-1)
+
+    worst = Node()
+    for val in range(100):
         worst.insert(val)
 
-    best = Node(16)
-    best_values = [
-        8, 24, 4, 12, 20, 28, 2, 6, 10, 14, 18, 22, 26, 30, 1, 3, 5,
-        7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31
-    ]
-    for val in best_values:
-        best.insert(val)
+    best = create_best_case(100)
 
     worst_case = Timer(
         'worst.contains(31)', 'from __main__ import worst').timeit(1000)
