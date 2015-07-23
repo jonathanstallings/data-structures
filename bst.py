@@ -12,6 +12,12 @@ class Node(object):
     def __repr__(self):
         return '{}'.format(self.val)
 
+    def __len__(self):
+        return self.size()
+
+    def __iter__(self):
+        return self.in_order()
+
     def insert(self, val):
         """Insert a node with a value into the tree.
 
