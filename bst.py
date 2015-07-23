@@ -66,6 +66,8 @@ class Node(object):
 
         returns: integer of total node; 0 if empty
         """
+        if self.val is None:
+            return 0
         left_size = self.left.size() if self.left is not None else 0
         right_size = self.right.size() if self.right is not None else 0
         return left_size + right_size + 1
