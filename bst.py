@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from queue import Queue
 
 
 class Node(object):
@@ -90,6 +91,58 @@ class Node(object):
         else:
             return 0
 
+    def in_order(self):
+        stack = []
+        node = self
+        while stack or node:
+            if node:
+                stack.append(node)
+                node = node.left
+            else:
+                node = stack.pop()
+                yield node.val
+                node = node.right
+
+    def pre_order(self):
+        stack = []
+        node = self
+        while stack or node:
+            if node:
+                yield node.val
+                stack.append(node)
+                node = node.left
+            else:
+                node = stack.pop()
+                node = node.right
+
+    def post_order(self):
+        stack = []
+        node = self
+        last = None
+        while stack or node:
+            if node:
+                stack.append(node)
+                node = node.left
+            else:
+                peek = stack[-1]
+                if peek.right is not None and last != peek.right:
+                    node = peek.right
+                else:
+                    yield peek.val
+                    last = stack.pop()
+                    node = None
+
+    def breadth_first(self):
+        q = Queue()
+        q.enqueue(self)
+        while q.size() > 0:
+            node = q.dequeue()
+            yield node.val
+            if node.left:
+                q.enqueue(node.left)
+            if node.right:
+                q.enqueue(node.right)
+
 
 if __name__ == '__main__':
     from timeit import Timer
@@ -117,4 +170,3 @@ if __name__ == '__main__':
 
     print "The worst case took {}.".format(worst_case)
     print "The best case took {}.".format(best_case)
-    
