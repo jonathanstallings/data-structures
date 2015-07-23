@@ -96,7 +96,7 @@ if __name__ == '__main__':
 
     """Document the best and worst cases for searching for a value in the tree.
         The worst case consists of a tree with one long linear branch.
-        the best case is a perfectly balanced tree.
+        The best case is a perfectly balanced tree.
     """
     worst = Node(1)
     for val in range(2, 32):
