@@ -83,12 +83,7 @@ class Node(object):
         """
         left_depth = self.left.depth() if self.left is not None else 0
         right_depth = self.right.depth() if self.right is not None else 0
-        if left_depth > right_depth:
-            return 1
-        elif left_depth < right_depth:
-            return -1
-        else:
-            return 0
+        return left_depth - right_depth
 
 
 if __name__ == '__main__':
