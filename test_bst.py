@@ -262,3 +262,17 @@ def test_breadth_first(traversal_setup):
     assert isinstance(generator, types.GeneratorType)
     actual = list(generator)
     assert expected == actual
+
+
+def test_sorted_list_to_BST():
+    nodes = range(100)
+    root = Node._sorted_list_to_BST(nodes, 0, 99)
+    assert isinstance(root, Node)
+    assert root.size() == 100 and root.balance() == 0
+
+
+def test_create_best_case():
+    root = Node.create_best_case(100)
+    assert isinstance(root, Node)
+    assert root.size() == 100 and root.balance() == 0
+
