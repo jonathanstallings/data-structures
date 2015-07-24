@@ -1,7 +1,8 @@
 from __future__ import unicode_literals
-from bst import Node
 from random import randint
 import pytest
+
+from bst import Node
 
 
 @pytest.fixture()
@@ -9,10 +10,7 @@ def rand_setup():
     root = Node(randint(1, 100))
     for idx in range(20):
         val = randint(1, 100)
-        try:
-            root.insert(val)
-        except AttributeError:
-            continue
+        root.insert(val)
 
     return root
 
@@ -32,6 +30,18 @@ def fixed_setup():
     root.insert(14)
 
     return root
+
+
+def test_init_empty():
+    new = Node()
+    assert new.val is None
+    assert new.left is None and new.right is None
+
+
+def test_init_with_val():
+    new = Node(10)
+    assert new.val == 10
+    assert new.left is None and new.right is None
 
 
 def test_insert(rand_setup):
