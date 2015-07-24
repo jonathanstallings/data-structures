@@ -213,8 +213,8 @@ class Node(object):
             return None
         mid = start + (end - start) // 2
         node = Node(items[mid])
-        node.left = cls._sorted_list_to_BST(items, start, mid - 1)
-        node.right = cls._sorted_list_to_BST(items, mid + 1, end)
+        node.left = cls._sorted_list_to_bst(items, start, mid - 1)
+        node.right = cls._sorted_list_to_bst(items, mid + 1, end)
         return node
 
     @classmethod
@@ -226,7 +226,7 @@ class Node(object):
 
         returns: a balanced binary search tree (node)
         """
-        return cls._sorted_list_to_BST(range(n), 0, n - 1)
+        return cls._sorted_list_to_bst(range(n), 0, n - 1)
 
 if __name__ == '__main__':
     from timeit import Timer

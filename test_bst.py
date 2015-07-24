@@ -286,7 +286,7 @@ def test_breadth_first(traversal_setup):
 
 def test_sorted_list_to_bst():
     nodes = range(100)
-    root = Node._sorted_list_to_BST(nodes, 0, 99)
+    root = Node._sorted_list_to_bst(nodes, 0, 99)
     assert isinstance(root, Node)
     assert root.size() == 100 and root.balance() == 0
 
