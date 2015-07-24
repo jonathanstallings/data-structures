@@ -160,11 +160,12 @@ class Node(object):
             )
         ))
 
-    def save_render(self):
+    def save_render(self, savefile="tree.gv"):
         """Render and save a represntation of the tree."""
         from graphviz import Source
         src = Source(self.get_dot())
-        src.render('graphviz/tree.gv')
+        path = 'graphviz/{}'.format(savefile)
+        src.render(path)
 
     def _get_dot(self):
         """recursively prepare a dot graph entry for this node."""
