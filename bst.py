@@ -217,7 +217,7 @@ class Node(object):
         """Create a balanced binary search tree from a given range.
 
         args:
-            n: the range on integers to insert into the tree
+            n: the range of integers to insert into the tree
 
         returns: a balanced binary search tree (node)
         """
