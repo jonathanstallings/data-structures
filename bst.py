@@ -1,4 +1,6 @@
 from __future__ import unicode_literals
+import random
+
 from queue import Queue
 
 
@@ -149,19 +151,36 @@ class Node(object):
             if node.right:
                 q.enqueue(node.right)
 
+    def get_dot(self):
+        """Return the tree with root as a dot graph for visualization."""
+        return "digraph G{\n%s}" % ("" if self.val is None else (
+            "\t%s;\n%s\n" % (
+                self.val,
+                "\n".join(self._get_dot())
+            )
+        ))
 
-if __name__ == '__main__':
-    from timeit import Timer
+    def _get_dot(self):
+        """recursively prepare a dot graph entry for this node."""
+        if self.left is not None:
+            yield "\t%s -> %s;" % (self.val, self.left.val)
+            for i in self.left._get_dot():
+                yield i
+        elif self.right is not None:
+            r = random.randint(0, 1e9)
+            yield "\tnull%s [shape=point];" % r
+            yield "\t%s -> null%s;" % (self.val, r)
+        if self.right is not None:
+            yield "\t%s -> %s;" % (self.val, self.right.val)
+            for i in self.right._get_dot():
+                yield i
+        elif self.left is not None:
+            r = random.randint(0, 1e9)
+            yield "\tnull%s [shape=point];" % r
+            yield "\t%s -> null%s;" % (self.val, r)
 
-    """Document the best and worst cases for searching for a value in the tree.
-        The worst case consists of a tree with one long linear branch.
-        The best case is a perfectly balanced tree.
-    """
-
-    size = 900
-    lookup = 900
-
-    def _sorted_list_to_BST(items=[], start=None, end=None):
+    @classmethod
+    def _sorted_list_to_BST(cls, items=[], start=None, end=None):
         """Create a balanced binary search tree from sorted list.
 
         args:
@@ -175,11 +194,12 @@ if __name__ == '__main__':
             return None
         mid = start + (end - start) / 2
         node = Node(items[mid])
-        node.left = _sorted_list_to_BST(items, start, mid-1)
-        node.right = _sorted_list_to_BST(items, mid+1, end)
+        node.left = cls._sorted_list_to_BST(items, start, mid-1)
+        node.right = cls._sorted_list_to_BST(items, mid+1, end)
         return node
 
-    def create_best_case(n):
+    @classmethod
+    def create_best_case(cls, n):
         """Create a balanced binary search tree from a given range.
 
         args:
@@ -187,13 +207,24 @@ if __name__ == '__main__':
 
         returns: a balanced binary search tree (node)
         """
-        return _sorted_list_to_BST(range(n), 0, n-1)
+        return cls._sorted_list_to_BST(range(n), 0, n-1)
+
+if __name__ == '__main__':
+    from timeit import Timer
+
+    """Document the best and worst cases for searching for a value in the tree.
+        The worst case consists of a tree with one long linear branch.
+        The best case is a perfectly balanced tree.
+    """
+
+    size = 900
+    lookup = 900
 
     worst = Node()
     for val in range(size):
         worst.insert(val)
 
-    best = create_best_case(size)
+    best = Node.create_best_case(size)
 
     worst_case = Timer(
         'worst.contains({})', 'from __main__ import worst'
