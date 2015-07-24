@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 from random import randint
+import types
+
 import pytest
 
 from bst import Node
@@ -29,6 +31,15 @@ def fixed_setup():
     root.insert(40)
     root.insert(14)
 
+    return root
+
+
+@pytest.fixture()
+def traversal_setup():
+    root = Node()
+    setup = ['F', 'B', 'A', 'D', 'C', 'E', 'G', 'I', 'H']
+    for char in setup:
+        root.insert(char)
     return root
 
 
@@ -215,3 +226,39 @@ def test_balance(rand_setup):
         assert rand_setup.balance() < 0
     else:
         assert rand_setup.balance() == 0
+
+
+def test_in_order(traversal_setup):
+    root = traversal_setup
+    expected = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
+    generator = root.in_order()
+    assert isinstance(generator, types.GeneratorType)
+    actual = list(generator)
+    assert expected == actual
+
+
+def test_pre_order(traversal_setup):
+    root = traversal_setup
+    expected = ['F', 'B', 'A', 'D', 'C', 'E', 'G', 'I', 'H']
+    generator = root.pre_order()
+    assert isinstance(generator, types.GeneratorType)
+    actual = list(generator)
+    assert expected == actual
+
+
+def test_post_order(traversal_setup):
+    root = traversal_setup
+    expected = ['A', 'C', 'E', 'D', 'B', 'H', 'I', 'G', 'F']
+    generator = root.post_order()
+    assert isinstance(generator, types.GeneratorType)
+    actual = list(generator)
+    assert expected == actual
+
+
+def test_breadth_first(traversal_setup):
+    root = traversal_setup
+    expected = ['F', 'B', 'G', 'A', 'D', 'I', 'C', 'E', 'H']
+    generator = root.breadth_first()
+    assert isinstance(generator, types.GeneratorType)
+    actual = list(generator)
+    assert expected == actual
