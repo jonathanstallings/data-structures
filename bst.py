@@ -103,6 +103,7 @@ class Node(object):
         return left_depth - right_depth
 
     def in_order(self):
+        """Return a generator with tree values from in-order traversal"""
         stack = []
         node = self
         while stack or node:
@@ -115,6 +116,7 @@ class Node(object):
                 node = node.right
 
     def pre_order(self):
+        """Return a generator with tree values from pre-order traversal"""
         stack = []
         node = self
         while stack or node:
@@ -127,6 +129,7 @@ class Node(object):
                 node = node.right
 
     def post_order(self):
+        """Return a generator with tree values from post-order traversal"""
         stack = []
         node = self
         last = None
@@ -144,6 +147,7 @@ class Node(object):
                     node = None
 
     def breadth_first(self):
+        """Return a generator with tree values from breadth first traversal"""
         q = Queue()
         q.enqueue(self)
         while q.size() > 0:
