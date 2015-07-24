@@ -284,7 +284,7 @@ def test_breadth_first(traversal_setup):
     assert expected == actual
 
 
-def test_sorted_list_to_BST():
+def test_sorted_list_to_bst():
     nodes = range(100)
     root = Node._sorted_list_to_BST(nodes, 0, 99)
     assert isinstance(root, Node)

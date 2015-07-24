@@ -1,3 +1,4 @@
+from __future__ import print_function
 from __future__ import unicode_literals
 import random
 
@@ -198,7 +199,7 @@ class Node(object):
         src.render(path)
 
     @classmethod
-    def _sorted_list_to_BST(cls, items=[], start=None, end=None):
+    def _sorted_list_to_bst(cls, items=[], start=None, end=None):
         """Create a balanced binary search tree from sorted list.
 
         args:
@@ -210,10 +211,10 @@ class Node(object):
         """
         if start > end:
             return None
-        mid = start + (end - start) / 2
+        mid = start + (end - start) // 2
         node = Node(items[mid])
-        node.left = cls._sorted_list_to_BST(items, start, mid-1)
-        node.right = cls._sorted_list_to_BST(items, mid+1, end)
+        node.left = cls._sorted_list_to_BST(items, start, mid - 1)
+        node.right = cls._sorted_list_to_BST(items, mid + 1, end)
         return node
 
     @classmethod
@@ -225,7 +226,7 @@ class Node(object):
 
         returns: a balanced binary search tree (node)
         """
-        return cls._sorted_list_to_BST(range(n), 0, n-1)
+        return cls._sorted_list_to_BST(range(n), 0, n - 1)
 
 if __name__ == '__main__':
     from timeit import Timer
@@ -260,13 +261,14 @@ if __name__ == '__main__':
         .format(n=size, l=lookup)
     )
 
-    print (
+    print(
         "Worst case, with tree balanced at {b}.\n"
         "Time: {t}\n"
         .format(b=worst.balance(), t=worst_case)
     )
-    print (
+    print(
         "Best case,  with tree balanced at {b}.\n"
         "Time: {t}\n"
         .format(b=best.balance(), t=best_case)
     )
+
