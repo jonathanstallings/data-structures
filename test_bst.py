@@ -113,10 +113,26 @@ def test_insert(rand_setup):
     assert post_size == pre_size + 1
 
 
+def test_contains_val():
+    root = Node(10)
+    root.left, root.right = Node(5), Node(15)
+    assert root.contains(15)
+    assert not root.contains(27)
+
+
 def test_contains(rand_setup):
     rand = randint(1, 100)
     rand_setup.insert(rand)
     assert rand_setup.contains(rand) is True
+
+
+def test_size_with_filling():
+    root = Node()
+    assert root.size() == 0
+    root.val = 10
+    assert root.size() == 1
+    root.left, root.right = Node(5), Node(15)
+    assert root.size() == 3
 
 
 def test_size(rand_setup):
@@ -129,11 +145,65 @@ def test_size(rand_setup):
     assert post_size == pre_size + 1
 
 
+def test_depth1():
+    root = Node()
+    assert root.depth() == 1
+    root.val = 10
+    assert root.depth() == 1
+
+
+def test_depth2():
+    root = Node(10)
+    root.left = Node(5)
+    assert root.depth() == 2
+    root.right = Node(15)
+    assert root.depth() == 2
+
+
+def test_depth3():
+    root = Node(10)
+    root.left, root.right = Node(5), Node(15)
+    root.left.left, root.left.right = Node(3), Node(7)
+    assert root.depth() == 3
+    root.right.left, root.right.right = Node(12), Node(17)
+    assert root.depth() == 3
+
+
 def test_depth(fixed_setup):
     assert fixed_setup.left.depth() == 4
     assert fixed_setup.right.depth() == 3
     fixed_setup.insert(13)
     assert fixed_setup.left.depth() == 5
+
+
+def test_balance_equal():
+    root = Node(10)
+    assert root.balance() == 0
+    root.left, root.right = Node(5), Node(15)
+    assert root.balance() == 0
+    root.left.left, root.left.right = Node(3), Node(7)
+    root.right.right = Node(17)
+    assert root.balance() == 0
+
+
+def test_balance_positive():
+    root = Node(10)
+    root.left = Node(5)
+    assert root.balance() == 1
+    root.left.left, root.left.right = Node(3), Node(7)
+    assert root.balance() == 2
+    root.right = Node(15)
+    assert root.balance() == 1
+
+
+def test_balance_negative():
+    root = Node(10)
+    root.right = Node(5)
+    assert root.balance() == -1
+    root.right.left, root.right.right = Node(3), Node(7)
+    assert root.balance() == -2
+    root.left = Node(15)
+    assert root.balance() == -1
 
 
 def test_balance(rand_setup):
