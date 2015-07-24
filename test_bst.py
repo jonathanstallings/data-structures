@@ -72,8 +72,8 @@ def test_balance(rand_setup):
     left = rand_setup.left.depth() if rand_setup.left is not None else 0
     right = rand_setup.right.depth() if rand_setup.right is not None else 0
     if left > right:
-        assert rand_setup.balance() == 1
+        assert rand_setup.balance() > 0
     elif right > left:
-        assert rand_setup.balance() == -1
+        assert rand_setup.balance() < 0
     else:
         assert rand_setup.balance() == 0
