@@ -99,6 +99,14 @@ Available methods include:
 * size()
 * depth()
 * balance()
+* in_order()
+* pre_order()
+* post_order()
+* breadth_first()
+* get_dot()
+* save_render()
+* create_best_case()
+
 
 See the doc strings for additional implementation details.
 
