@@ -113,6 +113,15 @@ def test_insert_greater_in_filled_tree2():
     assert root.right.right is None
 
 
+def test_insert_duplicates():
+    root = Node(10)
+    root.left, root.right = Node(5), Node(15)
+    root.insert(5)
+    assert root.size() == 3
+    root.insert(15)
+    assert root.size() == 3
+
+
 def test_insert(rand_setup):
     pre_size = rand_setup.size()
     new = 200
@@ -127,8 +136,9 @@ def test_insert(rand_setup):
 def test_contains_val():
     root = Node(10)
     root.left, root.right = Node(5), Node(15)
-    assert root.contains(15)
-    assert not root.contains(27)
+    assert root.contains(15) and not root.contains(27)
+    root.left.left = Node(2)
+    assert root.contains(2)
 
 
 def test_contains(rand_setup):
@@ -156,14 +166,14 @@ def test_size(rand_setup):
     assert post_size == pre_size + 1
 
 
-def test_depth1():
+def test_depth_1():
     root = Node()
     assert root.depth() == 1
     root.val = 10
     assert root.depth() == 1
 
 
-def test_depth2():
+def test_depth_2():
     root = Node(10)
     root.left = Node(5)
     assert root.depth() == 2
@@ -171,13 +181,23 @@ def test_depth2():
     assert root.depth() == 2
 
 
-def test_depth3():
+def test_depth_3():
     root = Node(10)
     root.left, root.right = Node(5), Node(15)
     root.left.left, root.left.right = Node(3), Node(7)
     assert root.depth() == 3
     root.right.left, root.right.right = Node(12), Node(17)
     assert root.depth() == 3
+
+
+def test_depth_n():
+    rand = randint(1, 100)
+    root = Node(0)
+    curr = root
+    for i in range(rand):
+        curr.right = Node(i)
+        curr = curr.right
+    assert root.depth() == rand + 1
 
 
 def test_depth(fixed_setup):
