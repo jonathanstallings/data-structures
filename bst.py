@@ -158,6 +158,9 @@ if __name__ == '__main__':
         The best case is a perfectly balanced tree.
     """
 
+    size = 900
+    lookup = 700
+
     def sorted_list_to_BST(items=[], start=None, end=None):
         if start > end:
             return None
@@ -171,15 +174,34 @@ if __name__ == '__main__':
         return sorted_list_to_BST(range(n), 0, n-1)
 
     worst = Node()
-    for val in range(100):
+    for val in range(size):
         worst.insert(val)
 
-    best = create_best_case(100)
+    best = create_best_case(size)
 
     worst_case = Timer(
-        'worst.contains(31)', 'from __main__ import worst').timeit(1000)
-    best_case = Timer(
-        'best.contains(31)', 'from __main__ import best').timeit(1000)
+        'worst.contains({})', 'from __main__ import worst'
+        .format(lookup)
+    ).timeit(1000)
 
-    print "The worst case took {}.".format(worst_case)
-    print "The best case took {}.".format(best_case)
+    best_case = Timer(
+        'best.contains({})', 'from __main__ import best'
+        .format(lookup)
+    ).timeit(1000)
+
+    print(
+        "\nLookup Time Comparison: Best and Worst Case\n"
+        "\nGiven a tree of {n} items, find a node with value of {l}.\n"
+        .format(n=size, l=lookup)
+    )
+
+    print (
+        "Worst case, with tree balanced at {b}.\n"
+        "Time: {t}\n"
+        .format(b=worst.balance(), t=worst_case)
+    )
+    print (
+        "Best case,  with tree balanced at {b}.\n"
+        "Time: {t}\n"
+        .format(b=best.balance(), t=best_case)
+    )
