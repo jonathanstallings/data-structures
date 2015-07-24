@@ -12,6 +12,9 @@ class Node(object):
         self.right = None
 
     def __repr__(self):
+        return '<BST: ({})>'.format(self.val)
+
+    def __str__(self):
         return '{}'.format(self.val)
 
     def __len__(self):
