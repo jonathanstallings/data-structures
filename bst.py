@@ -163,13 +163,6 @@ class Node(object):
             )
         ))
 
-    def save_render(self, savefile="tree.gv"):
-        """Render and save a represntation of the tree."""
-        from graphviz import Source
-        src = Source(self.get_dot())
-        path = 'graphviz/{}'.format(savefile)
-        src.render(path)
-
     def _get_dot(self):
         """recursively prepare a dot graph entry for this node."""
         if self.left is not None:
@@ -188,6 +181,13 @@ class Node(object):
             r = random.randint(0, 1e9)
             yield "\tnull%s [shape=point];" % r
             yield "\t%s -> null%s;" % (self.val, r)
+
+    def save_render(self, savefile="tree.gv"):
+        """Render and save a represntation of the tree."""
+        from graphviz import Source
+        src = Source(self.get_dot())
+        path = 'graphviz/{}'.format(savefile)
+        src.render(path)
 
     @classmethod
     def _sorted_list_to_BST(cls, items=[], start=None, end=None):
