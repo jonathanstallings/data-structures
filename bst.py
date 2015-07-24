@@ -187,7 +187,11 @@ class Node(object):
             yield "\t%s -> null%s;" % (self.val, r)
 
     def save_render(self, savefile="tree.gv"):
-        """Render and save a represntation of the tree."""
+        """Render and save a represntation of the tree.
+
+        args:
+            savefile: the optional filename
+        """
         from graphviz import Source
         src = Source(self.get_dot())
         path = 'graphviz/{}'.format(savefile)
