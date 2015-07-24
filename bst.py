@@ -159,19 +159,35 @@ if __name__ == '__main__':
     """
 
     size = 900
-    lookup = 700
+    lookup = 900
 
-    def sorted_list_to_BST(items=[], start=None, end=None):
+    def _sorted_list_to_BST(items=[], start=None, end=None):
+        """Create a balanced binary search tree from sorted list.
+
+        args:
+            items: the sorted list of items to insert into tree
+            start: the start of the list
+            end: the end of the list
+
+        returns: a balanced binary search tree (node)
+        """
         if start > end:
             return None
         mid = start + (end - start) / 2
         node = Node(items[mid])
-        node.left = sorted_list_to_BST(items, start, mid-1)
-        node.right = sorted_list_to_BST(items, mid+1, end)
+        node.left = _sorted_list_to_BST(items, start, mid-1)
+        node.right = _sorted_list_to_BST(items, mid+1, end)
         return node
 
     def create_best_case(n):
-        return sorted_list_to_BST(range(n), 0, n-1)
+        """Create a balanced binary search tree from a given range.
+
+        args:
+            n: the range on integers to insert into the tree
+
+        returns: a balanced binary search tree (node)
+        """
+        return _sorted_list_to_BST(range(n), 0, n-1)
 
     worst = Node()
     for val in range(size):
