@@ -1,4 +1,4 @@
-"""Contains a Node class with implements a binary search tree.
+"""Contains a Node class which implements a binary search tree.
 
 Each node can be considered a binary search tree and has the usual
 methods to insert, delete, and check membership of nodes. The class also
