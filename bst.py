@@ -1,3 +1,25 @@
+"""Contains a Node class with implements a binary search tree.
+
+Each node can be considered a binary search tree and has the usual
+methods to insert, delete, and check membership of nodes. The class also
+supports four traversal methods which return generators:
+
+in_order, pre_order, post_order, and breadth_first.
+
+Additionally, methods are included to help visualize the tree structure.
+get_dot returns DOT source code, suitable for use with programs such as
+Graphviz (http://graphviz.readthedocs.org/en/stable/index.html), and
+save_render saves a rendering of the tree structure to the file system.
+
+Finally, the helper method `create_best_case' facilitates creation of a
+balanced tree composed of _n_ integers.
+
+This module was completed with reference to the very helpful post
+'Binary Search Tree libary in Python'
+(http://www.laurentluce.com/posts/binary-search-tree-library-in-python/)
+by Laurent Luce.
+
+"""
 from __future__ import print_function
 from __future__ import unicode_literals
 import random
@@ -311,27 +333,26 @@ if __name__ == '__main__':
         The best case is a perfectly balanced tree.
     """
 
-    size = 900
-    lookup = 900
+    SIZE = 900
+    LOOKUP = 900
 
     worst = Node()
-    for val in range(size):
-        worst.insert(val)
+    for i in range(SIZE):
+        worst.insert(i)
 
-    best = Node.create_best_case(size)
-
+    best = Node.create_best_case(SIZE)
     worst_case = Timer(
-        'worst.contains({})'.format(lookup), 'from __main__ import worst'
+        'worst.contains({})'.format(LOOKUP, SIZE), 'from __main__ import worst'
     ).timeit(1000)
 
     best_case = Timer(
-        'best.contains({})'.format(lookup), 'from __main__ import best'
+        'best.contains({})'.format(LOOKUP), 'from __main__ import best'
     ).timeit(1000)
 
     print(
         "\nLookup Time Comparison: Best and Worst Case\n"
         "\nGiven a tree of {n} items, find a node with value of {l}.\n"
-        .format(n=size, l=lookup)
+        .format(n=SIZE, l=LOOKUP)
     )
 
     print(
