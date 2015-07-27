@@ -297,6 +297,14 @@ def test_create_best_case():
     assert root.size() == 100 and root.balance() == 0
 
 
+def test_lookup(traversal_setup):
+    root = traversal_setup
+    expected_root, expected_parent = root.left, root
+    actual_root, actual_parent = root._lookup('B')
+    assert expected_root is actual_root
+    assert expected_parent is actual_parent
+
+
 def test_delete_root_only():
     root = Node('A')
     root.delete('A')
@@ -325,3 +333,5 @@ def test_delete_node_with_two_children(traversal_setup):
     assert parent.left.val == 'C'
     successor = parent.left
     assert successor.left.val == 'A' and successor.right.val == 'D'
+
+
