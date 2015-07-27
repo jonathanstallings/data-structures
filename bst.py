@@ -159,6 +159,66 @@ class Node(object):
             if node.right:
                 q.enqueue(node.right)
 
+    def _lookup(self, val, parent=None):
+        if val < self.val:
+            if self.left is None:
+                return None, None
+            return self.left._lookup(val, self)
+        elif val > self.val:
+            if self.right is None:
+                return None, None
+            return self.right._lookup(val, self)
+        else:
+            return self, parent
+
+    def children_count(self):
+        cnt = 0
+        if self.left:
+            cnt += 1
+        if self.right:
+            cnt += 1
+        return cnt
+
+    def delete(self, val):
+        node, parent = self._lookup(val)
+        if node is not None:
+            children_count = node.children_count()
+        if children_count == 0:
+            if parent:
+                if parent.left is node:
+                    parent.left = None
+                else:
+                    parent.right = None
+                del node
+            else:
+                self.val = None
+        elif children_count == 1:
+            if node.left:
+                child = node.left
+            else:
+                child = node.right
+            if parent:
+                if parent.left is node:
+                    parent.left = child
+                else:
+                    parent.right = child
+                del node
+            else:
+                self.left = child.left
+                self.right = child.right
+                self.val = child.val
+        else:
+            parent = node
+            successor = node.right
+            while successor.left:
+                parent = successor
+                successor = successor.left
+            node.val = successor.val
+            if parent.left == successor:
+                parent.left = successor.right
+            else:
+                parent.right = successor.right
+
     def get_dot(self):
         """Return the tree with root as a dot graph for visualization."""
         return "digraph G{\n%s}" % ("" if self.val is None else (
