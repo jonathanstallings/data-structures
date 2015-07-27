@@ -321,13 +321,11 @@ if __name__ == '__main__':
     best = Node.create_best_case(size)
 
     worst_case = Timer(
-        'worst.contains({})', 'from __main__ import worst'
-        .format(lookup)
+        'worst.contains({})'.format(lookup), 'from __main__ import worst'
     ).timeit(1000)
 
     best_case = Timer(
-        'best.contains({})', 'from __main__ import best'
-        .format(lookup)
+        'best.contains({})'.format(lookup), 'from __main__ import best'
     ).timeit(1000)
 
     print(
