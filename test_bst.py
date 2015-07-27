@@ -296,3 +296,32 @@ def test_create_best_case():
     assert isinstance(root, Node)
     assert root.size() == 100 and root.balance() == 0
 
+
+def test_delete_root_only():
+    root = Node('A')
+    root.delete('A')
+    assert root.val is None
+    assert root.left is None and root.right is None
+
+
+def test_delete_node_without_children(traversal_setup):
+    root = traversal_setup
+    root.delete('A')
+    parent = root.left
+    assert parent.left is None
+
+
+def test_delete_node_with_one_child(traversal_setup):
+    root = traversal_setup
+    root.delete('G')
+    parent = root
+    assert parent.right.val == 'I'
+
+
+def test_delete_node_with_two_children(traversal_setup):
+    root = traversal_setup
+    root.delete('B')
+    parent = root
+    assert parent.left.val == 'C'
+    successor = parent.left
+    assert successor.left.val == 'A' and successor.right.val == 'D'
