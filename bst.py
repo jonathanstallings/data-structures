@@ -160,6 +160,14 @@ class Node(object):
                 q.enqueue(node.right)
 
     def _lookup(self, val, parent=None):
+        """Find a node by value and return that node and its parent.
+
+        args:
+            val: the value to search by
+            parent: the parent of the node (for recursion)
+
+        returns: a tuple with node and its parent
+        """
         if val < self.val:
             if self.left is None:
                 return None, None
@@ -172,6 +180,7 @@ class Node(object):
             return self, parent
 
     def children_count(self):
+        """Return a node's number of children."""
         cnt = 0
         if self.left:
             cnt += 1
@@ -180,6 +189,14 @@ class Node(object):
         return cnt
 
     def delete(self, val):
+        """Delete a node matching value and reorganize tree as needed.
+
+        If the matched node is the only node in the tree, only its value
+        will be deleted.
+
+        args:
+            val: the value of the node to delete
+        """
         node, parent = self._lookup(val)
         if node is not None:
             children_count = node.children_count()
