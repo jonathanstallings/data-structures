@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/jonathanstallings/data-structures.svg?branch=master)](https://travis-ci.org/jonathanstallings/data-structures)
+
+
 #Data Structures
 Implementation of LinkedList and Stack data structures in Python.
 
@@ -90,6 +93,12 @@ See the doc strings for additional implementation details.
 ##Binary Search Tree
 The included node class implements a [binary search tree](https://en.wikipedia.org/wiki/Binary_search_tree). Binary search trees allow lookup operations using binary search, which allows operations such as search and insert to be completed with an average case time complexity of O(log n) and worst case O(n). 
 
+The node class supports four traversal methods which return generators: `in_order`, `pre_order`, `post_order`, and `breadth_first`. Further details are available at the Wikipedia entry for [Tree Traversal](https://en.wikipedia.org/wiki/Tree_traversal).
+
+Additionally, methods are included to help visualize the tree structure. `get_dot` returns DOT source code, suitable for use with programs such as [Graphviz](http://graphviz.readthedocs.org/en/stable/index.html), and `save_render` saves a rendering of the tree structure to the file system.
+
+Finally, the helper method `create_best_case' facilitates creation of a balance tree composed of _n_ integers.
+
 This module was completed with reference to the very helpful post [Binary Search Tree libary in Python](http://www.laurentluce.com/posts/binary-search-tree-library-in-python/) by Laurent Luce.
 
 Available methods include:
@@ -99,9 +108,16 @@ Available methods include:
 * size()
 * depth()
 * balance()
+* in_order()
+* pre_order()
+* post_order()
+* breadth_first()
+* get_dot()
+* save_render()
+* create_best_case()
+
 
 See the doc strings for additional implementation details.
 
 
-[![Build Status](https://travis-ci.org/jonathanstallings/data-structures.svg?branch=master)](https://travis-ci.org/jonathanstallings/data-structures)
 

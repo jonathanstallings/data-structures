@@ -1,2 +1,4 @@
+graphviz==0.4.5
+ipython==3.0.0
 py==1.4.29
 pytest==2.7.2
