@@ -206,7 +206,6 @@ class Node(object):
                     parent.left = None
                 else:
                     parent.right = None
-                del node
             else:
                 self.val = None
         elif children_count == 1:
@@ -219,7 +218,6 @@ class Node(object):
                     parent.left = child
                 else:
                     parent.right = child
-                del node
             else:
                 self.left = child.left
                 self.right = child.right
