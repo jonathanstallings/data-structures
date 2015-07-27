@@ -335,3 +335,17 @@ def test_delete_node_with_two_children(traversal_setup):
     assert successor.left.val == 'A' and successor.right.val == 'D'
 
 
+def test_delete_root_with_one_child():
+    root = Node('F')
+    root.left = Node('B')
+    root.left.left, root.left.right = Node('A'), Node('D')
+    root.delete('F')
+    assert root.val == 'B'
+    assert root.left.val == 'A' and root.right.val == 'D'
+
+
+def test_delete_root_with_two_children(traversal_setup):
+    root = traversal_setup
+    root.delete('F')
+    assert root.val == 'G'
+    assert root.left.val == 'B' and root.right.val == 'I'
