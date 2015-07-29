@@ -62,11 +62,13 @@ class Node(object):
             if val < self.val:
                 if self.left is None:
                     self.left = Node(val, self)
+                    self.left.self_balance()
                 else:
                     self.left.insert(val, self)
             elif val > self.val:
                 if self.right is None:
                     self.right = Node(val, self)
+                    self.right.self_balance()
                 else:
                     self.right.insert(val, self)
         else:
@@ -243,6 +245,7 @@ class Node(object):
                 else:
                     parent.right = child
                 child.parent = parent
+                child.self_balance()
             else:
                 self.left = child.left
                 self.right = child.right
@@ -252,6 +255,7 @@ class Node(object):
                 except AttributeError:
                     pass
                 self.val = child.val
+                self.self_balance()
         else:
             parent = node
             successor = node.right
@@ -262,9 +266,11 @@ class Node(object):
             if parent.left == successor:
                 parent.left = successor.right
                 parent.left.parent = parent
+                parent.self_balance()
             else:
                 parent.right = successor.right
                 parent.right.parent = parent
+                parent.self_balance()
 
     def get_dot(self):
         """Return the tree with root as a dot graph for visualization."""
@@ -387,7 +393,7 @@ class Node(object):
             if self.right.balance() != 1:
                 self.rotate_left()
                 if self.parent.parent is not None:
-                    self.parent.parent.self_bal()
+                    self.parent.parent.self_balance()
             else:
                 self.right.rotate_right()
                 self.self_balance()
