@@ -325,6 +325,28 @@ class Node(object):
         """
         return cls._sorted_list_to_bst(range(n), 0, n - 1)
 
+    def _is_left(self):
+        node, parent = self._lookup(self.val)
+        if parent is None:
+            return parent
+        else:
+            return self is parent.left
+
+    def rotate_left(self):
+        pass
+
+    def rotate_right(self):
+        pass
+
+    def rotate_right_then_left(self):
+        pass
+
+    def rotate_left_then_right(self):
+        pass
+
+    def self_balance(self):
+        pass
+
 if __name__ == '__main__':
     from timeit import Timer
 
@@ -365,4 +387,3 @@ if __name__ == '__main__':
         "Time: {t}\n"
         .format(b=best.balance(), t=best_case)
     )
-
