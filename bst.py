@@ -242,9 +242,15 @@ class Node(object):
                     parent.left = child
                 else:
                     parent.right = child
+                child.parent = parent
             else:
                 self.left = child.left
                 self.right = child.right
+                try:
+                    self.right.parent = self
+                    self.left.parent = self
+                except AttributeError:
+                    pass
                 self.val = child.val
         else:
             parent = node
@@ -255,8 +261,10 @@ class Node(object):
             node.val = successor.val
             if parent.left == successor:
                 parent.left = successor.right
+                parent.left.parent = parent
             else:
                 parent.right = successor.right
+                parent.right.parent = parent
 
     def get_dot(self):
         """Return the tree with root as a dot graph for visualization."""
