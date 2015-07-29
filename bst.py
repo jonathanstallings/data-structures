@@ -336,26 +336,64 @@ class Node(object):
         return cls._sorted_list_to_bst(range(n), 0, n - 1)
 
     def _is_left(self):
-        node, parent = self._lookup(self.val)
-        if parent is None:
-            return parent
+        if self.parent is None:
+            return self.parent
         else:
-            return self is parent.left
-
-    def rotate_left(self):
-        pass
+            return self is self.parent.left
 
     def rotate_right(self):
-        pass
+        left = self._is_left()
+        pivot = self.left
+        if pivot is None:
+            return
+        self.left = pivot.right
+        if pivot.right is not None:
+            self.left.parent = self
+        pivot.right = self
+        pivot.parent = self.parent
+        self.parent = pivot
+        if left:
+            pivot.parent.left = pivot
+        else:
+            pivot.parent.right = pivot
 
-    def rotate_right_then_left(self):
-        pass
-
-    def rotate_left_then_right(self):
-        pass
+    def rotate_left(self):
+        left = self._is_left()
+        pivot = self.right
+        if pivot is None:
+            return
+        self.right = pivot.left
+        if pivot.left is not None:
+            self.right.parent = self
+        pivot.left = self
+        pivot.parent = self.parent
+        self.parent = pivot
+        if left:
+            pivot.parent.left = pivot
+        else:
+            pivot.parent.right = pivot
 
     def self_balance(self):
-        pass
+        balance = self.balance()
+        if balance >= 2:
+            if self.left.balance() != -1:
+                self.rotate_right()
+                if self.parent.parent is not None:
+                    self.parent.parent.self_balance()
+            else:
+                self.left.rotate_left()
+                self.self_balance()
+        elif balance <= -2:
+            if self.right.balance() != 1:
+                self.rotate_left()
+                if self.parent.parent is not None:
+                    self.parent.parent.self_bal()
+            else:
+                self.right.rotate_right()
+                self.self_balance()
+        else:
+            if self.parent is not None:
+                self.parent.self_balance()
 
 if __name__ == '__main__':
     from timeit import Timer
