@@ -1,3 +1,25 @@
+"""Contains a Node class which implements a binary search tree.
+
+Each node can be considered a binary search tree and has the usual
+methods to insert, delete, and check membership of nodes. The class also
+supports four traversal methods which return generators:
+
+in_order, pre_order, post_order, and breadth_first.
+
+Additionally, methods are included to help visualize the tree structure.
+get_dot returns DOT source code, suitable for use with programs such as
+Graphviz (http://graphviz.readthedocs.org/en/stable/index.html), and
+save_render saves a rendering of the tree structure to the file system.
+
+Finally, the helper method `create_best_case' facilitates creation of a
+balanced tree composed of _n_ integers.
+
+This module was completed with reference to the very helpful post
+'Binary Search Tree libary in Python'
+(http://www.laurentluce.com/posts/binary-search-tree-library-in-python/)
+by Laurent Luce.
+
+"""
 from __future__ import print_function
 from __future__ import unicode_literals
 import random
@@ -159,6 +181,81 @@ class Node(object):
             if node.right:
                 q.enqueue(node.right)
 
+    def _lookup(self, val, parent=None):
+        """Find a node by value and return that node and its parent.
+
+        args:
+            val: the value to search by
+            parent: the parent of the node (for recursion)
+
+        returns: a tuple with node and its parent
+        """
+        if val < self.val:
+            if self.left is None:
+                return None, None
+            return self.left._lookup(val, self)
+        elif val > self.val:
+            if self.right is None:
+                return None, None
+            return self.right._lookup(val, self)
+        else:
+            return self, parent
+
+    def children_count(self):
+        """Return a node's number of children."""
+        cnt = 0
+        if self.left:
+            cnt += 1
+        if self.right:
+            cnt += 1
+        return cnt
+
+    def delete(self, val):
+        """Delete a node matching value and reorganize tree as needed.
+
+        If the matched node is the only node in the tree, only its value
+        will be deleted.
+
+        args:
+            val: the value of the node to delete
+        """
+        node, parent = self._lookup(val)
+        if node is not None:
+            children_count = node.children_count()
+        if children_count == 0:
+            if parent:
+                if parent.left is node:
+                    parent.left = None
+                else:
+                    parent.right = None
+            else:
+                self.val = None
+        elif children_count == 1:
+            if node.left:
+                child = node.left
+            else:
+                child = node.right
+            if parent:
+                if parent.left is node:
+                    parent.left = child
+                else:
+                    parent.right = child
+            else:
+                self.left = child.left
+                self.right = child.right
+                self.val = child.val
+        else:
+            parent = node
+            successor = node.right
+            while successor.left:
+                parent = successor
+                successor = successor.left
+            node.val = successor.val
+            if parent.left == successor:
+                parent.left = successor.right
+            else:
+                parent.right = successor.right
+
     def get_dot(self):
         """Return the tree with root as a dot graph for visualization."""
         return "digraph G{\n%s}" % ("" if self.val is None else (
@@ -236,29 +333,26 @@ if __name__ == '__main__':
         The best case is a perfectly balanced tree.
     """
 
-    size = 900
-    lookup = 900
+    SIZE = 900
+    LOOKUP = 900
 
     worst = Node()
-    for val in range(size):
-        worst.insert(val)
+    for i in range(SIZE):
+        worst.insert(i)
 
-    best = Node.create_best_case(size)
-
+    best = Node.create_best_case(SIZE)
     worst_case = Timer(
-        'worst.contains({})', 'from __main__ import worst'
-        .format(lookup)
+        'worst.contains({})'.format(LOOKUP, SIZE), 'from __main__ import worst'
     ).timeit(1000)
 
     best_case = Timer(
-        'best.contains({})', 'from __main__ import best'
-        .format(lookup)
+        'best.contains({})'.format(LOOKUP), 'from __main__ import best'
     ).timeit(1000)
 
     print(
         "\nLookup Time Comparison: Best and Worst Case\n"
         "\nGiven a tree of {n} items, find a node with value of {l}.\n"
-        .format(n=size, l=lookup)
+        .format(n=SIZE, l=LOOKUP)
     )
 
     print(

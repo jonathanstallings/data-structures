@@ -296,3 +296,56 @@ def test_create_best_case():
     assert isinstance(root, Node)
     assert root.size() == 100 and root.balance() == 0
 
+
+def test_lookup(traversal_setup):
+    root = traversal_setup
+    expected_root, expected_parent = root.left, root
+    actual_root, actual_parent = root._lookup('B')
+    assert expected_root is actual_root
+    assert expected_parent is actual_parent
+
+
+def test_delete_root_only():
+    root = Node('A')
+    root.delete('A')
+    assert root.val is None
+    assert root.left is None and root.right is None
+
+
+def test_delete_node_without_children(traversal_setup):
+    root = traversal_setup
+    root.delete('A')
+    parent = root.left
+    assert parent.left is None
+
+
+def test_delete_node_with_one_child(traversal_setup):
+    root = traversal_setup
+    root.delete('G')
+    parent = root
+    assert parent.right.val == 'I'
+
+
+def test_delete_node_with_two_children(traversal_setup):
+    root = traversal_setup
+    root.delete('B')
+    parent = root
+    assert parent.left.val == 'C'
+    successor = parent.left
+    assert successor.left.val == 'A' and successor.right.val == 'D'
+
+
+def test_delete_root_with_one_child():
+    root = Node('F')
+    root.left = Node('B')
+    root.left.left, root.left.right = Node('A'), Node('D')
+    root.delete('F')
+    assert root.val == 'B'
+    assert root.left.val == 'A' and root.right.val == 'D'
+
+
+def test_delete_root_with_two_children(traversal_setup):
+    root = traversal_setup
+    root.delete('F')
+    assert root.val == 'G'
+    assert root.left.val == 'B' and root.right.val == 'I'
