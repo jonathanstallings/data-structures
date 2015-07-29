@@ -298,7 +298,7 @@ class Node(object):
         src.render(path)
 
     @classmethod
-    def _sorted_list_to_bst(cls, items=[], start=None, end=None):
+    def _sorted_list_to_bst(cls, items=[], start=None, end=None, parent=None):
         """Create a balanced binary search tree from sorted list.
 
         args:
@@ -311,9 +311,9 @@ class Node(object):
         if start > end:
             return None
         mid = start + (end - start) // 2
-        node = Node(items[mid])
-        node.left = cls._sorted_list_to_bst(items, start, mid - 1)
-        node.right = cls._sorted_list_to_bst(items, mid + 1, end)
+        node = Node(items[mid], parent)
+        node.left = cls._sorted_list_to_bst(items, start, mid - 1, node)
+        node.right = cls._sorted_list_to_bst(items, mid + 1, end, node)
         return node
 
     @classmethod
