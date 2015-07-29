@@ -29,10 +29,12 @@ from queue import Queue
 
 class Node(object):
     """A class for a binary search tree node."""
-    def __init__(self, val=None):
+    def __init__(self, val=None, parent=None):
         self.val = val
+        self.parent = parent
         self.left = None
         self.right = None
+        # self.root = None
 
     def __repr__(self):
         return '<BST: ({})>'.format(self.val)
@@ -46,7 +48,7 @@ class Node(object):
     def __iter__(self):
         return self.in_order()
 
-    def insert(self, val):
+    def insert(self, val, parent=None):
         """Insert a node with a value into the tree.
 
         If val is already present, it will be ignored.
@@ -59,14 +61,14 @@ class Node(object):
                 return None
             if val < self.val:
                 if self.left is None:
-                    self.left = Node(val)
+                    self.left = Node(val, self)
                 else:
-                    self.left.insert(val)
+                    self.left.insert(val, self)
             elif val > self.val:
                 if self.right is None:
-                    self.right = Node(val)
+                    self.right = Node(val, self)
                 else:
-                    self.right.insert(val)
+                    self.right.insert(val, self)
         else:
             self.val = val
 
