@@ -471,7 +471,7 @@ def test_avl_insert_greater_in_filled_root():
 
 def test_avl_insert_lesser_in_filled_tree1():
     root = Node(10)
-    root.left, root.right = Node(5), Node(15)
+    root.left, root.right = Node(5, root), Node(15, root)
     root.left.left = Node(2, root.left)
     root.insert(1)
     assert root.left.val == 2
@@ -480,7 +480,7 @@ def test_avl_insert_lesser_in_filled_tree1():
 
 def test_avl_insert_lesser_in_filled_tree2():
     root = Node(10)
-    root.left, root.right = Node(5, root.left), Node(15)
+    root.left, root.right = Node(5, root), Node(15, root)
     root.left.left = Node(2, root.left)
     root.insert(3)
     assert root.left.val == 3
@@ -489,7 +489,7 @@ def test_avl_insert_lesser_in_filled_tree2():
 
 def test_avl_insert_greater_in_filled_tree1():
     root = Node(10)
-    root.left, root.right = Node(5), Node(15)
+    root.left, root.right = Node(5, root), Node(15, root)
     root.right.right = Node(20, root.right)
     root.insert(17)
     assert root.right.val == 17
@@ -498,7 +498,7 @@ def test_avl_insert_greater_in_filled_tree1():
 
 def test_avl_insert_greater_in_filled_tree2():
     root = Node(10)
-    root.left, root.right = Node(5), Node(15, root.right)
+    root.left, root.right = Node(5, root), Node(15, root)
     root.right.right = Node(20, root.right)
     root.insert(25)
     assert root.right.val == 20
@@ -559,3 +559,4 @@ def test_avl_delete_node_with_two_children():
     root.delete(15)
     assert root.right.val == 13
     assert root.right.left.val == 12 and root.right.right.val == 20
+

@@ -1,23 +1,40 @@
-"""Contains a Node class which implements a binary search tree.
+"""Contains a Node class which implements an AVL binary search tree.
 
 Each node can be considered a binary search tree and has the usual
-methods to insert, delete, and check membership of nodes. The class also
-supports four traversal methods which return generators:
+methods to insert, delete, and check membership of nodes. By default,
+the insert and delete methods will perform self-balancing consistent
+with an AVL tree. This behavior can be suppressed by passing the optional
+'balanced=False' keyword argument to the insert or delete methods.
 
-in_order, pre_order, post_order, and breadth_first.
+The class also supports four traversal methods which return generators:
+
+- in_order
+- pre_order
+- post_order
+- breadth_first.
 
 Additionally, methods are included to help visualize the tree structure.
 get_dot returns DOT source code, suitable for use with programs such as
 Graphviz (http://graphviz.readthedocs.org/en/stable/index.html), and
 save_render saves a rendering of the tree structure to the file system.
+Passing the optional 'render=True' keyword argument to the insert and
+delete methods will automatically save a render to disk upon execution.
 
-Finally, the helper method `create_best_case' facilitates creation of a
-balanced tree composed of _n_ integers.
+Finally, the helper methods 'create_best_case' and 'create_worst_case'
+facilitates creation of tree composeds of _n_ integers.
 
-This module was completed with reference to the very helpful post
+This module was completed with reference to the following:
+
 'Binary Search Tree libary in Python'
 (http://www.laurentluce.com/posts/binary-search-tree-library-in-python/)
 by Laurent Luce.
+
+'How to Balance your Binary Search Trees - AVL Trees'
+(https://triangleinequality.wordpress.com/2014/07/15/how-to-balance-your-binary-search-trees-avl-trees/)
+
+'The AVL Tree Rotations Tutorial'
+(http://pages.cs.wisc.edu/~paton/readings/liblitVersion/AVL-Tree-Rotations.pdf)
+by John Hargrove
 
 """
 from __future__ import print_function
@@ -54,6 +71,8 @@ class Node(object):
 
         args:
             val: the value to insert
+            balanced: performs AVL self-balancing if set to True
+            render: automatically saves a render to disk if set to True
         """
         if self.val is not None:
             if val == self.val:
@@ -225,6 +244,8 @@ class Node(object):
 
         args:
             val: the value of the node to delete
+            balanced: performs AVL self-balancing if set to True
+            render: automatically saves a render to disk if set to True
         """
         node = self._lookup(val)
         parent = node.parent
@@ -377,12 +398,20 @@ class Node(object):
         return node
 
     def _is_left(self):
+        """Check nodes relationship to parent.
+
+        returns:
+            - True if node is left child of parent
+            - False if node is right childe of parent
+            - None if node has no parent
+        """
         if self.parent is None:
             return None
         else:
             return self is self.parent.left
 
     def rotate_right(self):
+        """Perform a single right tree rotation."""
         pivot = self.left
         if pivot is None:
             return
@@ -399,6 +428,7 @@ class Node(object):
         self.right, pivot.parent = pivot, self
 
     def rotate_left(self):
+        """Perform a single left tree rotation."""
         pivot = self.right
         if pivot is None:
             return
@@ -415,6 +445,7 @@ class Node(object):
         self.left, pivot.parent = pivot, self
 
     def self_balance(self):
+        """Balance the subtree from given node."""
         balance = self.balance()
         # Tree is left heavy
         if balance == 2:
