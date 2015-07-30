@@ -34,11 +34,19 @@ class HashTable(object):
 
     def hashing(self, key):
         """pass"""
-        hash = 0
+        hash_ = 0
         for i, c in enumerate(key):
-            hash += pow(
+            hash_ += pow(
                 self.alphabet_size, len(key) - i - 1) * self.char2int(c)
-        return hash % self.table_size
+        return hash_ % self.table_size
 
-    
+    def insert(self, item):
+        hash_ = self.hashing(item.key)
+        for i, it in enumerate(self.hashtable[hash_]):
+            if it.key == item.key:
+                del self.hashtable[hash_][i]
+                self.entries_count -= 1
+        self.hashtable[hash_].append(item)
+        self.entries_count += 1
+
     
