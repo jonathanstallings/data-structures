@@ -269,16 +269,16 @@ class Node(object):
                     parent.left = successor.right
                     try:
                         parent.left.parent = parent
-                        parent.left.self_balance()
                     except AttributeError:
                         pass
+                    parent.self_balance()
                 else:
                     parent.right = successor.right
                     try:
                         parent.right.parent = parent
-                        parent.right.self_balance()
                     except AttributeError:
                         pass
+                    parent.self_balance()
 
     def get_dot(self):
         """Return the tree with root as a dot graph for visualization."""
@@ -381,8 +381,8 @@ class Node(object):
         self.left = pivot.right
         if pivot.right is not None:
             self.left.parent = self
-        pivot.right = self
-        pivot.parent = self.parent
+        pivot.right = self  # No. Swap vals instead
+        pivot.parent = self.parentlo
         self.parent = pivot
         if left is None:
             pass
