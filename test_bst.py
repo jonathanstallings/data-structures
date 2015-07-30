@@ -351,3 +351,66 @@ def test_delete_root_with_two_children(traversal_setup):
     root.delete('F', balanced=False)
     assert root.val == 'G'
     assert root.left.val == 'B' and root.right.val == 'I'
+
+
+# Tests for AVL Balanced Behavior Follow
+def test_avl_insert_in_empty_root():
+    root = Node()
+    expected = 10
+    root.insert(expected)
+    actual = root.val
+    assert expected == actual
+
+
+def test_avl_insert_lesser_in_filled_root():
+    root = Node(10)
+    expected = 5
+    root.insert(expected)
+    actual = root.left.val
+    assert expected == actual
+    assert root.right is None
+
+
+def test_avl_insert_greater_in_filled_root():
+    root = Node(10)
+    expected = 15
+    root.insert(expected)
+    actual = root.right.val
+    assert expected == actual
+    assert root.left is None
+
+
+def test_avl_insert_lesser_in_filled_tree1():
+    root = Node(10)
+    root.left, root.right = Node(5, root.left), Node(15, root.right)
+    root.left.left = Node(2, root.left)
+    root.insert(1)
+    assert root.left.val == 2
+    assert root.left.left.val == 1 and root.left.right.val == 5
+
+
+def test_avl_insert_lesser_in_filled_tree2():
+    root = Node(10)
+    root.left, root.right = Node(5, root.left), Node(15, root.right)
+    root.left.left = Node(2, root.left)
+    root.insert(3)
+    assert root.left.val == 3
+    assert root.left.left.val == 2 and root.left.right.val == 5
+
+
+def test_avl_insert_greater_in_filled_tree1():
+    root = Node(10)
+    root.left, root.right = Node(5, root.left), Node(15, root.right)
+    root.right.right = Node(20, root.right)
+    root.insert(17)
+    assert root.right.val == 17
+    assert root.right.left.val == 15 and root.right.right.val == 20
+
+
+def test_avl_insert_greater_in_filled_tree2():
+    root = Node(10)
+    root.left, root.right = Node(5, root.left), Node(15, root.right)
+    root.right.right = Node(20, root.right)
+    root.insert(25)
+    assert root.right.val == 20
+    assert root.right.left.val == 15 and root.right.right.val == 25
