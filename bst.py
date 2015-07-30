@@ -226,57 +226,58 @@ class Node(object):
         node, parent = self._lookup(val)
         if node is not None:
             children_count = node.children_count()
-        if children_count == 0:
-            if parent:
-                if parent.left is node:
-                    parent.left = None
+            if children_count == 0:
+                if parent:
+                    if parent.left is node:
+                        parent.left = None
+                    else:
+                        parent.right = None
+                    parent.self_balance()
                 else:
-                    parent.right = None
-            else:
-                self.val = None
-        elif children_count == 1:
-            if node.left:
-                child = node.left
-            else:
-                child = node.right
-            if parent:
-                if parent.left is node:
-                    parent.left = child
+                    self.val = None
+            elif children_count == 1:
+                if node.left:
+                    child = node.left
                 else:
-                    parent.right = child
-                child.parent = parent
-                child.self_balance()
+                    child = node.right
+                if parent:
+                    if parent.left is node:
+                        parent.left = child
+                    else:
+                        parent.right = child
+                    child.parent = parent
+                    child.self_balance()
+                else:
+                    self.left = child.left
+                    self.right = child.right
+                    try:
+                        self.right.parent = self
+                        self.left.parent = self
+                    except AttributeError:
+                        pass
+                    self.val = child.val
+                    self.self_balance()
             else:
-                self.left = child.left
-                self.right = child.right
-                try:
-                    self.right.parent = self
-                    self.left.parent = self
-                except AttributeError:
-                    pass
-                self.val = child.val
-                self.self_balance()
-        else:
-            parent = node
-            successor = node.right
-            while successor.left:
-                parent = successor
-                successor = successor.left
-            node.val = successor.val
-            if parent.left == successor:
-                parent.left = successor.right
-                try:
-                    parent.left.parent = parent
-                    parent.left.self_balance()
-                except AttributeError:
-                    pass
-            else:
-                parent.right = successor.right
-                try:
-                    parent.right.parent = parent
-                    parent.right.self_balance()
-                except AttributeError:
-                    pass
+                parent = node
+                successor = node.right
+                while successor.left:
+                    parent = successor
+                    successor = successor.left
+                node.val = successor.val
+                if parent.left == successor:
+                    parent.left = successor.right
+                    try:
+                        parent.left.parent = parent
+                        parent.left.self_balance()
+                    except AttributeError:
+                        pass
+                else:
+                    parent.right = successor.right
+                    try:
+                        parent.right.parent = parent
+                        parent.right.self_balance()
+                    except AttributeError:
+                        pass
 
     def get_dot(self):
         """Return the tree with root as a dot graph for visualization."""
@@ -409,28 +410,25 @@ class Node(object):
 
     def self_balance(self):
         balance = self.balance()
+        # Tree is left heavy
         if balance == 2:
-            if self.left.balance() != -1:
+            if self.left.balance() <= -1:
                 # left-left case
-                self.rotate_right()
-                if self.parent.parent is not None:
-                    # move up one level
-                    self.parent.parent.self_balance()
-            else:
-                # left-right case
                 self.left.rotate_left()
-                self.self_balance()
+            # left-right case
+            self.rotate_right()
+            if self.parent.parent is not None:
+                self.parent.parent.self_balance()
+
+        # Tree is right heavy
         elif balance == -2:
-            if self.right.balance() != 1:
+            if self.right.balance() >= 1:
                 # right-right case
-                self.rotate_left()
-                if self.parent.parent is not None:
-                    # Move up one level
-                    self.parent.parent.self_balance()
-            else:
-                # right-left case
                 self.right.rotate_right()
-                self.self_balance()
+            # right-left case
+            self.rotate_left()
+            if self.parent.parent is not None:
+                self.parent.parent.self_balance()
         else:
             if self.parent is not None:
                 self.parent.self_balance()
