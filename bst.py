@@ -21,7 +21,7 @@ Passing the optional 'render=True' keyword argument to the insert and
 delete methods will automatically save a render to disk upon execution.
 
 Finally, the helper methods 'create_best_case' and 'create_worst_case'
-facilitates creation of tree composeds of _n_ integers.
+facilitate creation of tree composeds of _n_ integers.
 
 This module was completed with reference to the following:
 
@@ -63,6 +63,14 @@ class Node(object):
 
     def __iter__(self):
         return self.in_order()
+
+    def __add__(self, other):
+        for item in other:
+            self.insert(item)
+
+    def __sub__(self, other):
+        for item in other:
+            self.delete(item)
 
     def insert(self, val, balanced=True, render=False):
         """Insert a node with a value into the tree.
