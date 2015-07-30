@@ -34,7 +34,6 @@ class Node(object):
         self.parent = parent
         self.left = None
         self.right = None
-        # self.root = None
 
     def __repr__(self):
         return '<BST: ({})>'.format(self.val)
@@ -48,7 +47,7 @@ class Node(object):
     def __iter__(self):
         return self.in_order()
 
-    def insert(self, val, render=False):
+    def insert(self, val, balanced=True, render=False):
         """Insert a node with a value into the tree.
 
         If val is already present, it will be ignored.
@@ -62,15 +61,17 @@ class Node(object):
             if val < self.val:
                 if self.left is None:
                     self.left = Node(val, self)
-                    self.left.self_balance()
+                    if balanced:
+                        self.left.self_balance()
                 else:
-                    self.left.insert(val, render)
+                    self.left.insert(val, balanced, render)
             elif val > self.val:
                 if self.right is None:
                     self.right = Node(val, self)
-                    self.right.self_balance()
+                    if balanced:
+                        self.right.self_balance()
                 else:
-                    self.right.insert(val, render)
+                    self.right.insert(val, balanced, render)
         else:
             self.val = val
         if render and self.parent is None:
@@ -216,7 +217,7 @@ class Node(object):
             cnt += 1
         return cnt
 
-    def delete(self, val, render=False):
+    def delete(self, val, balanced=True, render=False):
         """Delete a node matching value and reorganize tree as needed.
 
         If the matched node is the only node in the tree, only its value
@@ -235,7 +236,8 @@ class Node(object):
                         parent.left = None
                     else:
                         parent.right = None
-                    parent.self_balance()
+                    if balanced:
+                        parent.self_balance()
                 else:
                     self.val = None
             elif children_count == 1:
@@ -249,7 +251,8 @@ class Node(object):
                     else:
                         parent.right = child
                     child.parent = parent
-                    child.self_balance()
+                    if balanced:
+                        child.self_balance()
                 else:
                     self.left = child.left
                     self.right = child.right
@@ -259,7 +262,8 @@ class Node(object):
                     except AttributeError:
                         pass
                     self.val = child.val
-                    self.self_balance()
+                    if balanced:
+                        self.self_balance()
             else:
                 parent = node
                 successor = node.right
@@ -280,7 +284,8 @@ class Node(object):
                         parent.right.parent = parent
                     except AttributeError:
                         pass
-                    parent.self_balance()
+                    if balanced:
+                        parent.self_balance()
         if render and self.parent is None:
             self.save_render()
 
