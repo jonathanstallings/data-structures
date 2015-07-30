@@ -20,21 +20,12 @@ class HashTable(object):
                 count += 1
         return count
 
-    def char2int(self, char):
-        """Convert a alpha character to an int."""
-        # offset for ASCII table
-        # if char >= 'A' and char <= 'Z':
-        #     return ord(char) - 65
-        # elif char >= 'a' and char <= 'z':
-        #     return ord(char) - 65 - 7
-        return ord(char)
-
     def hashing(self, key):
         """pass"""
         hash_ = 0
         for i, c in enumerate(key):
             hash_ += pow(
-                self.alphabet_size, len(key) - i - 1) * self.char2int(c)
+                self.alphabet_size, len(key) - i - 1) * ord(c)
         return hash_ % self.table_size
 
     def set(self, key, value):
