@@ -185,7 +185,7 @@ class Node(object):
             if node.right:
                 q.enqueue(node.right)
 
-    def _lookup(self, val, parent=None):
+    def _lookup(self, val):
         """Find a node by value and return that node and its parent.
 
         args:
@@ -197,13 +197,13 @@ class Node(object):
         if val < self.val:
             if self.left is None:
                 return None, None
-            return self.left._lookup(val, self)
+            return self.left._lookup(val)
         elif val > self.val:
             if self.right is None:
                 return None, None
-            return self.right._lookup(val, self)
+            return self.right._lookup(val)
         else:
-            return self, parent
+            return self
 
     def children_count(self):
         """Return a node's number of children."""
@@ -223,7 +223,8 @@ class Node(object):
         args:
             val: the value of the node to delete
         """
-        node, parent = self._lookup(val)
+        node = self._lookup(val)
+        parent = node.parent
         if node is not None:
             children_count = node.children_count()
             if children_count == 0:
