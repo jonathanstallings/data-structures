@@ -48,7 +48,7 @@ class Node(object):
     def __iter__(self):
         return self.in_order()
 
-    def insert(self, val, parent=None):
+    def insert(self, val, render=False):
         """Insert a node with a value into the tree.
 
         If val is already present, it will be ignored.
@@ -64,15 +64,17 @@ class Node(object):
                     self.left = Node(val, self)
                     self.left.self_balance()
                 else:
-                    self.left.insert(val, self)
+                    self.left.insert(val, render)
             elif val > self.val:
                 if self.right is None:
                     self.right = Node(val, self)
                     self.right.self_balance()
                 else:
-                    self.right.insert(val, self)
+                    self.right.insert(val, render)
         else:
             self.val = val
+        if render and self.parent is None:
+            self.save_render()
 
     def contains(self, val):
         """Check tree for node with given value.
@@ -214,7 +216,7 @@ class Node(object):
             cnt += 1
         return cnt
 
-    def delete(self, val):
+    def delete(self, val, render=False):
         """Delete a node matching value and reorganize tree as needed.
 
         If the matched node is the only node in the tree, only its value
@@ -279,6 +281,8 @@ class Node(object):
                     except AttributeError:
                         pass
                     parent.self_balance()
+        if render and self.parent is None:
+            self.save_render()
 
     def get_dot(self):
         """Return the tree with root as a dot graph for visualization."""
@@ -414,8 +418,8 @@ class Node(object):
                 self.left.rotate_left()
             # left-right case
             self.rotate_right()
-            if self.parent.parent is not None:
-                self.parent.parent.self_balance()
+            if self.parent is not None:
+                self.parent.self_balance()
 
         # Tree is right heavy
         elif balance == -2:
@@ -424,8 +428,8 @@ class Node(object):
                 self.right.rotate_right()
             # right-left case
             self.rotate_left()
-            if self.parent.parent is not None:
-                self.parent.parent.self_balance()
+            if self.parent is not None:
+                self.parent.self_balance()
         else:
             if self.parent is not None:
                 self.parent.self_balance()
