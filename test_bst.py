@@ -307,7 +307,7 @@ def test_create_worst_case():
 def test_lookup(traversal_setup):
     root = traversal_setup
     expected = root.left
-    actual = root._lookup('B')
+    actual = root.lookup('B')
     assert expected is actual
 
 
@@ -384,7 +384,7 @@ def test_rotate_right(pivot_setup):
     root_val, pivot_val = root.val, pivot.val
     root_right = root.right
     pivot_right, pivot_left = pivot.right, pivot.left
-    root.rotate_right()
+    root._rotate_right()
     assert root.val == pivot_val and pivot.val == root_val
     assert root_right is pivot.right and pivot_right is pivot.left
     assert pivot_left is root.left
@@ -395,9 +395,9 @@ def test_rotate_left(pivot_setup):
     root_val, pivot_val = root.val, pivot.val
     root_right = root.right
     pivot_right, pivot_left = pivot.right, pivot.left
-    root.rotate_right()
-    root.rotate_left()
-    root.rotate_right()
+    root._rotate_right()
+    root._rotate_left()
+    root._rotate_right()
     assert root.val == pivot_val and pivot.val == root_val
     assert root_right is pivot.right and pivot_right is pivot.left
     assert pivot_left is root.left
@@ -408,7 +408,7 @@ def test_self_balance_single_right():
     root.left = Node(5, root)
     root.left.left = Node(1, root.left)
     leaf = root.left.left
-    leaf.self_balance()
+    leaf._self_balance()
     assert root.val == 5
     assert root.left.val == 1 and root.right.val == 10
 
@@ -418,7 +418,7 @@ def test_self_balance_double_right():
     root.left = Node(5, root)
     root.left.right = Node(7, root.left)
     leaf = root.left.right
-    leaf.self_balance()
+    leaf._self_balance()
     assert root.val == 7
     assert root.left.val == 5 and root.right.val == 10
 
@@ -428,7 +428,7 @@ def test_self_balance_single_left():
     root.right = Node(15, root)
     root.right.right = Node(20, root.right)
     leaf = root.right.right
-    leaf.self_balance()
+    leaf._self_balance()
     assert root.val == 15
     assert root.left.val == 10 and root.right.val == 20
 
@@ -438,7 +438,7 @@ def test_self_balance_double_left():
     root.right = Node(15, root)
     root.right.left = Node(13, root.right)
     leaf = root.right.left
-    leaf.self_balance()
+    leaf._self_balance()
     assert root.val == 13
     assert root.left.val == 10 and root.right.val == 15
 

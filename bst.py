@@ -81,18 +81,92 @@ class Node(object):
                 if self.left is None:
                     self.left = Node(val, self)
                     if balanced:
-                        self.left.self_balance()
+                        self.left._self_balance()
                 else:
                     self.left.insert(val, balanced, render)
             elif val > self.val:
                 if self.right is None:
                     self.right = Node(val, self)
                     if balanced:
-                        self.right.self_balance()
+                        self.right._self_balance()
                 else:
                     self.right.insert(val, balanced, render)
         else:
             self.val = val
+        if render and self.parent is None:
+            self.save_render()
+
+    def delete(self, val, balanced=True, render=False):
+        """Delete a node matching value and reorganize tree as needed.
+
+        If the matched node is the only node in the tree, only its value
+        will be deleted.
+
+        args:
+            val: the value of the node to delete
+            balanced: performs AVL self-balancing if set to True
+            render: automatically saves a render to disk if set to True
+        """
+        node = self.lookup(val)
+        parent = node.parent
+        if node is not None:
+            children_count = node._children_count()
+            if children_count == 0:
+                if parent:
+                    if parent.left is node:
+                        parent.left = None
+                    else:
+                        parent.right = None
+                    if balanced:
+                        parent._self_balance()
+                else:
+                    self.val = None
+            elif children_count == 1:
+                if node.left:
+                    child = node.left
+                else:
+                    child = node.right
+                if parent:
+                    if parent.left is node:
+                        parent.left = child
+                    else:
+                        parent.right = child
+                    child.parent = parent
+                    if balanced:
+                        child._self_balance()
+                else:
+                    self.left = child.left
+                    self.right = child.right
+                    try:
+                        self.right.parent = self
+                        self.left.parent = self
+                    except AttributeError:
+                        pass
+                    self.val = child.val
+                    if balanced:
+                        self._self_balance()
+            else:
+                parent = node
+                successor = node.right
+                while successor.left:
+                    parent = successor
+                    successor = successor.left
+                node.val = successor.val
+                if parent.left == successor:
+                    parent.left = successor.right
+                    try:
+                        parent.left.parent = parent
+                    except AttributeError:
+                        pass
+                    parent._self_balance()
+                else:
+                    parent.right = successor.right
+                    try:
+                        parent.right.parent = parent
+                    except AttributeError:
+                        pass
+                    if balanced:
+                        parent._self_balance()
         if render and self.parent is None:
             self.save_render()
 
@@ -114,6 +188,26 @@ class Node(object):
             if self.right is None:
                 return False
             return self.right.contains(val)
+
+    def lookup(self, val):
+        """Find a node by value and return that node and its parent.
+
+        args:
+            val: the value to search by
+            parent: the parent of the node (for recursion)
+
+        returns: a tuple with node and its parent
+        """
+        if val < self.val:
+            if self.left is None:
+                return None, None
+            return self.left.lookup(val)
+        elif val > self.val:
+            if self.right is None:
+                return None, None
+            return self.right.lookup(val)
+        else:
+            return self
 
     def size(self):
         """Return the total number of nodes in the tree.
@@ -150,6 +244,79 @@ class Node(object):
         left_depth = self.left.depth() if self.left is not None else 0
         right_depth = self.right.depth() if self.right is not None else 0
         return left_depth - right_depth
+
+    def _is_left(self):
+        """Check nodes relationship to parent.
+
+        returns:
+            - True if node is left child of parent
+            - False if node is right childe of parent
+            - None if node has no parent
+        """
+        if self.parent is None:
+            return None
+        else:
+            return self is self.parent.left
+
+    def _rotate_right(self):
+        """Perform a single right tree rotation."""
+        pivot = self.left
+        if pivot is None:
+            return
+        self.val, pivot.val = pivot.val, self.val
+        self.left = pivot.left
+        if self.left is not None:
+            self.left.parent = self
+        pivot.left = pivot.right
+        if pivot.left is not None:
+            pivot.left.parent = pivot
+        pivot.right = self.right
+        if pivot.right is not None:
+            pivot.right.parent = pivot
+        self.right, pivot.parent = pivot, self
+
+    def _rotate_left(self):
+        """Perform a single left tree rotation."""
+        pivot = self.right
+        if pivot is None:
+            return
+        self.val, pivot.val = pivot.val, self.val
+        self.right = pivot.right
+        if self.right is not None:
+            self.right.parent = self
+        pivot.right = pivot.left
+        if pivot.right is not None:
+            pivot.right.parent = pivot
+        pivot.left = self.left
+        if pivot.left is not None:
+            pivot.left.parent = pivot
+        self.left, pivot.parent = pivot, self
+
+    def _self_balance(self):
+        """Balance the subtree from given node."""
+        balance = self.balance()
+        # Tree is left heavy
+        if balance == 2:
+            if self.left.balance() <= -1:
+                # Double Right
+                self.left._rotate_left()
+            # Single Right
+            self._rotate_right()
+            if self.parent is not None:
+                self.parent._self_balance()
+
+        # Tree is right heavy
+        elif balance == -2:
+            if self.right.balance() >= 1:
+                # Double Left
+                self.right._rotate_right()
+            # Single Left
+            self._rotate_left()
+            if self.parent is not None:
+                self.parent._self_balance()
+        else:
+            if self.parent is not None:
+                self.parent._self_balance()
 
     def in_order(self):
         """Return a generator with tree values from in-order traversal"""
@@ -207,27 +374,7 @@ class Node(object):
             if node.right:
                 q.enqueue(node.right)
 
-    def _lookup(self, val):
-        """Find a node by value and return that node and its parent.
-
-        args:
-            val: the value to search by
-            parent: the parent of the node (for recursion)
-
-        returns: a tuple with node and its parent
-        """
-        if val < self.val:
-            if self.left is None:
-                return None, None
-            return self.left._lookup(val)
-        elif val > self.val:
-            if self.right is None:
-                return None, None
-            return self.right._lookup(val)
-        else:
-            return self
-
-    def children_count(self):
+    def _children_count(self):
         """Return a node's number of children."""
         cnt = 0
         if self.left:
@@ -235,80 +382,6 @@ class Node(object):
         if self.right:
             cnt += 1
         return cnt
-
-    def delete(self, val, balanced=True, render=False):
-        """Delete a node matching value and reorganize tree as needed.
-
-        If the matched node is the only node in the tree, only its value
-        will be deleted.
-
-        args:
-            val: the value of the node to delete
-            balanced: performs AVL self-balancing if set to True
-            render: automatically saves a render to disk if set to True
-        """
-        node = self._lookup(val)
-        parent = node.parent
-        if node is not None:
-            children_count = node.children_count()
-            if children_count == 0:
-                if parent:
-                    if parent.left is node:
-                        parent.left = None
-                    else:
-                        parent.right = None
-                    if balanced:
-                        parent.self_balance()
-                else:
-                    self.val = None
-            elif children_count == 1:
-                if node.left:
-                    child = node.left
-                else:
-                    child = node.right
-                if parent:
-                    if parent.left is node:
-                        parent.left = child
-                    else:
-                        parent.right = child
-                    child.parent = parent
-                    if balanced:
-                        child.self_balance()
-                else:
-                    self.left = child.left
-                    self.right = child.right
-                    try:
-                        self.right.parent = self
-                        self.left.parent = self
-                    except AttributeError:
-                        pass
-                    self.val = child.val
-                    if balanced:
-                        self.self_balance()
-            else:
-                parent = node
-                successor = node.right
-                while successor.left:
-                    parent = successor
-                    successor = successor.left
-                node.val = successor.val
-                if parent.left == successor:
-                    parent.left = successor.right
-                    try:
-                        parent.left.parent = parent
-                    except AttributeError:
-                        pass
-                    parent.self_balance()
-                else:
-                    parent.right = successor.right
-                    try:
-                        parent.right.parent = parent
-                    except AttributeError:
-                        pass
-                    if balanced:
-                        parent.self_balance()
-        if render and self.parent is None:
-            self.save_render()
 
     def get_dot(self):
         """Return the tree with root as a dot graph for visualization."""
@@ -396,79 +469,6 @@ class Node(object):
             parent.right = Node(i, parent)
             parent = parent.right
         return node
-
-    def _is_left(self):
-        """Check nodes relationship to parent.
-
-        returns:
-            - True if node is left child of parent
-            - False if node is right childe of parent
-            - None if node has no parent
-        """
-        if self.parent is None:
-            return None
-        else:
-            return self is self.parent.left
-
-    def rotate_right(self):
-        """Perform a single right tree rotation."""
-        pivot = self.left
-        if pivot is None:
-            return
-        self.val, pivot.val = pivot.val, self.val
-        self.left = pivot.left
-        if self.left is not None:
-            self.left.parent = self
-        pivot.left = pivot.right
-        if pivot.left is not None:
-            pivot.left.parent = pivot
-        pivot.right = self.right
-        if pivot.right is not None:
-            pivot.right.parent = pivot
-        self.right, pivot.parent = pivot, self
-
-    def rotate_left(self):
-        """Perform a single left tree rotation."""
-        pivot = self.right
-        if pivot is None:
-            return
-        self.val, pivot.val = pivot.val, self.val
-        self.right = pivot.right
-        if self.right is not None:
-            self.right.parent = self
-        pivot.right = pivot.left
-        if pivot.right is not None:
-            pivot.right.parent = pivot
-        pivot.left = self.left
-        if pivot.left is not None:
-            pivot.left.parent = pivot
-        self.left, pivot.parent = pivot, self
-
-    def self_balance(self):
-        """Balance the subtree from given node."""
-        balance = self.balance()
-        # Tree is left heavy
-        if balance == 2:
-            if self.left.balance() <= -1:
-                # Double Right
-                self.left.rotate_left()
-            # Single Right
-            self.rotate_right()
-            if self.parent is not None:
-                self.parent.self_balance()
-
-        # Tree is right heavy
-        elif balance == -2:
-            if self.right.balance() >= 1:
-                # Double Left
-                self.right.rotate_right()
-            # Single Left
-            self.rotate_left()
-            if self.parent is not None:
-                self.parent.self_balance()
-        else:
-            if self.parent is not None:
-                self.parent.self_balance()
 
 if __name__ == '__main__':
     from timeit import Timer
