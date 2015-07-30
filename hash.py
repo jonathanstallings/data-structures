@@ -32,7 +32,9 @@ class HashTable(object):
                 self.alphabet_size, len(key) - i - 1) * self.char2int(c)
         return hash_ % self.table_size
 
-    def set(self, key, value):  # Validate for string only
+    def set(self, key, value):
+        if not isinstance(key, str):
+            raise TypeError('Only strings may be used as keys.')
         hash_ = self.hashing(key)
         for i, item in enumerate(self.hashtable[hash_]):
             if item[0] == key:
@@ -46,5 +48,5 @@ class HashTable(object):
         for i, item in enumerate(self.hashtable[hash_]):
             if item[0] == key:
                 return self.hashtable[hash_]
-        return None
+        raise KeyError('Key not in hash table.')
 
