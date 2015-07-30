@@ -403,8 +403,44 @@ def test_rotate_left(pivot_setup):
     assert pivot_left is root.left
 
 
-def test_self_balance():
-    pass
+def test_self_balance_single_right():
+    root = Node(10)
+    root.left = Node(5, root)
+    root.left.left = Node(1, root.left)
+    leaf = root.left.left
+    leaf.self_balance()
+    assert root.val == 5
+    assert root.left.val == 1 and root.right.val == 10
+
+
+def test_self_balance_double_right():
+    root = Node(10)
+    root.left = Node(5, root)
+    root.left.right = Node(7, root.left)
+    leaf = root.left.right
+    leaf.self_balance()
+    assert root.val == 7
+    assert root.left.val == 5 and root.right.val == 10
+
+
+def test_self_balance_single_left():
+    root = Node(10)
+    root.right = Node(15, root)
+    root.right.right = Node(20, root.right)
+    leaf = root.right.right
+    leaf.self_balance()
+    assert root.val == 15
+    assert root.left.val == 10 and root.right.val == 20
+
+
+def test_self_balance_double_left():
+    root = Node(10)
+    root.right = Node(15, root)
+    root.right.left = Node(13, root.right)
+    leaf = root.right.left
+    leaf.self_balance()
+    assert root.val == 13
+    assert root.left.val == 10 and root.right.val == 15
 
 
 def test_avl_insert_in_empty_root():

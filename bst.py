@@ -419,9 +419,9 @@ class Node(object):
         # Tree is left heavy
         if balance == 2:
             if self.left.balance() <= -1:
-                # left-left case
+                # Double Right
                 self.left.rotate_left()
-            # left-right case
+            # Single Right
             self.rotate_right()
             if self.parent is not None:
                 self.parent.self_balance()
@@ -429,9 +429,9 @@ class Node(object):
         # Tree is right heavy
         elif balance == -2:
             if self.right.balance() >= 1:
-                # right-right case
+                # Double Left
                 self.right.rotate_right()
-            # right-left case
+            # Single Left
             self.rotate_left()
             if self.parent is not None:
                 self.parent.self_balance()
