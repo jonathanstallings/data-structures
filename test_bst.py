@@ -13,7 +13,6 @@ def rand_setup():
     for idx in range(20):
         val = randint(1, 100)
         root.insert(val, balanced=False)
-
     return root
 
 
@@ -23,17 +22,6 @@ def fixed_setup():
     setup = [15, 30, 9, 17, 21, 39, 12, 24, 40, 14]
     for item in setup:
         root.insert(item, balanced=False)
-    # root.insert(15)
-    # root.insert(30)
-    # root.insert(9)
-    # root.insert(17)
-    # root.insert(21)
-    # root.insert(39)
-    # root.insert(12)
-    # root.insert(24)
-    # root.insert(40)
-    # root.insert(14)
-
     return root
 
 
@@ -382,7 +370,7 @@ def test_avl_insert_greater_in_filled_root():
 
 def test_avl_insert_lesser_in_filled_tree1():
     root = Node(10)
-    root.left, root.right = Node(5, root.left), Node(15, root.right)
+    root.left, root.right = Node(5), Node(15)
     root.left.left = Node(2, root.left)
     root.insert(1)
     assert root.left.val == 2
@@ -391,7 +379,7 @@ def test_avl_insert_lesser_in_filled_tree1():
 
 def test_avl_insert_lesser_in_filled_tree2():
     root = Node(10)
-    root.left, root.right = Node(5, root.left), Node(15, root.right)
+    root.left, root.right = Node(5, root.left), Node(15)
     root.left.left = Node(2, root.left)
     root.insert(3)
     assert root.left.val == 3
@@ -400,7 +388,7 @@ def test_avl_insert_lesser_in_filled_tree2():
 
 def test_avl_insert_greater_in_filled_tree1():
     root = Node(10)
-    root.left, root.right = Node(5, root.left), Node(15, root.right)
+    root.left, root.right = Node(5), Node(15)
     root.right.right = Node(20, root.right)
     root.insert(17)
     assert root.right.val == 17
@@ -409,8 +397,65 @@ def test_avl_insert_greater_in_filled_tree1():
 
 def test_avl_insert_greater_in_filled_tree2():
     root = Node(10)
-    root.left, root.right = Node(5, root.left), Node(15, root.right)
+    root.left, root.right = Node(5), Node(15, root.right)
     root.right.right = Node(20, root.right)
     root.insert(25)
     assert root.right.val == 20
     assert root.right.left.val == 15 and root.right.right.val == 25
+
+
+def test_avl_delete_root_only():
+    root = Node(0)
+    root.delete(0)
+    assert root.val is None
+    assert root.left is None and root.right is None
+
+
+def test_avl_delete_root_with_one_child():
+    root = Node(10)
+    root.left = Node(5, root)
+    root.delete(10)
+    assert root.val == 5
+    assert root.left is None and root.right is None
+
+
+def test_avl_delete_root_with_two_children():
+    root = Node(10)
+    root.left, root.right = Node(5, root), Node(15, root)
+    root.delete(10)
+    assert root.val == 15
+    assert root.left.val == 5 and root.right is None
+
+
+def test_avl_delete_node_without_children():
+    root = Node(10)
+    root.left, root.right = Node(5, root), Node(15, root)
+    root.right.right = Node(20, root.right)
+    root.delete(5)
+    assert root.val == 15
+    assert root.left.val == 10 and root.right.val == 20
+
+
+def test_avl_delete_node_with_one_child():
+    root = Node(10)
+    root.left, root.right = Node(5, root), Node(15, root)
+    root.right.left = Node(12, root.right)
+    root.right.right = Node(20, root.right)
+    root.right.left.right = Node(13, root.right.left)
+    root.left.right = Node(8, root.left)
+    root.delete(5)
+    assert root.val == 12
+    assert root.left.val == 10 and root.right.val == 15
+
+
+def test_avl_delete_node_with_two_children():
+    root = Node(10)
+    root.left, root.right = Node(5, root), Node(15, root)
+    root.right.left = Node(12, root.right)
+    root.right.right = Node(20, root.right)
+    root.right.left.right = Node(13, root.right.left)
+    root.left.right = Node(8, root.left)
+    root.delete(15)
+    assert root.right.val == 13
+    assert root.right.left.val == 12 and root.right.right.val == 20
+
