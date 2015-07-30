@@ -6,11 +6,13 @@ class HashTable(object):
     table_size = 0
     entries_count = 0
     alphabet_size = 52
-    # hash_table = []
 
-    def __init__(self, size):
+    def __init__(self, size=16):
         self.table_size = size
         self.hashtable = [[] for i in range(size)]
+
+    def __repr__(self):
+        return "<HashTable: {}>".format(self.hashtable)
 
     def char2int(self, char):
         """Convert a alpha character to an int."""
@@ -30,10 +32,10 @@ class HashTable(object):
                 self.alphabet_size, len(key) - i - 1) * self.char2int(c)
         return hash_ % self.table_size
 
-    def set(self, key, value):
+    def set(self, key, value):  # Validate for string only
         hash_ = self.hashing(key)
-        for i, it in enumerate(self.hashtable[hash_]):
-            if it.key == key:
+        for i, item in enumerate(self.hashtable[hash_]):
+            if item[0] == key:
                 del self.hashtable[hash_][i]
                 self.entries_count -= 1
         self.hashtable[hash_].append((key, value))
@@ -41,8 +43,8 @@ class HashTable(object):
 
     def get(self, key):
         hash_ = self.hashing(key)
-        for i, it in enumerate(self.hashtable[hash_]):
-            if it.key == key:
+        for i, item in enumerate(self.hashtable[hash_]):
+            if item[0] == key:
                 return self.hashtable[hash_]
         return None
 
