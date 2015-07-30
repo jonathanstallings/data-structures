@@ -19,7 +19,7 @@ class HashTable(object):
     # hash_table = []
 
     def __init__(self, size):
-        self.size = size
+        self.table_size = size
         self.hashtable = [[] for i in range(size)]
 
     def char2int(self, char):
@@ -49,4 +49,10 @@ class HashTable(object):
         self.hashtable[hash_].append(item)
         self.entries_count += 1
 
-    
+    def get(self, key):
+        hash_ = self.hashing(key)
+        for i, it in enumerate(self.hashtable[hash_]):
+            if it.key == key:
+                return self.hashtable[hash_]
+        return None
+
