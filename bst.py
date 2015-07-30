@@ -347,6 +347,24 @@ class Node(object):
         """
         return cls._sorted_list_to_bst(range(n), 0, n - 1)
 
+    @classmethod
+    def create_worst_case(cls, n):
+        """Create an unbalanced binary search tree from a given range.
+
+        The tree will be one long linear branch to the right.
+
+        args:
+            n: the range of integers to add to the tree
+
+        returns: a (very) unbalanced binary search tree (node)
+        """
+        node = Node(0)
+        parent = node
+        for i in range(1, n):
+            parent.right = Node(i, parent)
+            parent = parent.right
+        return node
+
     def _is_left(self):
         if self.parent is None:
             return None
@@ -428,11 +446,9 @@ if __name__ == '__main__':
     SIZE = 900
     LOOKUP = 900
 
-    worst = Node()
-    for i in range(SIZE):
-        worst.insert(i)
-
+    worst = Node.create_worst_case(SIZE)
     best = Node.create_best_case(SIZE)
+
     worst_case = Timer(
         'worst.contains({})'.format(LOOKUP, SIZE), 'from __main__ import worst'
     ).timeit(1000)
