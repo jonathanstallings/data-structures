@@ -34,6 +34,16 @@ def traversal_setup():
     return root
 
 
+@pytest.fixture()
+def pivot_setup():
+    root = Node(10)
+    root.left, root.right = Node(5, root), Node(15, root)
+    root.left.left = Node(1, root.left)
+    root.left.right = Node(7, root.left)
+    pivot = root.left
+    return root, pivot
+
+
 def test_init_empty():
     root = Node()
     assert root.val is None
@@ -369,6 +379,34 @@ def test_delete_root_with_two_children(traversal_setup):
 
 
 # Tests for AVL Balanced Behavior Follow
+def test_rotate_right(pivot_setup):
+    root, pivot = pivot_setup
+    root_val, pivot_val = root.val, pivot.val
+    root_right = root.right
+    pivot_right, pivot_left = pivot.right, pivot.left
+    root.rotate_right()
+    assert root.val == pivot_val and pivot.val == root_val
+    assert root_right is pivot.right and pivot_right is pivot.left
+    assert pivot_left is root.left
+
+
+def test_rotate_left(pivot_setup):
+    root, pivot = pivot_setup
+    root_val, pivot_val = root.val, pivot.val
+    root_right = root.right
+    pivot_right, pivot_left = pivot.right, pivot.left
+    root.rotate_right()
+    root.rotate_left()
+    root.rotate_right()
+    assert root.val == pivot_val and pivot.val == root_val
+    assert root_right is pivot.right and pivot_right is pivot.left
+    assert pivot_left is root.left
+
+
+def test_self_balance():
+    pass
+
+
 def test_avl_insert_in_empty_root():
     root = Node()
     expected = 10
@@ -485,4 +523,3 @@ def test_avl_delete_node_with_two_children():
     root.delete(15)
     assert root.right.val == 13
     assert root.right.left.val == 12 and root.right.right.val == 20
-
