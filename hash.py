@@ -32,7 +32,7 @@ class HashTable(object):
         else:
             raise NameError('Invalid character in key! Use alpha character.')
 
-    def hasing(self, key):
+    def hashing(self, key):
         """pass"""
         hash = 0
         for i, c in enumerate(key):
@@ -40,5 +40,5 @@ class HashTable(object):
                 self.alphabet_size, len(key) - i - 1) * self.char2int(c)
         return hash % self.table_size
 
-
+    
     
