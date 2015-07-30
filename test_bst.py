@@ -288,11 +288,38 @@ def test_create_best_case():
     assert root.size() == 100 and root.balance() == 0
 
 
+def test_create_worst_case():
+    root = Node.create_worst_case(100)
+    assert isinstance(root, Node)
+    assert root.size() == 100 and root.balance() == -99
+
+
 def test_lookup(traversal_setup):
     root = traversal_setup
     expected = root.left
     actual = root._lookup('B')
     assert expected is actual
+
+
+def test_is_left_no_parent():
+    root = Node(10)
+    root.left, root.right = Node(5, root.left), Node(15)
+    assert root._is_left() is None
+
+
+def test_is_left_left_node():
+    root = Node(10)
+    root.left, root.right = Node(5, root.left), Node(15)
+    node = root.left
+    result = node._is_left()
+    assert result is None
+
+
+def test_is_left_right_node():
+    root = Node(10)
+    root.left, root.right = Node(5, root.left), Node(15)
+    node = root.right
+    assert not node._is_left()
 
 
 def test_delete_root_only():
