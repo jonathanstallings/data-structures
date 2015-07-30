@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 
 
 class HashTable(object):
@@ -7,22 +6,28 @@ class HashTable(object):
     entries_count = 0
     alphabet_size = 52
 
-    def __init__(self, size=16):
+    def __init__(self, size=1024):
         self.table_size = size
         self.hashtable = [[] for i in range(size)]
 
     def __repr__(self):
         return "<HashTable: {}>".format(self.hashtable)
 
+    def __len__(self):
+        count = 0
+        for item in self.hashtable:
+            if len(item) != 0:
+                count += 1
+        return count
+
     def char2int(self, char):
         """Convert a alpha character to an int."""
         # offset for ASCII table
-        if char >= 'A' and char <= 'Z':
-            return ord(char) - 65
-        elif char >= 'a' and char <= 'z':
-            return ord(char) - 65 - 7
-        else:
-            raise NameError('Invalid character in key! Use alpha character.')
+        # if char >= 'A' and char <= 'Z':
+        #     return ord(char) - 65
+        # elif char >= 'a' and char <= 'z':
+        #     return ord(char) - 65 - 7
+        return ord(char)
 
     def hashing(self, key):
         """pass"""
