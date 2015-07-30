@@ -1,23 +1,40 @@
-"""Contains a Node class which implements a binary search tree.
+"""Contains a Node class which implements an AVL binary search tree.
 
 Each node can be considered a binary search tree and has the usual
-methods to insert, delete, and check membership of nodes. The class also
-supports four traversal methods which return generators:
+methods to insert, delete, and check membership of nodes. By default,
+the insert and delete methods will perform self-balancing consistent
+with an AVL tree. This behavior can be suppressed by passing the optional
+'balanced=False' keyword argument to the insert or delete methods.
 
-in_order, pre_order, post_order, and breadth_first.
+The class also supports four traversal methods which return generators:
+
+- in_order
+- pre_order
+- post_order
+- breadth_first.
 
 Additionally, methods are included to help visualize the tree structure.
 get_dot returns DOT source code, suitable for use with programs such as
 Graphviz (http://graphviz.readthedocs.org/en/stable/index.html), and
 save_render saves a rendering of the tree structure to the file system.
+Passing the optional 'render=True' keyword argument to the insert and
+delete methods will automatically save a render to disk upon execution.
 
-Finally, the helper method `create_best_case' facilitates creation of a
-balanced tree composed of _n_ integers.
+Finally, the helper methods 'create_best_case' and 'create_worst_case'
+facilitate creation of tree composeds of _n_ integers.
 
-This module was completed with reference to the very helpful post
+This module was completed with reference to the following:
+
 'Binary Search Tree libary in Python'
 (http://www.laurentluce.com/posts/binary-search-tree-library-in-python/)
 by Laurent Luce.
+
+'How to Balance your Binary Search Trees - AVL Trees'
+(https://triangleinequality.wordpress.com/2014/07/15/how-to-balance-your-binary-search-trees-avl-trees/)
+
+'The AVL Tree Rotations Tutorial'
+(http://pages.cs.wisc.edu/~paton/readings/liblitVersion/AVL-Tree-Rotations.pdf)
+by John Hargrove
 
 """
 from __future__ import print_function
@@ -34,7 +51,6 @@ class Node(object):
         self.parent = parent
         self.left = None
         self.right = None
-        # self.root = None
 
     def __repr__(self):
         return '<BST: ({})>'.format(self.val)
@@ -48,13 +64,23 @@ class Node(object):
     def __iter__(self):
         return self.in_order()
 
-    def insert(self, val, parent=None):
+    def __add__(self, other):
+        for item in other:
+            self.insert(item)
+
+    def __sub__(self, other):
+        for item in other:
+            self.delete(item)
+
+    def insert(self, val, balanced=True, render=False):
         """Insert a node with a value into the tree.
 
         If val is already present, it will be ignored.
 
         args:
             val: the value to insert
+            balanced: performs AVL self-balancing if set to True
+            render: automatically saves a render to disk if set to True
         """
         if self.val is not None:
             if val == self.val:
@@ -62,17 +88,95 @@ class Node(object):
             if val < self.val:
                 if self.left is None:
                     self.left = Node(val, self)
-                    self.left.self_balance()
+                    if balanced:
+                        self.left._self_balance()
                 else:
-                    self.left.insert(val, self)
+                    self.left.insert(val, balanced, render)
             elif val > self.val:
                 if self.right is None:
                     self.right = Node(val, self)
-                    self.right.self_balance()
+                    if balanced:
+                        self.right._self_balance()
                 else:
-                    self.right.insert(val, self)
+                    self.right.insert(val, balanced, render)
         else:
             self.val = val
+        if render and self.parent is None:
+            self.save_render()
+
+    def delete(self, val, balanced=True, render=False):
+        """Delete a node matching value and reorganize tree as needed.
+
+        If the matched node is the only node in the tree, only its value
+        will be deleted.
+
+        args:
+            val: the value of the node to delete
+            balanced: performs AVL self-balancing if set to True
+            render: automatically saves a render to disk if set to True
+        """
+        node = self.lookup(val)
+        parent = node.parent
+        if node is not None:
+            children_count = node._children_count()
+            if children_count == 0:
+                if parent:
+                    if parent.left is node:
+                        parent.left = None
+                    else:
+                        parent.right = None
+                    if balanced:
+                        parent._self_balance()
+                else:
+                    self.val = None
+            elif children_count == 1:
+                if node.left:
+                    child = node.left
+                else:
+                    child = node.right
+                if parent:
+                    if parent.left is node:
+                        parent.left = child
+                    else:
+                        parent.right = child
+                    child.parent = parent
+                    if balanced:
+                        child._self_balance()
+                else:
+                    self.left = child.left
+                    self.right = child.right
+                    try:
+                        self.right.parent = self
+                        self.left.parent = self
+                    except AttributeError:
+                        pass
+                    self.val = child.val
+                    if balanced:
+                        self._self_balance()
+            else:
+                parent = node
+                successor = node.right
+                while successor.left:
+                    parent = successor
+                    successor = successor.left
+                node.val = successor.val
+                if parent.left == successor:
+                    parent.left = successor.right
+                    try:
+                        parent.left.parent = parent
+                    except AttributeError:
+                        pass
+                    parent._self_balance()
+                else:
+                    parent.right = successor.right
+                    try:
+                        parent.right.parent = parent
+                    except AttributeError:
+                        pass
+                    if balanced:
+                        parent._self_balance()
+        if render and self.parent is None:
+            self.save_render()
 
     def contains(self, val):
         """Check tree for node with given value.
@@ -92,6 +196,26 @@ class Node(object):
             if self.right is None:
                 return False
             return self.right.contains(val)
+
+    def lookup(self, val):
+        """Find a node by value and return that node and its parent.
+
+        args:
+            val: the value to search by
+            parent: the parent of the node (for recursion)
+
+        returns: a tuple with node and its parent
+        """
+        if val < self.val:
+            if self.left is None:
+                return None, None
+            return self.left.lookup(val)
+        elif val > self.val:
+            if self.right is None:
+                return None, None
+            return self.right.lookup(val)
+        else:
+            return self
 
     def size(self):
         """Return the total number of nodes in the tree.
@@ -128,6 +252,79 @@ class Node(object):
         left_depth = self.left.depth() if self.left is not None else 0
         right_depth = self.right.depth() if self.right is not None else 0
         return left_depth - right_depth
+
+    def _is_left(self):
+        """Check nodes relationship to parent.
+
+        returns:
+            - True if node is left child of parent
+            - False if node is right childe of parent
+            - None if node has no parent
+        """
+        if self.parent is None:
+            return None
+        else:
+            return self is self.parent.left
+
+    def _rotate_right(self):
+        """Perform a single right tree rotation."""
+        pivot = self.left
+        if pivot is None:
+            return
+        self.val, pivot.val = pivot.val, self.val
+        self.left = pivot.left
+        if self.left is not None:
+            self.left.parent = self
+        pivot.left = pivot.right
+        if pivot.left is not None:
+            pivot.left.parent = pivot
+        pivot.right = self.right
+        if pivot.right is not None:
+            pivot.right.parent = pivot
+        self.right, pivot.parent = pivot, self
+
+    def _rotate_left(self):
+        """Perform a single left tree rotation."""
+        pivot = self.right
+        if pivot is None:
+            return
+        self.val, pivot.val = pivot.val, self.val
+        self.right = pivot.right
+        if self.right is not None:
+            self.right.parent = self
+        pivot.right = pivot.left
+        if pivot.right is not None:
+            pivot.right.parent = pivot
+        pivot.left = self.left
+        if pivot.left is not None:
+            pivot.left.parent = pivot
+        self.left, pivot.parent = pivot, self
+
+    def _self_balance(self):
+        """Balance the subtree from given node."""
+        balance = self.balance()
+        # Tree is left heavy
+        if balance == 2:
+            if self.left.balance() <= -1:
+                # Double Right
+                self.left._rotate_left()
+            # Single Right
+            self._rotate_right()
+            if self.parent is not None:
+                self.parent._self_balance()
+
+        # Tree is right heavy
+        elif balance == -2:
+            if self.right.balance() >= 1:
+                # Double Left
+                self.right._rotate_right()
+            # Single Left
+            self._rotate_left()
+            if self.parent is not None:
+                self.parent._self_balance()
+        else:
+            if self.parent is not None:
+                self.parent._self_balance()
 
     def in_order(self):
         """Return a generator with tree values from in-order traversal"""
@@ -185,27 +382,7 @@ class Node(object):
             if node.right:
                 q.enqueue(node.right)
 
-    def _lookup(self, val, parent=None):
-        """Find a node by value and return that node and its parent.
-
-        args:
-            val: the value to search by
-            parent: the parent of the node (for recursion)
-
-        returns: a tuple with node and its parent
-        """
-        if val < self.val:
-            if self.left is None:
-                return None, None
-            return self.left._lookup(val, self)
-        elif val > self.val:
-            if self.right is None:
-                return None, None
-            return self.right._lookup(val, self)
-        else:
-            return self, parent
-
-    def children_count(self):
+    def _children_count(self):
         """Return a node's number of children."""
         cnt = 0
         if self.left:
@@ -213,70 +390,6 @@ class Node(object):
         if self.right:
             cnt += 1
         return cnt
-
-    def delete(self, val):
-        """Delete a node matching value and reorganize tree as needed.
-
-        If the matched node is the only node in the tree, only its value
-        will be deleted.
-
-        args:
-            val: the value of the node to delete
-        """
-        node, parent = self._lookup(val)
-        if node is not None:
-            children_count = node.children_count()
-        if children_count == 0:
-            if parent:
-                if parent.left is node:
-                    parent.left = None
-                else:
-                    parent.right = None
-            else:
-                self.val = None
-        elif children_count == 1:
-            if node.left:
-                child = node.left
-            else:
-                child = node.right
-            if parent:
-                if parent.left is node:
-                    parent.left = child
-                else:
-                    parent.right = child
-                child.parent = parent
-                child.self_balance()
-            else:
-                self.left = child.left
-                self.right = child.right
-                try:
-                    self.right.parent = self
-                    self.left.parent = self
-                except AttributeError:
-                    pass
-                self.val = child.val
-                self.self_balance()
-        else:
-            parent = node
-            successor = node.right
-            while successor.left:
-                parent = successor
-                successor = successor.left
-            node.val = successor.val
-            if parent.left == successor:
-                parent.left = successor.right
-                try:
-                    parent.left.parent = parent
-                    parent.left.self_balance()
-                except AttributeError:
-                    pass
-            else:
-                parent.right = successor.right
-                try:
-                    parent.right.parent = parent
-                    parent.right.self_balance()
-                except AttributeError:
-                    pass
 
     def get_dot(self):
         """Return the tree with root as a dot graph for visualization."""
@@ -347,75 +460,23 @@ class Node(object):
         """
         return cls._sorted_list_to_bst(range(n), 0, n - 1)
 
-    def _is_left(self):
-        if self.parent is None:
-            return None
-        else:
-            return self is self.parent.left
+    @classmethod
+    def create_worst_case(cls, n):
+        """Create an unbalanced binary search tree from a given range.
 
-    def rotate_right(self):
-        left = self._is_left()
-        pivot = self.left
-        if pivot is None:
-            return
-        self.left = pivot.right
-        if pivot.right is not None:
-            self.left.parent = self
-        pivot.right = self
-        pivot.parent = self.parent
-        self.parent = pivot
-        if left is None:
-            pass
-        elif left:
-            pivot.parent.left = pivot
-        else:
-            pivot.parent.right = pivot
+        The tree will be one long linear branch to the right.
 
-    def rotate_left(self):
-        left = self._is_left()
-        pivot = self.right
-        if pivot is None:
-            return
-        self.right = pivot.left
-        if pivot.left is not None:
-            self.right.parent = self
-        pivot.left = self
-        pivot.parent = self.parent
-        self.parent = pivot
-        if left is None:
-            pass
-        elif left:
-            pivot.parent.left = pivot
-        else:
-            pivot.parent.right = pivot
+        args:
+            n: the range of integers to add to the tree
 
-    def self_balance(self):
-        balance = self.balance()
-        if balance == 2:
-            if self.left.balance() != -1:
-                # left-left case
-                self.rotate_right()
-                if self.parent.parent is not None:
-                    # move up one level
-                    self.parent.parent.self_balance()
-            else:
-                # left-right case
-                self.left.rotate_left()
-                self.self_balance()
-        elif balance == -2:
-            if self.right.balance() != 1:
-                # right-right case
-                self.rotate_left()
-                if self.parent.parent is not None:
-                    # Move up one level
-                    self.parent.parent.self_balance()
-            else:
-                # right-left case
-                self.right.rotate_right()
-                self.self_balance()
-        else:
-            if self.parent is not None:
-                self.parent.self_balance()
+        returns: a (very) unbalanced binary search tree (node)
+        """
+        node = Node(0)
+        parent = node
+        for i in range(1, n):
+            parent.right = Node(i, parent)
+            parent = parent.right
+        return node
 
 if __name__ == '__main__':
     from timeit import Timer
@@ -428,11 +489,9 @@ if __name__ == '__main__':
     SIZE = 900
     LOOKUP = 900
 
-    worst = Node()
-    for i in range(SIZE):
-        worst.insert(i)
-
+    worst = Node.create_worst_case(SIZE)
     best = Node.create_best_case(SIZE)
+
     worst_case = Timer(
         'worst.contains({})'.format(LOOKUP, SIZE), 'from __main__ import worst'
     ).timeit(1000)

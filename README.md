@@ -91,20 +91,46 @@ O(nodes * edges).
 See the doc strings for additional implementation details.
 
 ##Binary Search Tree
-The included node class implements a [binary search tree](https://en.wikipedia.org/wiki/Binary_search_tree). Binary search trees allow lookup operations using binary search, which allows operations such as search and insert to be completed with an average case time complexity of O(log n) and worst case O(n). 
+Contains a Node class which implements an AVL binary search tree.
 
-The node class supports four traversal methods which return generators: `in_order`, `pre_order`, `post_order`, and `breadth_first`. Further details are available at the Wikipedia entry for [Tree Traversal](https://en.wikipedia.org/wiki/Tree_traversal).
+Each node can be considered a binary search tree and has the usual
+methods to insert, delete, and check membership of nodes. By default,
+the insert and delete methods will perform self-balancing consistent
+with an AVL tree. This behavior can be suppressed by passing the optional
+'balanced=False' keyword argument to the insert or delete methods.
 
-Additionally, methods are included to help visualize the tree structure. `get_dot` returns DOT source code, suitable for use with programs such as [Graphviz](http://graphviz.readthedocs.org/en/stable/index.html), and `save_render` saves a rendering of the tree structure to the file system.
+The class also supports four traversal methods which return generators:
 
-Finally, the helper method `create_best_case' facilitates creation of a balance tree composed of _n_ integers.
+- in_order
+- pre_order
+- post_order
+- breadth_first.
 
-This module was completed with reference to the very helpful post [Binary Search Tree libary in Python](http://www.laurentluce.com/posts/binary-search-tree-library-in-python/) by Laurent Luce.
+Additionally, methods are included to help visualize the tree structure.
+get_dot returns DOT source code, suitable for use with programs such as
+Graphviz (http://graphviz.readthedocs.org/en/stable/index.html), and
+save_render saves a rendering of the tree structure to the file system.
+Passing the optional 'render=True' keyword argument to the insert and
+delete methods will automatically save a render to disk upon execution.
 
+Finally, the helper methods 'create_best_case' and 'create_worst_case'
+facilitates creation of tree composeds of _n_ integers.
+
+This module was completed with reference to the following:
+
+[Binary Search Tree libary in Python](http://www.laurentluce.com/posts/binary-search-tree-library-in-python/)
+by Laurent Luce.
+
+[How to Balance your Binary Search Trees - AVL Trees](https://triangleinequality.wordpress.com/2014/07/15/how-to-balance-your-binary-search-trees-avl-trees/)
+
+[The AVL Tree Rotations Tutorial](http://pages.cs.wisc.edu/~paton/readings/liblitVersion/AVL-Tree-Rotations.pdf)
+by John Hargrove
 Available methods include:
 
-* insert(val)
+* insert(val, balanced=True, render=False)
+* delete(val, balanced=True, render=False)
 * contains(val)
+* lookup(val)
 * size()
 * depth()
 * balance()
@@ -115,6 +141,7 @@ Available methods include:
 * get_dot()
 * save_render()
 * create_best_case()
+* create_worst_case()
 
 
 See the doc strings for additional implementation details.
