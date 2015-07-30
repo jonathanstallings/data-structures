@@ -1,16 +1,6 @@
 from __future__ import unicode_literals
 
 
-class Item(object):
-    """docstring for Item"""
-    def __init__(self, key, value):
-        self.key = key
-        self.value = value
-
-    def __repr__(self):
-        return "<Item: {}:{}>".format(self.key, self.value)
-
-
 class HashTable(object):
     """docstring for HashTable"""
     table_size = 0
@@ -40,13 +30,13 @@ class HashTable(object):
                 self.alphabet_size, len(key) - i - 1) * self.char2int(c)
         return hash_ % self.table_size
 
-    def insert(self, item):
-        hash_ = self.hashing(item.key)
+    def set(self, key, value):
+        hash_ = self.hashing(key)
         for i, it in enumerate(self.hashtable[hash_]):
-            if it.key == item.key:
+            if it.key == key:
                 del self.hashtable[hash_][i]
                 self.entries_count -= 1
-        self.hashtable[hash_].append(item)
+        self.hashtable[hash_].append((key, value))
         self.entries_count += 1
 
     def get(self, key):
