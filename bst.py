@@ -266,11 +266,11 @@ class Node(object):
             if parent.left == successor:
                 parent.left = successor.right
                 parent.left.parent = parent
-                parent.self_balance()
+                parent.left.self_balance()
             else:
                 parent.right = successor.right
                 parent.right.parent = parent
-                parent.self_balance()
+                parent.right.self_balance()
 
     def get_dot(self):
         """Return the tree with root as a dot graph for visualization."""
@@ -343,7 +343,7 @@ class Node(object):
 
     def _is_left(self):
         if self.parent is None:
-            return self.parent
+            return None
         else:
             return self is self.parent.left
 
@@ -358,7 +358,9 @@ class Node(object):
         pivot.right = self
         pivot.parent = self.parent
         self.parent = pivot
-        if left:
+        if left is None:
+            pass
+        elif left:
             pivot.parent.left = pivot
         else:
             pivot.parent.right = pivot
@@ -374,27 +376,35 @@ class Node(object):
         pivot.left = self
         pivot.parent = self.parent
         self.parent = pivot
-        if left:
+        if left is None:
+            pass
+        elif left:
             pivot.parent.left = pivot
         else:
             pivot.parent.right = pivot
 
     def self_balance(self):
         balance = self.balance()
-        if balance >= 2:
+        if balance == 2:
             if self.left.balance() != -1:
+                # left-left case
                 self.rotate_right()
                 if self.parent.parent is not None:
+                    # move up one level
                     self.parent.parent.self_balance()
             else:
+                # left-right case
                 self.left.rotate_left()
                 self.self_balance()
-        elif balance <= -2:
+        elif balance == -2:
             if self.right.balance() != 1:
+                # right-right case
                 self.rotate_left()
                 if self.parent.parent is not None:
+                    # Move up one level
                     self.parent.parent.self_balance()
             else:
+                # right-left case
                 self.right.rotate_right()
                 self.self_balance()
         else:
