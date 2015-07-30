@@ -50,3 +50,5 @@ class HashTable(object):
                 return self.hashtable[hash_]
         raise KeyError('Key not in hash table.')
 
+if __name__ == '__main__':
+    pass
