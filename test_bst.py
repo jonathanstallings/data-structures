@@ -12,7 +12,7 @@ def rand_setup():
     root = Node(randint(1, 100))
     for idx in range(20):
         val = randint(1, 100)
-        root.insert(val)
+        root.insert(val, balanced=False)
 
     return root
 
@@ -20,16 +20,19 @@ def rand_setup():
 @pytest.fixture()
 def fixed_setup():
     root = Node(25)
-    root.insert(15)
-    root.insert(30)
-    root.insert(9)
-    root.insert(17)
-    root.insert(21)
-    root.insert(39)
-    root.insert(12)
-    root.insert(24)
-    root.insert(40)
-    root.insert(14)
+    setup = [15, 30, 9, 17, 21, 39, 12, 24, 40, 14]
+    for item in setup:
+        root.insert(item, balanced=False)
+    # root.insert(15)
+    # root.insert(30)
+    # root.insert(9)
+    # root.insert(17)
+    # root.insert(21)
+    # root.insert(39)
+    # root.insert(12)
+    # root.insert(24)
+    # root.insert(40)
+    # root.insert(14)
 
     return root
 
@@ -39,7 +42,7 @@ def traversal_setup():
     root = Node()
     setup = ['F', 'B', 'A', 'D', 'C', 'E', 'G', 'I', 'H']
     for char in setup:
-        root.insert(char)
+        root.insert(char, balanced=False)
     return root
 
 
@@ -58,7 +61,7 @@ def test_init_with_val():
 def test_insert_in_empty_root():
     root = Node()
     expected = 10
-    root.insert(expected)
+    root.insert(expected, balanced=False)
     actual = root.val
     assert expected == actual
 
@@ -66,7 +69,7 @@ def test_insert_in_empty_root():
 def test_insert_lesser_in_filled_root():
     root = Node(10)
     expected = 5
-    root.insert(expected)
+    root.insert(expected, balanced=False)
     actual = root.left.val
     assert expected == actual
     assert root.right is None
@@ -75,7 +78,7 @@ def test_insert_lesser_in_filled_root():
 def test_insert_greater_in_filled_root():
     root = Node(10)
     expected = 15
-    root.insert(expected)
+    root.insert(expected, balanced=False)
     actual = root.right.val
     assert expected == actual
     assert root.left is None
@@ -84,7 +87,7 @@ def test_insert_greater_in_filled_root():
 def test_insert_lesser_in_filled_tree1():
     root = Node(10)
     root.left, root.right = Node(5), Node(15)
-    root.insert(1)
+    root.insert(1, balanced=False)
     assert root.left.left.val == 1
     assert root.left.right is None
 
@@ -92,7 +95,7 @@ def test_insert_lesser_in_filled_tree1():
 def test_insert_lesser_in_filled_tree2():
     root = Node(10)
     root.left, root.right = Node(5), Node(15)
-    root.insert(7)
+    root.insert(7, balanced=False)
     assert root.left.right.val == 7
     assert root.left.left is None
 
@@ -100,7 +103,7 @@ def test_insert_lesser_in_filled_tree2():
 def test_insert_greater_in_filled_tree1():
     root = Node(10)
     root.left, root.right = Node(5), Node(15)
-    root.insert(17)
+    root.insert(17, balanced=False)
     assert root.right.right.val == 17
     assert root.right.left is None
 
@@ -108,7 +111,7 @@ def test_insert_greater_in_filled_tree1():
 def test_insert_greater_in_filled_tree2():
     root = Node(10)
     root.left, root.right = Node(5), Node(15)
-    root.insert(12)
+    root.insert(12, balanced=False)
     assert root.right.left.val == 12
     assert root.right.right is None
 
@@ -116,18 +119,18 @@ def test_insert_greater_in_filled_tree2():
 def test_insert_duplicates():
     root = Node(10)
     root.left, root.right = Node(5), Node(15)
-    root.insert(5)
+    root.insert(5, balanced=False)
     assert root.size() == 3
-    root.insert(15)
+    root.insert(15, balanced=False)
     assert root.size() == 3
 
 
 def test_insert(rand_setup):
     pre_size = rand_setup.size()
     new = 200
-    rand_setup.insert(new)
-    assert rand_setup.insert(new) is None
-    rand_setup.insert(new)
+    rand_setup.insert(new, balanced=False)
+    assert rand_setup.insert(new, balanced=False) is None
+    rand_setup.insert(new, balanced=False)
     post_size = rand_setup.size()
     assert post_size > pre_size
     assert post_size == pre_size + 1
@@ -143,7 +146,7 @@ def test_contains_val():
 
 def test_contains(rand_setup):
     rand = randint(1, 100)
-    rand_setup.insert(rand)
+    rand_setup.insert(rand, balanced=False)
     assert rand_setup.contains(rand) is True
 
 
@@ -159,8 +162,8 @@ def test_size_with_filling():
 def test_size(rand_setup):
     pre_size = rand_setup.size()
     new = 200
-    rand_setup.insert(new)
-    rand_setup.insert(new)
+    rand_setup.insert(new, balanced=False)
+    rand_setup.insert(new, balanced=False)
     post_size = rand_setup.size()
     assert post_size > pre_size
     assert post_size == pre_size + 1
@@ -203,7 +206,7 @@ def test_depth_n():
 def test_depth(fixed_setup):
     assert fixed_setup.left.depth() == 4
     assert fixed_setup.right.depth() == 3
-    fixed_setup.insert(13)
+    fixed_setup.insert(13, balanced=False)
     assert fixed_setup.left.depth() == 5
 
 
@@ -299,36 +302,35 @@ def test_create_best_case():
 
 def test_lookup(traversal_setup):
     root = traversal_setup
-    expected_root, expected_parent = root.left, root
-    actual_root, actual_parent = root._lookup('B')
-    assert expected_root is actual_root
-    assert expected_parent is actual_parent
+    expected = root.left
+    actual = root._lookup('B')
+    assert expected is actual
 
 
 def test_delete_root_only():
     root = Node('A')
-    root.delete('A')
+    root.delete('A', balanced=False)
     assert root.val is None
     assert root.left is None and root.right is None
 
 
 def test_delete_node_without_children(traversal_setup):
     root = traversal_setup
-    root.delete('A')
+    root.delete('A', balanced=False)
     parent = root.left
     assert parent.left is None
 
 
 def test_delete_node_with_one_child(traversal_setup):
     root = traversal_setup
-    root.delete('G')
+    root.delete('G', balanced=False)
     parent = root
     assert parent.right.val == 'I'
 
 
 def test_delete_node_with_two_children(traversal_setup):
     root = traversal_setup
-    root.delete('B')
+    root.delete('B', balanced=False)
     parent = root
     assert parent.left.val == 'C'
     successor = parent.left
@@ -339,13 +341,13 @@ def test_delete_root_with_one_child():
     root = Node('F')
     root.left = Node('B')
     root.left.left, root.left.right = Node('A'), Node('D')
-    root.delete('F')
+    root.delete('F', balanced=False)
     assert root.val == 'B'
     assert root.left.val == 'A' and root.right.val == 'D'
 
 
 def test_delete_root_with_two_children(traversal_setup):
     root = traversal_setup
-    root.delete('F')
+    root.delete('F', balanced=False)
     assert root.val == 'G'
     assert root.left.val == 'B' and root.right.val == 'I'
