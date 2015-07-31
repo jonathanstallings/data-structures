@@ -35,10 +35,30 @@ def test_len():
     assert filled_len == 5
 
 
+def test_set():
+    foo = HashTable(size=1024)
+    foo.set('foo', 'foo')
+    foo.set('spoofs', 'spoofs')
+    foo.set('utopia', 'utopia')
+    assert foo.hashtable[91][0] == ('foo', 'foo')
+    assert foo.hashtable[91][1] == ('spoofs', 'spoofs')
+    assert foo.hashtable[885][0] == ('utopia', 'utopia')
+
+
 def test_set_wrong_type():
     foo = HashTable()
     with pytest.raises(TypeError):
         foo.set(898, [838])
+
+
+def test_get():
+    foo = HashTable(size=1024)
+    foo.hashtable[91].append(('foo', 'foo'))
+    foo.hashtable[91].append(('spoofs', 'spoofs'))
+    foo.hashtable[885].append(('utopia', 'utopia'))
+    assert foo.get('foo') == 'foo'
+    assert foo.get('spoofs') == 'spoofs'
+    assert foo.get('utopia') == 'utopia'
 
 
 def test_get_missing_key():
