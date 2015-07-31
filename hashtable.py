@@ -43,7 +43,7 @@ class HashTable(object):
         hash_ = self.hashing(key)
         for i, item in enumerate(self.hashtable[hash_]):
             if item[0] == key:
-                return self.hashtable[hash_]
+                return item[1]
         raise KeyError('Key not in hash table.')
 
 if __name__ == '__main__':
