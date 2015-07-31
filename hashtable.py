@@ -2,7 +2,6 @@
 
 class HashTable(object):
     """docstring for HashTable"""
-    table_size = 0
     entries_count = 0
     alphabet_size = 52
 
@@ -16,8 +15,7 @@ class HashTable(object):
     def __len__(self):
         count = 0
         for item in self.hashtable:
-            if len(item) != 0:
-                count += 1
+            count += len(item)
         return count
 
     def hashing(self, key):
