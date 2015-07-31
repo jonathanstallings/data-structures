@@ -5,7 +5,7 @@ class HashTable(object):
     entries_count = 0
     alphabet_size = 52
 
-    def __init__(self, size=1024):
+    def __init__(self, size=8192):
         self.table_size = size
         self.hashtable = [[] for i in range(size)]
 

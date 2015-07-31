@@ -13,8 +13,8 @@ def word_list():
 
 def test_init_default():
     foo = HashTable()
-    assert foo.table_size == 1024
-    assert len(foo.hashtable) == 1024
+    assert foo.table_size == 8192
+    assert len(foo.hashtable) == 8192
 
 
 def test_init_set_size():
@@ -24,7 +24,7 @@ def test_init_set_size():
 
 
 def test_len():
-    foo = HashTable()
+    foo = HashTable(size=1024)
     empty_len = len(foo)
     stuff = [('a', 'a'), ('b', 'b'), ('c', 'c')]
     more = [('d', 'd'), ('e', 'e')]
