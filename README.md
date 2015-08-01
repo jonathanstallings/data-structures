@@ -146,5 +146,13 @@ Available methods include:
 
 See the doc strings for additional implementation details.
 
+##Hash Table
+Contains a HashTable class. The [hash table](https://en.wikipedia.org/wiki/Hash_table)
+is implemented on a list of lists, with a default table size of 8192. This table
+size can be overridden on initialization by passing a size keyword argument. Insertion
+and lookup time complexity ranges from O(1) at best to O(n) at worst.
 
+Available methods include:
 
+* set(key, value)
+* get(key)
