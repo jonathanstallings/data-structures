@@ -1,7 +1,7 @@
 
 
 class HashTable(object):
-    """docstring for HashTable"""
+    """A class for a hash table."""
     entries_count = 0
     alphabet_size = 52
 
@@ -18,8 +18,14 @@ class HashTable(object):
             count += len(item)
         return count
 
-    def hashing(self, key):
-        """pass"""
+    def _hashing(self, key):
+        """Create a hash from a given key.
+
+        args:
+            key: a string to hash
+
+        returns: an integer corresponding to hashtable index
+        """
         hash_ = 0
         for i, c in enumerate(key):
             hash_ += pow(
@@ -27,9 +33,15 @@ class HashTable(object):
         return hash_ % self.table_size
 
     def set(self, key, value):
+        """Add a key and value into the hash table.
+
+        args:
+            key: the key to store
+            value: the value to store
+        """
         if not isinstance(key, str):
             raise TypeError('Only strings may be used as keys.')
-        hash_ = self.hashing(key)
+        hash_ = self._hashing(key)
         for i, item in enumerate(self.hashtable[hash_]):
             if item[0] == key:
                 del self.hashtable[hash_][i]
@@ -38,7 +50,14 @@ class HashTable(object):
         self.entries_count += 1
 
     def get(self, key):
-        hash_ = self.hashing(key)
+        """Retrieve a value from the hash table by key.
+
+        args:
+            key: a string to find the value in the hash table
+
+        returns: the value stored with the key
+        """
+        hash_ = self._hashing(key)
         for i, item in enumerate(self.hashtable[hash_]):
             if item[0] == key:
                 return item[1]
