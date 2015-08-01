@@ -1,3 +1,8 @@
+"""Contains a HashTable class. The hash table is implemented on a list of
+lists, with a default table size of 8192. This table size can be overridden on
+initialization by passing a size keyword argument. Insertion and lookup time
+complexity ranges from O(1) at best to O(n) at worst.
+"""
 
 
 class HashTable(object):
@@ -62,6 +67,3 @@ class HashTable(object):
             if item[0] == key:
                 return item[1]
         raise KeyError('Key not in hash table.')
-
-if __name__ == '__main__':
-    pass
