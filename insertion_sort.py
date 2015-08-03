@@ -10,4 +10,20 @@ def insertion_sort(un_list):
         un_list[position] = current
 
 if __name__ == '__main__':
-    pass
+    BEST_CASE = range(1000)
+    WORST_CASE = BEST_CASE[::-1]
+
+    from timeit import Timer
+
+    best = Timer(
+        'insertion_sort({})'.format(BEST_CASE),
+        'from __main__ import BEST_CASE, insertion_sort').timeit(1000)
+
+    worst = Timer(
+        'insertion_sort({})'.format(WORST_CASE),
+        'from __main__ import WORST_CASE, insertion_sort').timeit(1000)
+
+    print("""Best case represented as a list that is already sorted\n
+        Worst case represented as a list that is absolute reverse of sorted""")
+    print('Best Case: {}'.format(best))
+    print('Worst Case: {}'.format(worst))
