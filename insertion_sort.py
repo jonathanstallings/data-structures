@@ -1,4 +1,7 @@
 def insertion_sort(un_list):
+    if type(un_list) is not list:
+        return "You must pass a valid list as argument. Do it."
+
     for idx in range(1, len(un_list)):
         current = un_list[idx]
         position = idx
