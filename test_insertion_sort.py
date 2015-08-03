@@ -1,4 +1,5 @@
 from random import shuffle
+import pytest
 
 from insertion_sort import insertion_sort as in_sort
 
@@ -9,5 +10,10 @@ def test_insertion_sort():
     shuffle(unsorted)
     in_sort(unsorted)
     actual = unsorted
-    assert expected is actual
+    assert expected == actual
+
+
+def test_insertion_sort_wrong_type():
+    with pytest.raises(TypeError):
+        in_sort('some string')
 
