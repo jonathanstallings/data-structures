@@ -1,7 +1,7 @@
 from random import shuffle
 import pytest
 
-from insertion_sort import insertion_sort as in_sort
+from insertion_sort import in_sort
 
 
 def test_insertion_sort():

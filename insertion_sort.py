@@ -9,14 +9,14 @@ See the excellent 'sortingalgorithms.com' for more information.
 """
 
 
-def insertion_sort(un_list):
+def in_sort(un_list):
     """Sort a list in place using insertion sort.
 
     args:
         un_list: the list to sort
     """
     if type(un_list) is not list:
-        return "You must pass a valid list as argument. Do it."
+        raise TypeError("You must pass a valid list as argument. Do it.")
 
     for idx in range(1, len(un_list)):
         current = un_list[idx]
