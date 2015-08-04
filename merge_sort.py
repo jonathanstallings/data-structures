@@ -4,6 +4,7 @@ Placeholder for Jonathan's ridiculously long docstring
 
 
 def merge_srt(un_list):
+    iter(un_list)  # Check if un_list is iterable; allow error to raise
     if len(un_list) > 1:
         mid = len(un_list) // 2
         left_half = un_list[:mid]
