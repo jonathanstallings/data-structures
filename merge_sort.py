@@ -1,9 +1,18 @@
-"""
-Placeholder for Jonathan's ridiculously long docstring
+"""This module contains the merge_srt method, which performs an
+in-place merge sort on a passed in list. Merge sort has a best case time
+complexity of O(n log n) when list is nearly sorted, and also a worst case of
+O(n log n). Merge sort is a very predictable and stable sort, but it is not
+adaptive. See the excellent 'sortingalgorithms.com' for more information.
+
 """
 
 
 def merge_srt(un_list):
+    """Perform an in-place merge sort on iterable.
+
+    args:
+        un_list: the iterable to sort
+    """
     iter(un_list)  # Check if un_list is iterable; allow error to raise
     if len(un_list) > 1:
         mid = len(un_list) // 2
