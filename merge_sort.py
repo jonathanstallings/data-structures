@@ -8,12 +8,13 @@ adaptive. See the excellent 'sortingalgorithms.com' for more information.
 
 
 def merge_srt(un_list):
-    """Perform an in-place merge sort on iterable.
+    """Perform an in-place merge sort on list.
 
     args:
-        un_list: the iterable to sort
+        un_list: the list to sort
     """
-    iter(un_list)  # Check if un_list is iterable; allow error to raise
+    if type(un_list) is not list:
+        raise TypeError("You must pass a valid list as argument. Do it.")
     if len(un_list) > 1:
         mid = len(un_list) // 2
         left_half = un_list[:mid]
