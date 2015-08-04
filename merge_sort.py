@@ -42,17 +42,11 @@ if __name__ == '__main__':
 
     from timeit import Timer
 
-    setup = """
-        'merge_srt({})'.format(BEST_CASE),
-        'from __main__ import BEST_CASE'
-    """
+    SETUP = """from __main__ import BEST_CASE, WORST_CASE, merge_srt"""
 
-    best = Timer(
-        ).timeit(1000)
+    best = Timer('merge_srt({})'.format(BEST_CASE), SETUP).timeit(1000)
 
-    worst = Timer(
-        'insertion_sort({})'.format(WORST_CASE),
-        'from __main__ import WORST_CASE, insertion_sort').timeit(1000)
+    worst = Timer('merge_srt({})'.format(WORST_CASE), SETUP).timeit(1000)
 
     print("""Best case represented as a list that is already sorted\n
         Worst case represented as a list that is absolute reverse of sorted""")
