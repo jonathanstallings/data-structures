@@ -13,8 +13,6 @@ def merge_srt(un_list):
     args:
         un_list: the list to sort
     """
-    if type(un_list) is not list:
-        raise TypeError("You must pass a valid list as argument. Do it.")
     if len(un_list) > 1:
         mid = len(un_list) // 2
         left_half = un_list[:mid]
