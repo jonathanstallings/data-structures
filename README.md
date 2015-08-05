@@ -172,3 +172,16 @@ in-place merge sort on a passed in list. Merge sort has a best case time
 complexity of O(n log n) when list is nearly sorted, and also a worst case of
 O(n log n). Merge sort is a very predictable and stable sort, but it is not
 adaptive. See the excellent 'sortingalgorithms.com' for more information.
+
+##Quick Sort
+"""This module contains the quick sort method (quick_srt), which performs an
+in-place sort on a passed in list. Quick sort has a best case time
+complexity of O(n log n) when all elements are equal, and a worst case of
+O(n2). Quick sort is not stable or adaptive, but it is robust and has low
+overhead.
+
+This module was completed with reference to:
+[Quicksort: A Python Implementation](http://pfsensesetup.com/pythonscript.net/quicksort-a-python-implementation/)
+by maximumdx
+
+See the excellent 'sortingalgorithms.com' for more information.
