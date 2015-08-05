@@ -156,3 +156,19 @@ Available methods include:
 
 * set(key, value)
 * get(key)
+
+##Insertion Sort
+This module contains the in_sort method, which performs an
+in-place insertion sort on a passed in list. Insertion sort has a best case time
+complexity of O(n) when list is nearly sorted, and a worst case of O(n2)
+when the incoming list is already reverse sorted. While this not always
+the most efficient algorithm, it is still popular when the data is nearly
+sorted (because it is adaptive) or when the problem size is small.
+See the excellent 'sortingalgorithms.com' for more information.
+
+## Merge Sort
+This module contains the merge_srt method, which performs an
+in-place merge sort on a passed in list. Merge sort has a best case time
+complexity of O(n log n) when list is nearly sorted, and also a worst case of
+O(n log n). Merge sort is a very predictable and stable sort, but it is not
+adaptive. See the excellent 'sortingalgorithms.com' for more information.
