@@ -1,48 +1,76 @@
 """Doc string to end all doc strings"""
 
 
-def quick_srt(un_list):
-    _helper(un_list, 0, len(un_list)-1)
+def quick_srt(un_list, low=0, high=-1):
+    if high == -1:
+        high = len(un_list) - 1
+    if high > low:
+        pivot = partition(un_list, low, high)
+
+        if pivot > 0:
+            quick_srt(un_list, low, pivot-1)
+        if pivot > -1:
+            quick_srt(un_list, pivot+1, high)
 
 
-def _helper(un_list, first, last):
-    if first < last:
-        split = _split(un_list, first, last)
-        _helper(un_list, first, split-1)
-        _helper(un_list, split+1, last)
+def partition(un_list, low=0, high=-1):
+    if high == -1:
+        high = len(un_list) - 1
+    pivot = _choose_pivot(un_list, low, high)
+    _swap(un_list, pivot, high)
+    j = low
+    for i in range(low, high+1):
+        if un_list[i] < un_list[high]:
+            _swap(un_list, i, j)
+            j += 1
+
+    _swap(un_list, high, j)
+    for i in range(low, high):
+        if un_list[i] != un_list[i+1]:
+            return j
+
+    return -1
 
 
-def _split(un_list, first, last):
-    pivot = un_list[first]
-    left = first + 1
-    right = last
+def _swap(un_list, x, y):
+    temp = un_list[x]
+    un_list[x] = un_list[y]
+    un_list[y] = temp
 
-    while True:
-        while left <= right and un_list[left] <= pivot:
-            left += 1
-        while un_list[right] >= pivot and right >= left:
-            right -= 1
 
-        if right < left:
-            break
-        else:
-            temp = un_list[left]
-            un_list[left] = un_list[right]
-            un_list[right] = temp
+def _choose_pivot(un_list, low=0, high=-1):
+    if high == -1:
+        high = len(un_list) - 1
+    mid = low + int(high - low) // 2
 
-    temp = un_list[first]
-    un_list[first] = un_list[right]
-    un_list[right] = temp
+    if un_list[low] == un_list[mid] and un_list[mid] == un_list[high]:
+        return mid
 
-    return right
+    if (
+        un_list[low] < un_list[mid] and
+        un_list[low] < un_list[high] and
+        un_list[mid] < un_list[high]
+    ):
+        return mid
+
+    elif (
+        un_list[mid] < un_list[low] and
+        un_list[mid] < un_list[high] and
+        un_list[low] < un_list[high]
+    ):
+        return low
+
+    else:
+        return high
 
 
 if __name__ == '__main__':
-    from random import shuffle
-    rands = [2 for num in range(0, 1001)]
-    nums = range(0, 1001)
-    BEST_CASE = shuffle(nums)
-    WORST_CASE = nums
+    from random import randint
+    rands = [randint(1, 10001) for x in range(1, 10001)]
+    dupes = [1 for x in range(1, 10001)]
+    nums = range(0, 10001)
+    BEST_CASE = dupes
+    WORST_CASE = rands
 
     from timeit import Timer
 
@@ -53,8 +81,8 @@ if __name__ == '__main__':
     worst = Timer('quick_srt({})'.format(WORST_CASE), SETUP).timeit(100)
 
     print("""
-        Best case represented as a list that is 
-        Worst case represented as a list that is 
+        Best case represented as a list that being a list of the same values.
+        Worst case represented as a list that is random numbers.
         """)
     print('Best Case: {}'.format(best))
     print('Worst Case: {}'.format(worst))
