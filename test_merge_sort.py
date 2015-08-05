@@ -6,19 +6,17 @@ from merge_sort import merge_srt
 
 def test_merge_sort():
     expected = range(20)
-    unsorted = expected[:]
-    shuffle(unsorted)
-    merge_srt(unsorted)
-    actual = unsorted
+    actual = expected[:]
+    shuffle(actual)
+    merge_srt(actual)
     assert expected == actual
 
 
-def test_insertion_sort_with_duplicates():
+def test_merge_sort_with_duplicates():
     expected = [1, 3, 3, 6, 7, 8, 8, 8]
-    unsorted = expected[:]
-    shuffle(unsorted)
-    merge_srt(unsorted)
-    actual = unsorted
+    actual = expected[:]
+    shuffle(actual)
+    merge_srt(actual)
     assert expected == actual
 
 
