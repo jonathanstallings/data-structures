@@ -4,6 +4,12 @@ complexity of O(n log n) when all elements are equal, and a worst case of
 O(n2). Quick sort is not stable or adaptive, but it is robust and has low
 overhead.
 
+This module was completed with reference to:
+
+Quicksort: A Python Implementation
+http://pfsensesetup.com/pythonscript.net/quicksort-a-python-implementation/
+by maximumdx
+
 See the excellent 'sortingalgorithms.com' for more information.
 """
 
@@ -39,7 +45,7 @@ def _quick_srt(un_list, low=0, high=-1):
 def _partition(un_list, low=0, high=-1):
     """Partition the list into values less than and greater than pivot.
 
-    If the the partitioned sublist contains at least two uniqe values,
+    If the the partitioned sublist contains at least two unique values,
     the pivot index is returned. Else, a value of -1 is returned, which
     will end any further recursive calls to _quick_srt.
 
