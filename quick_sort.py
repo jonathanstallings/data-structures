@@ -20,8 +20,8 @@ def _split(un_list, first, last):
     while True:
         while left <= right and un_list[left] <= pivot:
             left += 1
-        while right >= left and un_list[right] >= pivot:
-            right += 1
+        while un_list[right] >= pivot and right >= left:
+            right -= 1
 
         if right < left:
             break
@@ -38,4 +38,23 @@ def _split(un_list, first, last):
 
 
 if __name__ == '__main__':
-    pass
+    from random import shuffle
+    rands = [2 for num in range(0, 1001)]
+    nums = range(0, 1001)
+    BEST_CASE = shuffle(nums)
+    WORST_CASE = nums
+
+    from timeit import Timer
+
+    SETUP = """from __main__ import BEST_CASE, WORST_CASE, quick_srt"""
+
+    best = Timer('quick_srt({})'.format(BEST_CASE), SETUP).timeit(100)
+
+    worst = Timer('quick_srt({})'.format(WORST_CASE), SETUP).timeit(100)
+
+    print("""
+        Best case represented as a list that is 
+        Worst case represented as a list that is 
+        """)
+    print('Best Case: {}'.format(best))
+    print('Worst Case: {}'.format(worst))
