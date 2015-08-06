@@ -43,11 +43,8 @@ def radix_srt(un_list):
 
 if __name__ == '__main__':
     from random import randint
-    bigints = [randint(9000, 10000) for x in range(1, 10001)]
-    smallints = [randint(0, 9) for x in range(1, 10001)]
-    nums = range(0, 10001)
-    BEST_CASE = smallints
-    WORST_CASE = bigints
+    WORST_CASE = [randint(9000, 10000) for x in range(1, 10001)]
+    BEST_CASE = [randint(0, 9) for x in range(1, 10001)]
 
     from timeit import Timer
 
