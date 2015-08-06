@@ -1,6 +1,6 @@
 """This module contains the radix sort method (radix_srt), which performs an
 in-place sort on a passed in list. Radix sort has a best case time
-complexity of O(n log n. This implementation of radix sort is stable, but not
+complexity of O(n log n). This implementation of radix sort is stable, but not
 adaptive.
 
 References:
@@ -15,7 +15,7 @@ def radix_srt(un_list):
     """Sort a list in place with radix sort.
 
     args:
-        un_list: the list to be sorted.
+        un_list: the list of positive integers to be sorted.
     """
     radix = 10
     maxLen = False
