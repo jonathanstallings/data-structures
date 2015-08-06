@@ -20,6 +20,20 @@ def test_quick_srt_with_duplicates():
     assert expected == actual
 
 
+def test_quick_srt_with_zero_items():
+    expected = []
+    actual = []
+    quick_srt(actual)
+    assert expected == actual
+
+
+def test_quick_srt_with_one_item():
+    expected = [1]
+    actual = [1]
+    quick_srt(actual)
+    assert expected == actual
+
+
 def test_quick_sort_wrong_type():
     with pytest.raises(TypeError):
         quick_srt(15)
