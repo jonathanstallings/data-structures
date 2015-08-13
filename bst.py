@@ -198,13 +198,12 @@ class Node(object):
             return self.right.contains(val)
 
     def lookup(self, val):
-        """Find a node by value and return that node and its parent.
+        """Find a node by value and return that node.
 
         args:
             val: the value to search by
-            parent: the parent of the node (for recursion)
 
-        returns: a tuple with node and its parent
+        returns: a node
         """
         if val < self.val:
             if self.left is None:
