@@ -275,12 +275,10 @@ class Node(object):
         if self.left is not None:
             self.left.parent = self
         pivot.left = pivot.right
-        if pivot.left is not None:
-            pivot.left.parent = pivot
         pivot.right = self.right
         if pivot.right is not None:
             pivot.right.parent = pivot
-        self.right, pivot.parent = pivot, self
+        self.right = pivot
 
     def _rotate_left(self):
         """Perform a single left tree rotation."""
@@ -292,12 +290,10 @@ class Node(object):
         if self.right is not None:
             self.right.parent = self
         pivot.right = pivot.left
-        if pivot.right is not None:
-            pivot.right.parent = pivot
         pivot.left = self.left
         if pivot.left is not None:
             pivot.left.parent = pivot
-        self.left, pivot.parent = pivot, self
+        self.left = pivot
 
     def _self_balance(self):
         """Balance the subtree from given node."""
